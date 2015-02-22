@@ -1,0 +1,51 @@
+<template name="Balances">
+  <div class="app-content-body fade-in-up">
+    <div class="bg-light lter b-b wrapper-md">
+      <h1 class="m-n font-thin h3">Balances</h1>
+    </div>
+    <div class="wrapper-md">
+      {{# if isVerified}}
+        <h2>You must verify your account before you may withdraw funds.</h2>
+      {{/if}}
+      <div class="table-responsive bg-white">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Currency</th>
+              <!-- <th>Available</th> -->
+              <!-- <th>Pending</th> -->
+              <th>Total</th>
+              <th>Price</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each currencies}}
+              {{>Balance}}
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {{> WithdrawHistory}}
+</template>
+
+<template name="Balance">
+        <tr>
+          <td>{{code}}</td>
+          <!-- <td>{{availableBalance}}</td> -->
+          <!-- <td>{{pendingBalance}}</td> -->
+          <td>{{totalBalance}}</td>
+          {{#if addDepositButton}}
+            <td></td>
+            <td><a href="/pay" class="btn btn-sm btn-primary">{{increaseButtonText}}</a></td>
+            <td></td>
+          {{else}}
+            <td>{{rate}} USD</td>
+            <td><button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#buyModal" data-currency="{{this.code}}" data-rate="{{this.rate}}">{{increaseButtonText}}</button></td>
+            <td><button class="btn btn-sm btn-info {{isDisabled}}" data-toggle="modal" data-target="#withdrawModal" data-currency="{{this.code}}">Withdraw</button></td>
+          {{/if}}
+        </tr>
+</template>

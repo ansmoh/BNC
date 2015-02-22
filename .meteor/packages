@@ -1,0 +1,29 @@
+# Meteor packages used by this project, one per line.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+meteor-platform
+insecure
+less
+accounts-password
+accounts-base
+iron:router
+mquandalle:jade
+http
+percolatestudio:synced-cron
+aldeed:autoform
+aldeed:simple-schema
+aldeed:collection2
+yogiben:autoform-file
+cfs:standard-packages
+cfs:gridfs
+jparker:crypto-hmac
+jparker:crypto-sha256
+nemo64:bootstrap
+bankfacil:vanilla-masker
+chrismbeckett:toastr
+codeforemen:accounts-ui-bootstrap-3
+yogiben:admin
+coffeescript
+

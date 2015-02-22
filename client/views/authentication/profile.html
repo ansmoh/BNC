@@ -1,0 +1,157 @@
+<template name="Profile">
+  <div class="app-content-body fade-in-up">
+    {{#if customerInfo}}
+      {{#each customerInfo}}
+        {{> CustomerDetails}}
+      {{/each}}
+    {{else}}
+    <div class="bg-light lter b-b wrapper-md">
+      <h1 class="m-n font-thin h3">Your Information</h1>
+    </div>
+    <div class="wrapper-md">
+      {{> CustomerInfoForm}}
+    </div>
+    {{/if}}
+  </div>
+</template>
+
+
+<template name="CustomerDetails">
+<!--   <div style="background:url(img/c8.jpg) center center; background-size:cover">
+    <div class="wrapper-lg bg-white-opacity">
+      <div class="row m-t">
+        <div class="col-sm-7">
+          {{#if profilePic}}
+          <a class="thumb-lg pull-left m-r" href="">
+            {{#each getImage profilePic}}
+            <img class="img-circle" alt="{{this.name}}" src="{{this.url}}" />
+            {{/each}}
+          </a>
+          {{/if}}
+          <div class="clear m-b">
+            <div class="m-b m-t-sm">
+              <span class="h3 text-black">
+                {{firstName }}
+                {{#if middleName}}
+                  {{middleName }}
+                {{/if}}
+                {{lastName}}
+              </span>
+              <small class="m-l">{{#if contactNo}}<i class="fa fa-phone"></i> &nbsp; {{contactNo}} {{/if}}</small>
+            </div>
+            <p class="m-b">
+              <a class="btn btn-sm btn-bg btn-rounded btn-default btn-icon" href=""><i class="fa fa-twitter"></i></a>
+              <a class="btn btn-sm btn-bg btn-rounded btn-default btn-icon" href=""><i class="fa fa-facebook"></i></a>
+              <a class="btn btn-sm btn-bg btn-rounded btn-default btn-icon" href=""><i class="fa fa-google-plus"></i></a>
+            </p>
+            <a class="btn btn-sm btn-{{statusClass}} btn-rounded" href="">{{status}}</a>
+          </div>
+        </div>
+        <div class="col-sm-5">
+          <div class="pull-right pull-none-xs text-center">
+            <a class="m-b-md inline m" href="">
+              <span class="h3 block font-bold">2k</span>
+              <small>Followers</small>
+            </a>
+            <a class="m-b-md inline m" href="">
+              <span class="h3 block font-bold">250</span>
+              <small>Following</small>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="app-content-body fade-in-up">
+    <div class="bg-light lter b-b wrapper-md">
+      <h1 class="m-n font-thin h3">Your Information</h1>
+    </div>
+    <div class="wrapper-md">
+      <div class="row">
+        <div class="col-md-4">
+          {{#if contactNo}}
+          <div class="panel no-border">
+            <div class="panel-heading bg-primary">
+              <div class="m-sm">
+                <span class="h4 text-white">Phone Number</span>
+              </div> 
+              <div class="text-center m-t-md">        
+                <p>
+                  <h3><i class="fa fa-phone"></i> &nbsp; {{contactNo}} </h3><br />
+                  <a class="btn btn-sm btn-{{statusClass}} btn-rounded" href="">{{status}}</a>
+                  {{#if showVerifyButton}}
+                  <button class="btn btn-sm btn-success btn-rounded verify">Verify</button><br>
+                  <span>If already have a token, <a href="#" class='tokenSent'>click here</a></span>
+                  {{/if}}
+                  {{#if showVerificationArea}}
+                  <br>
+                  <br>
+                  <span>Enter token sent to your phone number</span>
+                  <br>
+                  <input type="text" id="token"/>
+                  <button class="btn btn-sm btn-success verifyToken">Submit</button>
+                  {{/if}}
+                </p>
+              </div>
+            </div>
+          </div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="CustomerInfoForm">
+  <div class="dropdown wrapper">
+  {{#autoForm collection="CustomerInfo" id="afCustomerInfo" type="insert"}}
+    <div class="form-group">
+      {{> afFieldInput name="userId" type="hidden" }}
+    </div>
+<!--     <div class="form-group {{#if afFieldIsInvalid name='firstName'}}has-error{{/if}}">
+      <label class="control-label">{{afFieldLabelText name='firstName'}}</label>
+      {{> afFieldInput name='firstName'}}
+      {{#if afFieldIsInvalid name='firstName'}}
+      <span class="help-block">{{{afFieldMessage name='firstName'}}}</span>
+      {{/if}}
+    </div>
+    <div class="form-group {{#if afFieldIsInvalid name='middleName'}}has-error{{/if}}">
+      <label class="control-label">{{afFieldLabelText name='middleName'}}</label>
+      {{> afFieldInput name='middleName'}}
+      {{#if afFieldIsInvalid name='middleName'}}
+      <span class="help-block">{{{afFieldMessage name='middleName'}}}</span>
+      {{/if}}
+    </div>
+    <div class="form-group {{#if afFieldIsInvalid name='lastName'}}has-error{{/if}}">
+      <label class="control-label">{{afFieldLabelText name='lastName'}}</label>
+      {{> afFieldInput name='lastName'}}
+      {{#if afFieldIsInvalid name='lastName'}}
+      <span class="help-block">{{{afFieldMessage name='lastName'}}}</span>
+      {{/if}}
+    </div> -->
+    <div class="form-group {{#if afFieldIsInvalid name='contactNo'}}has-error{{/if}}">
+      <label class="control-label">{{afFieldLabelText name='contactNo'}}</label>
+      {{> afFieldInput name='contactNo'}}
+      {{#if afFieldIsInvalid name='contactNo'}}
+      <span class="help-block">{{{afFieldMessage name='contactNo'}}}</span>
+      {{/if}}
+    </div>
+<!--     <div class="form-group">
+      {{> afQuickField name="govtId"}}
+    </div>
+    <div class="form-group">
+      {{> afQuickField name="profilePic"}}
+    </div>
+    <div class="form-group">
+      {{> afQuickField name="addressProof"}}
+    </div> -->
+    <div class="form-group">
+      {{> afFieldInput name="status" type="hidden" }}
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="reset" class="btn btn-default">Reset Form</button>
+    </div>
+  {{/autoForm}}
+  </div>
+</template>

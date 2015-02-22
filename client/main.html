@@ -1,0 +1,29 @@
+<head>
+  <title>Buy Any Coin</title>
+  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+</head>
+
+<body>
+</body>
+
+<template name="Main">
+  <div class="app app-header-fixed app-aside-fixed">
+    {{> Navbar}}
+    {{> yield}}
+    {{> FooterMain}}
+  </div>
+</template>
+
+<template name="App">
+  <div class="app app-header-fixed app-aside-fixed">
+    {{> Navbar}}
+    {{> SideBar}}
+    <div class="app-content">
+      {{> yield}}
+    </div>
+    {{> FooterApp}}
+  </div>
+  {{> BuyModal}}
+  {{> WithdrawModal}}
+  {{> VoucherModal}}
+</template>

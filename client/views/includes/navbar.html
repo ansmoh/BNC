@@ -1,0 +1,34 @@
+<template name="Navbar">
+  <div class="app-header navbar">      <!-- navbar header -->
+    <div class="navbar-header bg-primary">
+<!--       <button data-target=".navbar-collapse" class="toggle pull-right visible-xs head-nav" data-toggle="collapse">
+        <i class="fa fa-align-justify"></i>
+      </button> -->
+      {{#if loggedIn}}
+      <button data-target=".app-aside" data-toggle="off-screen" class="toggle pull-left visible-xs side-nav">
+        <i class="fa fa-align-justify"></i>
+      </button>
+      {{/if}}
+      <!-- brand -->
+      <a class="navbar-brand text-lt" href="/">
+        <i class="fa fa-home"></i>
+        <span class="hidden-folded m-l-xs ng-binding">Buy Any Coin</span>
+      </a>
+      <!-- / brand -->
+    </div>
+    <!-- / navbar header -->
+
+    <!-- navbar collapse -->
+    <div class="collapse navbar-collapse box-shadow bg-primary">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://buyanycoin.com">Home</a></li>
+        <li><a href="http://buyanycoin.com/blog">Blog</a></li>
+        <li><a href="http://buyanycoin.com/#contact">Contact</a></li>
+        {{> loginButtons}}
+      </ul>
+
+    </div>
+    <!-- / navbar collapse -->
+  </div>
+
+</template>

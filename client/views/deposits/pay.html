@@ -1,0 +1,40 @@
+<template name="Pay">
+  <div class="app-content-body fade-in-up">
+    <div class="bg-light lter b-b wrapper-md">
+      <h1 class="m-n font-thin h3">Payment Options</h1>
+    </div>
+    <div class="wrapper-md">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="panel no-border">
+            <div class="panel-heading bg-primary">
+              <div class="m-sm">
+                <span class="h4 text-white">Deposit funds</span>
+              </div> 
+              <div class="text-center m-t-md">        
+              {{#if postPayment}}
+                <p>{{status}}</p>
+                <a class="btn btn-success" href="/">Return</a>
+              {{else}}
+                <div class="knox-payments-div" data-amount="custom"></div>
+              {{/if}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="panel no-border">
+            <div class="panel-heading bg-danger">
+              <div class="m-sm">
+                <span class="h4 text-white">Voucher Redemption</span>
+              </div> 
+              <div class="text-center m-t-md">        
+                <button class="btn btn-success" data-toggle="modal" data-target="#voucherModal">Redeem Voucher</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

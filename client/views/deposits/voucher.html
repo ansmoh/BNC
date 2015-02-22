@@ -1,0 +1,25 @@
+<!-- Modal -->
+<template name="VoucherModal">
+  <div class="modal fade m-t" id="voucherModal" tabindex="-1" role="dialog" aria-labelledby="voucherModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title" id="withdrawModalLabel">Voucher Redemption<br /><small>Please enter your voucher code to redeem!</small></h4>
+        </div>
+        <div class="modal-body">
+          <label for="voucherCode1" class="control-label">Voucher Code:</label>
+          <div class="form-group" id="fieldGroup1">
+            <input type="text" class="form-control voucher-code" id="voucherCode1" placeholder="Voucher Code">
+            <span class='status-text' id="status-text1"></span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success add-more pull-left" title="Add more fields for multiple voucher codes">+</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary voucher">Apply</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
