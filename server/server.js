@@ -1,5 +1,5 @@
 Meteor.startup(function () {
-// code to run on server at startup
+// code to run on server at startup.
 // SyncedCron.start();
   // to send mails for forgot password
   process.env.MAIL_URL = 'smtp://review321%40gmail.com:test1231@smtp.gmail.com:587';
