@@ -7,7 +7,7 @@ Meteor.startup(function () {
   Accounts.emailTemplates.from = "BuyAnyCoin Admin <admin@buyanycoin.com>";
   Accounts.emailTemplates.resetPassword.text = function(user, url) {
     url = url.replace('#/', '');
-    return "Hello,\n\nTo reset your password, simply click the link below. \n\n"+url+" \n\nThanks.";
+    return "Hi!,\n\nLooks like you forgot your password, no worries. Just click the link below to setup a new one. \n\n"+url+" \n\nThank you,\nThe BuyAnyCoin Team";
   }
   Accounts.emailTemplates.verifyEmail.subject = function(user) {
     return "Please verify your email on BuyAnyCoin";
