@@ -18,8 +18,8 @@ Meteor.startup(function () {
   }
 });
 
-var knoxKey = '775a518965876a2b68b9ae1de6ff8fc9ed543a92'
-var knoxPass = 'dd0bf99427252673aa72cf98af41d1ec26b665f3'
+var knoxKey = '8aa796419a91eb780d954179aa21d696b204787a'
+var knoxPass = '9b527490bb2bfe73097fd8314ef8ae9a0fd35301'
 var authyKey = '2a7cc1467513fd1c366de7620bb9361c'
 
 // Utility Functions
@@ -178,7 +178,7 @@ Meteor.methods({
     var rate = Utility.getRate('USD', currency);
     rate = parseFloat(rate).toFixed(5);
     console.log('rate', rate);
-    var unitFee = rate * 0.1; //fee for transaction
+    var unitFee = rate * 0.01; //fee for transaction
     console.log('unitFee', unitFee);
     var cRate = parseFloat(parseFloat(rate) + parseFloat(unitFee)).toFixed(5)
     console.log('cRate', cRate);
@@ -215,7 +215,7 @@ Meteor.methods({
     return HTTP.call("GET", apiUrl+"?method=singlemarketdata&marketid="+mktID);
   },
   getBTCRate: function () {
-    // HTTP call to cryptsy’s api to get the rate of currency
+    // HTTP call to coinbase's api to get the rate of currency
     var apiUrl = 'https://api.coinbase.com/v1/currencies/exchange_rates'
     return HTTP.call("GET", apiUrl);
   },
