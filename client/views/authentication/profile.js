@@ -6,6 +6,10 @@ Template.Profile.helpers({
   customerInfo:function () {
     return CustomerInfo.find({userId: Meteor.userId()}).fetch();
   },
+  showCustomerInfoForm:function () {
+    var customerData = CustomerInfo.find({userId: Meteor.userId(), "blockscore.object": "person"}).fetch();
+    return customerData.length ? false: true;
+  },
   getImage:function (id) {
     return Images.find({_id:id})
   },
@@ -66,6 +70,26 @@ Template.Profile.helpers({
       values.push({name:day, value:day}); 
     }
     return values;
+  },
+  totalDeposit: function () {
+    var totalDeposit = 0;
+    Transactions.find({user: Meteor.userId(), currency: "USD", status: 'complete'}).map(function(transaction) {
+      if (parseFloat(transaction.amount) > 0) {
+        totalDeposit += parseFloat(transaction.amount)
+      };
+    });
+
+    Session.set('depositVerified', false);
+    if (totalDeposit >= 5000) {
+      Session.set('depositVerified', true);
+    };
+    return totalDeposit
+  },
+  depositPanelClass: function () {
+    if (Session.get('depositVerified')) {
+      return "success"
+    };
+    return "danger"
   }
 });
 

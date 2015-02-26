@@ -74,8 +74,26 @@
         <div class="col-md-4">
           <div class="panel no-border">
           {{#if customerInfo}}
-            {{#each customerInfo}}                 
+            {{#each customerInfo}}           
+              {{#if blockscore}}
             <div class="panel-heading bg-{{bsPanelClass}}">
+              <div class="m-sm">
+                <span class="h4 text-white">Tier 2</span>
+              </div> 
+              <div class="text-center m-t-md">
+                <address>
+                  <strong>{{blockscore.name_first}} {{#if blockscore.name_middle}}{{blockscore.name_middle}} {{/if}}{{blockscore.name_last}} </strong><br>
+                  {{blockscore.address_street1}}<br>
+                  {{blockscore.address_city}}, {{blockscore.address_subdivision}} {{blockscore.address_postal_code}} {{blockscore.address_country_code}} <br>
+                  Status: {{blockscore.status}}<br>
+                </address>
+              </div>
+            </div>
+          {{/if}}
+            {{/each}}
+          {{/if}}
+          {{#if showCustomerInfoForm}}
+            <div class="panel-heading bg-danger">
               <div class="m-sm">
                 <span class="h4 text-white">Tier 2</span>
               </div> 
@@ -86,13 +104,13 @@
                       <label>Name</label>
                     </div>
                     <div class="list-group-item">
-                      <input type="text" required="" class="form-control no-border" name="name_first" value="{{blockscore.name_first}}" placeholder="First Name">
+                      <input type="text" required="" class="form-control no-border" name="name_first" placeholder="First Name">
                     </div>
                     <div class="list-group-item">
-                      <input type="text" class="form-control no-border" name="name_middle" value="{{blockscore.name_middle}}" placeholder="Middle Name" >
+                      <input type="text" class="form-control no-border" name="name_middle" placeholder="Middle Name" >
                     </div>
                     <div class="list-group-item">
-                      <input type="text" required="" class="form-control no-border" name="name_last" value="{{blockscore.name_last}}" placeholder="Last Name" >
+                      <input type="text" required="" class="form-control no-border" name="name_last" placeholder="Last Name" >
                     </div>
                   </div>
 
@@ -136,16 +154,16 @@
                        </select>
                     </div>
                     <div class="list-group-item">
-                       <input type="text" required="" class="form-control no-border" name="address_street1" value="{{blockscore.address_street1}}" placeholder="Street">
+                       <input type="text" required="" class="form-control no-border" name="address_street1" placeholder="Street">
                     </div>
                     <div class="list-group-item">
-                       <input type="text" required="" class="form-control no-border" name="address_postal_code" value="{{blockscore.address_postal_code}}" placeholder="Postal code">
+                       <input type="text" required="" class="form-control no-border" name="address_postal_code" placeholder="Postal code">
                     </div>
                     <div class="list-group-item">
-                       <input type="text" required="" class="form-control no-border" name="address_city" value="{{blockscore.address_city}}" placeholder="City">
+                       <input type="text" required="" class="form-control no-border" name="address_city" placeholder="City">
                     </div>
                     <div class="list-group-item">
-                       <input type="text" required="" class="form-control no-border" name="address_subdivision" value="{{blockscore.address_subdivision}}" placeholder="State">
+                       <input type="text" required="" class="form-control no-border" name="address_subdivision" placeholder="State">
                     </div>
                   </div>
                   <div class="list-group list-group-sm">
@@ -159,24 +177,24 @@
                        </select>
                     </div>
                     <div class="list-group-item">
-                       <input type="number" required="" class="form-control no-border" name="document_value" value="{{blockscore.document_value}}" placeholder="123-456-7890">
+                       <input type="number" required="" class="form-control no-border" name="document_value" placeholder="123-456-7890">
                     </div>
                   </div>
                   <button class="btn btn-primary btn-block blockscore-verify" type="button">Verify User</button>
                 </form>
               </div>
             </div>
-            {{/each}}
           {{/if}}
           </div>
         </div>
         <div class="col-md-4">
           <div class="panel no-border">
-            <div class="panel-heading bg-danger">
+            <div class="panel-heading bg-{{depositPanelClass}}">
               <div class="m-sm">
                 <span class="h4 text-white">Tier 3</span>
               </div> 
-              <div class="text-center m-t-md">        
+              <div class="text-center m-t-md">
+                <p>You have deposited total <strong>{{totalDeposit}} USD</strong> till now.</p>     
               </div>
             </div>
           </div>
