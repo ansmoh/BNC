@@ -21,7 +21,7 @@ Meteor.startup(function () {
 var knoxKey = '8aa796419a91eb780d954179aa21d696b204787a'
 var knoxPass = '9b527490bb2bfe73097fd8314ef8ae9a0fd35301'
 var authyKey = '2a7cc1467513fd1c366de7620bb9361c'
-var blockScoreKey = 'sk_test_b98fde330db2149ab12e09475ef20d3a'
+var blockScoreKey = 'sk_live_fbba96096568198ffa995843f0bc51ca'
 
 // Utility Functions
 var Utility = {
