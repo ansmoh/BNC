@@ -21,6 +21,7 @@ Meteor.startup(function () {
 var knoxKey = '8aa796419a91eb780d954179aa21d696b204787a'
 var knoxPass = '9b527490bb2bfe73097fd8314ef8ae9a0fd35301'
 var authyKey = '2a7cc1467513fd1c366de7620bb9361c'
+var blockScoreKey = 'sk_test_b98fde330db2149ab12e09475ef20d3a'
 
 // Utility Functions
 var Utility = {
@@ -146,6 +147,13 @@ var Utility = {
         status: Voucher.update({_id: voucherid}, { $set: {redeemed: true}})
       }
     };
+  },
+  saveUserInfo: function (user, bsData){
+    if (! Meteor.userId()) {
+      throw new Meteor.Error("not-logged-in", "Must be logged in to verify information.");
+    }
+    console.log("saveUserInfo", user, bsData);
+    return CustomerInfo.update({userId: Meteor.userId}, {$set:{firstName: user.name_first, middleName: user.name_middle, lastName: user.name_last, blockscore: bsData}});
   }
 }
 
@@ -241,5 +249,12 @@ Meteor.methods({
   },
   authrizeNumber: function () {
     return CustomerInfo.update({userId: Meteor.userId()}, { $set: {status: 'complete'}})
+  },
+  verifyBlockScoreUser: function(userData){
+    var apiURL = 'https://api.blockscore.com/people';
+    return HTTP.call("POST", apiURL, {data:userData, auth:blockScoreKey+":", headers:{'Accept': 'application/vnd.blockscore+json;version=4'}})   // return blockScore.people.create(userData)
+  },
+  saveUserInfo: function(userData, blockScoreData){
+    return Utility.saveUserInfo(userData, blockScoreData);  
   }
 })

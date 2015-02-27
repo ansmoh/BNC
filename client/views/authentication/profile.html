@@ -1,157 +1,206 @@
 <template name="Profile">
   <div class="app-content-body fade-in-up">
-    {{#if customerInfo}}
-      {{#each customerInfo}}
-        {{> CustomerDetails}}
-      {{/each}}
-    {{else}}
-    <div class="bg-light lter b-b wrapper-md">
-      <h1 class="m-n font-thin h3">Your Information</h1>
-    </div>
-    <div class="wrapper-md">
-      {{> CustomerInfoForm}}
-    </div>
-    {{/if}}
-  </div>
-</template>
-
-
-<template name="CustomerDetails">
-<!--   <div style="background:url(img/c8.jpg) center center; background-size:cover">
-    <div class="wrapper-lg bg-white-opacity">
-      <div class="row m-t">
-        <div class="col-sm-7">
-          {{#if profilePic}}
-          <a class="thumb-lg pull-left m-r" href="">
-            {{#each getImage profilePic}}
-            <img class="img-circle" alt="{{this.name}}" src="{{this.url}}" />
-            {{/each}}
-          </a>
-          {{/if}}
-          <div class="clear m-b">
-            <div class="m-b m-t-sm">
-              <span class="h3 text-black">
-                {{firstName }}
-                {{#if middleName}}
-                  {{middleName }}
-                {{/if}}
-                {{lastName}}
-              </span>
-              <small class="m-l">{{#if contactNo}}<i class="fa fa-phone"></i> &nbsp; {{contactNo}} {{/if}}</small>
-            </div>
-            <p class="m-b">
-              <a class="btn btn-sm btn-bg btn-rounded btn-default btn-icon" href=""><i class="fa fa-twitter"></i></a>
-              <a class="btn btn-sm btn-bg btn-rounded btn-default btn-icon" href=""><i class="fa fa-facebook"></i></a>
-              <a class="btn btn-sm btn-bg btn-rounded btn-default btn-icon" href=""><i class="fa fa-google-plus"></i></a>
-            </p>
-            <a class="btn btn-sm btn-{{statusClass}} btn-rounded" href="">{{status}}</a>
-          </div>
-        </div>
-        <div class="col-sm-5">
-          <div class="pull-right pull-none-xs text-center">
-            <a class="m-b-md inline m" href="">
-              <span class="h3 block font-bold">2k</span>
-              <small>Followers</small>
-            </a>
-            <a class="m-b-md inline m" href="">
-              <span class="h3 block font-bold">250</span>
-              <small>Following</small>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
-  <div class="app-content-body fade-in-up">
     <div class="bg-light lter b-b wrapper-md">
       <h1 class="m-n font-thin h3">Your Information</h1>
     </div>
     <div class="wrapper-md">
       <div class="row">
         <div class="col-md-4">
-          {{#if contactNo}}
           <div class="panel no-border">
-            <div class="panel-heading bg-primary">
+          {{#if customerInfo}}
+            {{#each customerInfo}}                 
+              {{#if contactNo}} 
+                <div class="panel-heading bg-{{contactPanelClass}}">
+                  <div class="m-sm">
+                    <span class="h4 text-white">Tier 1</span>
+                  </div> 
+                  <div class="text-center m-t-md">  
+                    <p>
+                      <h3><i class="fa fa-phone"></i> &nbsp; {{contactNo}} </h3><br />
+                      <a class="btn btn-sm btn-{{statusClass}} btn-rounded" href="">{{status}}</a>
+                      {{#if showVerifyButton}}
+                      <button class="btn btn-sm btn-success btn-rounded verify">Verify</button><br>
+                      <span>If already have a token, <a href="#" class='tokenSent'>click here</a></span>
+                      {{/if}}
+                      {{#if showVerificationArea}}
+                      <br>
+                      <br>
+                      <span>Enter token sent to your phone number</span>
+                      <br>
+                      <input type="text" id="token"/>
+                      <button class="btn btn-sm btn-success verifyToken">Submit</button>
+                      {{/if}}
+                    </p>
+                  </div>
+                </div>
+              {{/if}}
+            {{/each}}
+          {{else}} 
+            <div class="panel-heading bg-danger">
               <div class="m-sm">
-                <span class="h4 text-white">Phone Number</span>
+                <span class="h4 text-white">Tier 1</span>
+              </div> 
+              <div class="text-center m-t-md">  
+                {{#autoForm collection="CustomerInfo" id="afCustomerInfo" class="form" type="insert"}}
+                  <div class="form-group">
+                    {{> afFieldInput name="userId" type="hidden" }}
+                  </div>
+
+                  <div class="list-group list-group-sm{{#if afFieldIsInvalid name='contactNo'}}has-error{{/if}}">
+                    <div class="list-group-item">
+                      <label class="control-label">{{afFieldLabelText name='contactNo'}}</label>
+                    </div>
+                    <div class="list-group-item">
+                      {{> afFieldInput name='contactNo' class="form-control no-border"}}
+                      {{#if afFieldIsInvalid name='contactNo'}}
+                        <span class="help-block">{{{afFieldMessage name='contactNo'}}}</span>
+                      {{/if}}
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    {{> afFieldInput name="status" type="hidden" }}
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Save</button>
+                    <button type="reset" class="btn btn-default btn-block">Reset Form</button>
+                  </div>
+                {{/autoForm}}
+              </div>
+            </div>
+          {{/if}} 
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="panel no-border">
+          {{#if customerInfo}}
+            {{#each customerInfo}}           
+              {{#if blockscore}}
+            <div class="panel-heading bg-{{bsPanelClass}}">
+              <div class="m-sm">
+                <span class="h4 text-white">Tier 2</span>
+              </div> 
+              <div class="text-center m-t-md">
+                <address>
+                  <strong>{{blockscore.name_first}} {{#if blockscore.name_middle}}{{blockscore.name_middle}} {{/if}}{{blockscore.name_last}} </strong><br>
+                  {{blockscore.address_street1}}<br>
+                  {{blockscore.address_city}}, {{blockscore.address_subdivision}} {{blockscore.address_postal_code}} {{blockscore.address_country_code}} <br>
+                  Status: {{blockscore.status}}<br>
+                </address>
+              </div>
+            </div>
+          {{/if}}
+            {{/each}}
+          {{/if}}
+          {{#if showCustomerInfoForm}}
+            <div class="panel-heading bg-danger">
+              <div class="m-sm">
+                <span class="h4 text-white">Tier 2</span>
               </div> 
               <div class="text-center m-t-md">        
-                <p>
-                  <h3><i class="fa fa-phone"></i> &nbsp; {{contactNo}} </h3><br />
-                  <a class="btn btn-sm btn-{{statusClass}} btn-rounded" href="">{{status}}</a>
-                  {{#if showVerifyButton}}
-                  <button class="btn btn-sm btn-success btn-rounded verify">Verify</button><br>
-                  <span>If already have a token, <a href="#" class='tokenSent'>click here</a></span>
-                  {{/if}}
-                  {{#if showVerificationArea}}
-                  <br>
-                  <br>
-                  <span>Enter token sent to your phone number</span>
-                  <br>
-                  <input type="text" id="token"/>
-                  <button class="btn btn-sm btn-success verifyToken">Submit</button>
-                  {{/if}}
-                </p>
+                <form class="form form-validation" id="blockscore-verify-form">
+                  <div class="list-group list-group-sm">
+                    <div class="list-group-item">
+                      <label>Name</label>
+                    </div>
+                    <div class="list-group-item">
+                      <input type="text" required="" class="form-control no-border" name="name_first" placeholder="First Name">
+                    </div>
+                    <div class="list-group-item">
+                      <input type="text" class="form-control no-border" name="name_middle" placeholder="Middle Name" >
+                    </div>
+                    <div class="list-group-item">
+                      <input type="text" required="" class="form-control no-border" name="name_last" placeholder="Last Name" >
+                    </div>
+                  </div>
+
+                  <div class="list-group list-group-sm">
+                    <div class="list-group-item">
+                      <label>DOB</label>
+                    </div>
+                    <div class="list-group-item">
+                        <select name="birth_year" class="form-control no-border" >
+                         <option value="year">Year</option>
+                         {{#each yearValues}}
+                         <option value="{{value}}">{{name}}</option>
+                         {{/each}}
+                         
+                       </select>
+                    </div>
+                    <div class="list-group-item">
+                       <select name="birth_month" class="form-control no-border" >
+                         <option value="month">Month</option>
+                         {{#each monthValues}}
+                         <option value="{{value}}">{{name}}</option>
+                         {{/each}}
+                       </select>
+                    </div>
+                    <div class="list-group-item">
+                       <select name="birth_day" class="form-control no-border" >
+                         <option value="Day">Day</option>
+                         {{#each dayValues}}
+                         <option value="{{value}}">{{name}}</option>
+                         {{/each}}
+                       </select>
+                    </div>
+                  </div>
+                  <div class="list-group list-group-sm">
+                    <div class="list-group-item">
+                      <label>Address</label>
+                    </div>
+                    <div class="list-group-item">
+                      <select name="address_country_code" class="form-control no-border" >
+                         <option value="US">United States of America</option>
+                       </select>
+                    </div>
+                    <div class="list-group-item">
+                       <input type="text" required="" class="form-control no-border" name="address_street1" placeholder="Street">
+                    </div>
+                    <div class="list-group-item">
+                       <input type="text" required="" class="form-control no-border" name="address_postal_code" placeholder="Postal code">
+                    </div>
+                    <div class="list-group-item">
+                       <input type="text" required="" class="form-control no-border" name="address_city" placeholder="City">
+                    </div>
+                    <div class="list-group-item">
+                       <input type="text" required="" class="form-control no-border" name="address_subdivision" placeholder="State">
+                    </div>
+                  </div>
+                  <div class="list-group list-group-sm">
+                    <div class="list-group-item">
+                      <label>Document</label>
+                    </div>
+                    <div class="list-group-item">
+                       <select name="document_type" class="form-control no-border" >
+                         <option value="ssn">SSN</option>
+                         <option value="drivers_license">Driver's License</option>
+                       </select>
+                    </div>
+                    <div class="list-group-item">
+                       <input type="number" required="" class="form-control no-border" name="document_value" placeholder="123-456-7890">
+                    </div>
+                  </div>
+                  <button class="btn btn-primary btn-block blockscore-verify" type="button">Verify User</button>
+                </form>
+              </div>
+            </div>
+          {{/if}}
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="panel no-border">
+            <div class="panel-heading bg-{{depositPanelClass}}">
+              <div class="m-sm">
+                <span class="h4 text-white">Tier 3</span>
+              </div> 
+              <div class="text-center m-t-md">
+                <p>You have deposited total <strong>{{totalDeposit}} USD</strong> till now.</p>     
               </div>
             </div>
           </div>
-          {{/if}}
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<template name="CustomerInfoForm">
-  <div class="dropdown wrapper">
-  {{#autoForm collection="CustomerInfo" id="afCustomerInfo" type="insert"}}
-    <div class="form-group">
-      {{> afFieldInput name="userId" type="hidden" }}
-    </div>
-<!--     <div class="form-group {{#if afFieldIsInvalid name='firstName'}}has-error{{/if}}">
-      <label class="control-label">{{afFieldLabelText name='firstName'}}</label>
-      {{> afFieldInput name='firstName'}}
-      {{#if afFieldIsInvalid name='firstName'}}
-      <span class="help-block">{{{afFieldMessage name='firstName'}}}</span>
-      {{/if}}
-    </div>
-    <div class="form-group {{#if afFieldIsInvalid name='middleName'}}has-error{{/if}}">
-      <label class="control-label">{{afFieldLabelText name='middleName'}}</label>
-      {{> afFieldInput name='middleName'}}
-      {{#if afFieldIsInvalid name='middleName'}}
-      <span class="help-block">{{{afFieldMessage name='middleName'}}}</span>
-      {{/if}}
-    </div>
-    <div class="form-group {{#if afFieldIsInvalid name='lastName'}}has-error{{/if}}">
-      <label class="control-label">{{afFieldLabelText name='lastName'}}</label>
-      {{> afFieldInput name='lastName'}}
-      {{#if afFieldIsInvalid name='lastName'}}
-      <span class="help-block">{{{afFieldMessage name='lastName'}}}</span>
-      {{/if}}
-    </div> -->
-    <div class="form-group {{#if afFieldIsInvalid name='contactNo'}}has-error{{/if}}">
-      <label class="control-label">{{afFieldLabelText name='contactNo'}}</label>
-      {{> afFieldInput name='contactNo'}}
-      {{#if afFieldIsInvalid name='contactNo'}}
-      <span class="help-block">{{{afFieldMessage name='contactNo'}}}</span>
-      {{/if}}
-    </div>
-<!--     <div class="form-group">
-      {{> afQuickField name="govtId"}}
-    </div>
-    <div class="form-group">
-      {{> afQuickField name="profilePic"}}
-    </div>
-    <div class="form-group">
-      {{> afQuickField name="addressProof"}}
-    </div> -->
-    <div class="form-group">
-      {{> afFieldInput name="status" type="hidden" }}
-    </div>
-    <div class="form-group">
-      <button type="submit" class="btn btn-primary">Save</button>
-      <button type="reset" class="btn btn-default">Reset Form</button>
-    </div>
-  {{/autoForm}}
-  </div>
-</template>

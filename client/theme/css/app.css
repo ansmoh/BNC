@@ -4030,3 +4030,7 @@ left:0 !important;
 .panel-heading input{
   color:#333;
 }
+
+.panel label{
+  color: #666;
+}

@@ -8,7 +8,7 @@ Template.Balance.helpers({
   totalBalance: function () {
     var totalBalance = 0;
     Transactions.find({user: Meteor.userId(), currency: this.code}).map(function(transaction) {
-      console.log(totalBalance, transaction.amount)
+      // console.log(totalBalance, transaction.amount)
       totalBalance += parseFloat(transaction.amount)
     });
     if ("USD" == this.code) {
