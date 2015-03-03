@@ -159,6 +159,7 @@ Template.Profile.events({
         };
         console.log('resp', resp);
         toastr.success('Verification successful.', 'Verification');
+        $('#tier2').removeClass('in');
       })
     })
   }
