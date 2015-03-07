@@ -12,13 +12,13 @@ Template.BuyModal.rendered = function () {
     modal.find('.modal-title').text('Buy request for ' + currency);
     modal.find('.modal-body #currency').val(currency);
     modal.find('.modal-body .currency-text').text(currency);
-    modal.find('.modal-body .rate-text').text('@' + (parseFloat(rate) * 1.1).toFixed(5) + ' USD');
+    modal.find('.modal-body .rate-text').text('@' + (parseFloat(rate) * 1.01).toFixed(5) + ' USD');
   })
 }
 
 Template.BuyModal.helpers({
   totalPrice: function () {
-    var totalPrice = parseFloat(Session.get('buyCoins')) / (parseFloat(Session.get('buyRate')) * 1.1);
+    var totalPrice = parseFloat(Session.get('buyCoins')) / (parseFloat(Session.get('buyRate')) * 1.01);
     return parseFloat(Math.round(totalPrice * 100) / 100).toFixed(2);
   },
   balance : function () {
