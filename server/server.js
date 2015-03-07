@@ -229,7 +229,7 @@ Meteor.methods({
   },
   getCalculatedRate: function (currency) {
     var rate = Utility.getRate('USD', currency);
-    return rate + (rate * 0.0); //added 10 precent fee
+    return rate + (rate * 0.01); //added 10 precent fee
   },
   redeemVoucher: function (voucherid, currency, amount, code) {
     return Utility.redeemVoucher(voucherid, currency, amount, code);
