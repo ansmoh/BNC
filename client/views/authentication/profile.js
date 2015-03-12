@@ -46,31 +46,6 @@ Template.Profile.helpers({
   showVerificationArea: function () {
     return Session.equals('showVerificationArea', true)
   },
-  yearValues: function(){
-    var values = [];
-    for(var year=1950; year<=new Date().getFullYear(); year++)
-    {
-      values.push({name:year, value:year}); 
-    }
-    return values;
-  },  
-  monthValues: function(){
-    var values = [];
-    var names = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
-    for(var month=1; month<=12; month++)
-    {
-      values.push({name:names[month], value:month}); 
-    }
-    return values;
-  },  
-  dayValues: function(){
-    var values = [];
-    for(var day=1; day<=31; day++)
-    {
-      values.push({name:day, value:day}); 
-    }
-    return values;
-  },
   totalDeposit: function () {
     var totalDeposit = 0;
     Transactions.find({user: Meteor.userId(), currency: "USD", status: 'complete'}).map(function(transaction) {
@@ -139,7 +114,37 @@ Template.Profile.events({
     t.find('.verify').innerHTML = 'Resend token';
     Session.set('showVerificationArea', true);
   },
+});
 
+Template.BlockscoreModal.helpers({
+  yearValues: function(){
+    var values = [];
+    for(var year=1950; year<=new Date().getFullYear(); year++)
+    {
+      values.push({name:year, value:year}); 
+    }
+    return values;
+  },  
+  monthValues: function(){
+    var values = [];
+    var names = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
+    for(var month=1; month<=12; month++)
+    {
+      values.push({name:names[month], value:month}); 
+    }
+    return values;
+  },  
+  dayValues: function(){
+    var values = [];
+    for(var day=1; day<=31; day++)
+    {
+      values.push({name:day, value:day}); 
+    }
+    return values;
+  },
+})
+
+Template.BlockscoreModal.events({
   'click .blockscore-verify' : function(e, t){
     userData={};
     $.each($('#blockscore-verify-form').serializeArray(), function() {
@@ -163,4 +168,4 @@ Template.Profile.events({
       })
     })
   }
-});
+})
