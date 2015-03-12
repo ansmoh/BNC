@@ -17,6 +17,9 @@
                   </div> 
                   <div class="collapse text-center m-t-md" id="tier1">  
                     <p>
+                      {{#if nickName}}
+                      <h3>{{nickName}}</h3><br />
+                      {{/if}}
                       <h3><i class="fa fa-phone"></i> &nbsp; {{contactNo}} </h3><br />
                       <a class="btn btn-sm btn-{{statusClass}} btn-rounded" href="">{{status}}</a>
                       {{#if showVerifyButton}}
@@ -46,6 +49,18 @@
                 {{#autoForm collection="CustomerInfo" id="afCustomerInfo" class="form" type="insert"}}
                   <div class="form-group">
                     {{> afFieldInput name="userId" type="hidden" }}
+                  </div>
+
+                  <div class="list-group list-group-sm{{#if afFieldIsInvalid name='nickName'}}has-error{{/if}}">
+                    <div class="list-group-item">
+                      <label class="control-label">{{afFieldLabelText name='nickName'}}</label>
+                    </div>
+                    <div class="list-group-item">
+                      {{> afFieldInput name='nickName' class="form-control no-border"}}
+                      {{#if afFieldIsInvalid name='nickName'}}
+                        <span class="help-block">{{{afFieldMessage name='nickName'}}}</span>
+                      {{/if}}
+                    </div>
                   </div>
 
                   <div class="list-group list-group-sm{{#if afFieldIsInvalid name='contactNo'}}has-error{{/if}}">
@@ -101,90 +116,8 @@
                 <span class="h4 text-white pull-right" data-toggle="collapse" data-target="#tier2" aria-expanded="false" aria-controls="tier2" style="cursor:pointer"><i class="fa fa-toggle-down"></i></span>
               </div> 
               <div class="collapse text-center m-t-md" id="tier2">
-                <form class="form form-validation" id="blockscore-verify-form">
-                  <div class="list-group list-group-sm">
-                    <div class="list-group-item">
-                      <label>Name</label>
-                    </div>
-                    <div class="list-group-item">
-                      <input type="text" required="" class="form-control no-border" name="name_first" placeholder="First Name">
-                    </div>
-                    <div class="list-group-item">
-                      <input type="text" class="form-control no-border" name="name_middle" placeholder="Middle Name" >
-                    </div>
-                    <div class="list-group-item">
-                      <input type="text" required="" class="form-control no-border" name="name_last" placeholder="Last Name" >
-                    </div>
-                  </div>
+                <button class="btn btn-info" data-toggle="modal" data-target="#blockscore-form">Add details</button>
 
-                  <div class="list-group list-group-sm">
-                    <div class="list-group-item">
-                      <label>DOB</label>
-                    </div>
-                    <div class="list-group-item">
-                        <select name="birth_year" class="form-control no-border" >
-                         <option value="year">Year</option>
-                         {{#each yearValues}}
-                         <option value="{{value}}">{{name}}</option>
-                         {{/each}}
-                         
-                       </select>
-                    </div>
-                    <div class="list-group-item">
-                       <select name="birth_month" class="form-control no-border" >
-                         <option value="month">Month</option>
-                         {{#each monthValues}}
-                         <option value="{{value}}">{{name}}</option>
-                         {{/each}}
-                       </select>
-                    </div>
-                    <div class="list-group-item">
-                       <select name="birth_day" class="form-control no-border" >
-                         <option value="Day">Day</option>
-                         {{#each dayValues}}
-                         <option value="{{value}}">{{name}}</option>
-                         {{/each}}
-                       </select>
-                    </div>
-                  </div>
-                  <div class="list-group list-group-sm">
-                    <div class="list-group-item">
-                      <label>Address</label>
-                    </div>
-                    <div class="list-group-item">
-                      <select name="address_country_code" class="form-control no-border" >
-                         <option value="US">United States of America</option>
-                       </select>
-                    </div>
-                    <div class="list-group-item">
-                       <input type="text" required="" class="form-control no-border" name="address_street1" placeholder="Street">
-                    </div>
-                    <div class="list-group-item">
-                       <input type="text" required="" class="form-control no-border" name="address_city" placeholder="City">
-                    </div>
-                    <div class="list-group-item">
-                       <input type="text" required="" class="form-control no-border" name="address_subdivision" placeholder="State">
-                    </div>
-                    <div class="list-group-item">
-                       <input type="text" required="" class="form-control no-border" name="address_postal_code" placeholder="Postal code">
-                    </div>
-                  </div>
-                  <div class="list-group list-group-sm">
-                    <div class="list-group-item">
-                      <label>Document</label>
-                    </div>
-                    <div class="list-group-item">
-                       <select name="document_type" class="form-control no-border" >
-                         <option value="ssn">SSN</option>
-                         <option value="drivers_license">Driver's License</option>
-                       </select>
-                    </div>
-                    <div class="list-group-item">
-                       <input type="number" required="" class="form-control no-border" name="document_value" placeholder="123-456-7890">
-                    </div>
-                  </div>
-                  <button class="btn btn-primary btn-block blockscore-verify" type="button">Verify User</button>
-                </form>
               </div>
             </div>
           {{/if}}
@@ -208,3 +141,108 @@
   </div>
 </template>
 
+<template name="BlockscoreModal">
+  <div class="modal fade m-t" id="blockscore-form" tabindex="-1" role="dialog" aria-labelledby="blockscore-form-label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title font-bold" id="buyModalLabel">Verify Your Identity</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form form-validation" id="blockscore-verify-form">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="list-group list-group-sm">
+                  <div class="list-group-item">
+                    <label>Name</label>
+                  </div>
+                  <div class="list-group-item">
+                    <input type="text" required="" class="form-control no-border" name="name_first" placeholder="First Name">
+                  </div>
+                  <div class="list-group-item">
+                    <input type="text" class="form-control no-border" name="name_middle" placeholder="Middle Name" >
+                  </div>
+                  <div class="list-group-item">
+                    <input type="text" required="" class="form-control no-border" name="name_last" placeholder="Last Name" >
+                  </div>
+                </div>
+
+                <div class="list-group list-group-sm">
+                  <div class="list-group-item">
+                    <label>DOB</label>
+                  </div>
+                  <div class="list-group-item">
+                      <select name="birth_year" class="form-control no-border" >
+                       <option value="year">Year</option>
+                       {{#each yearValues}}
+                       <option value="{{value}}">{{name}}</option>
+                       {{/each}}
+                       
+                     </select>
+                  </div>
+                  <div class="list-group-item">
+                     <select name="birth_month" class="form-control no-border" >
+                       <option value="month">Month</option>
+                       {{#each monthValues}}
+                       <option value="{{value}}">{{name}}</option>
+                       {{/each}}
+                     </select>
+                  </div>
+                  <div class="list-group-item">
+                     <select name="birth_day" class="form-control no-border" >
+                       <option value="Day">Day</option>
+                       {{#each dayValues}}
+                       <option value="{{value}}">{{name}}</option>
+                       {{/each}}
+                     </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="list-group list-group-sm">
+                  <div class="list-group-item">
+                    <label>Address</label>
+                  </div>
+                  <div class="list-group-item">
+                    <select name="address_country_code" class="form-control no-border" >
+                       <option value="US">United States of America</option>
+                     </select>
+                  </div>
+                  <div class="list-group-item">
+                     <input type="text" required="" class="form-control no-border" name="address_street1" placeholder="Street">
+                  </div>
+                  <div class="list-group-item">
+                     <input type="text" required="" class="form-control no-border" name="address_city" placeholder="City">
+                  </div>
+                  <div class="list-group-item">
+                     <input type="text" required="" class="form-control no-border" name="address_subdivision" placeholder="State">
+                  </div>
+                  <div class="list-group-item">
+                     <input type="text" required="" class="form-control no-border" name="address_postal_code" placeholder="Postal code">
+                  </div>
+                </div>
+                <div class="list-group list-group-sm">
+                  <div class="list-group-item">
+                    <label>Document</label>
+                  </div>
+                  <div class="list-group-item">
+                     <select name="document_type" class="form-control no-border" >
+                       <option value="ssn">SSN</option>
+                       <option value="drivers_license">Driver's License</option>
+                     </select>
+                  </div>
+                  <div class="list-group-item">
+                     <input type="number" required="" class="form-control no-border" name="document_value" placeholder="123-456-7890">
+                  </div>
+                </div>
+                <button class="btn btn-primary btn-block blockscore-verify" type="button">Verify User</button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

@@ -1,7 +1,7 @@
 AdminConfig = {
   name: "Buy Any Coin",
   nonAdminRedirectRoute: "/",
-  adminEmails:['buyanycoin@gmail.com', 'thor@buyanycoin.com'],
+  adminEmails:['buyanycoin@gmail.com', 'thor@buyanycoin.com', 'kapil.tomar@ongraph.com'],
   collections: {
     CustomerInfo: {
       icon: "users",
