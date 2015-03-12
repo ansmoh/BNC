@@ -1,5 +1,5 @@
 Meteor.startup(function () {
-// code to run on server at startup
+// code to run on server at startup.
 // SyncedCron.start();
   // to send mails for forgot password
   process.env.MAIL_URL = 'smtp://review321%40gmail.com:test1231@smtp.gmail.com:587';
@@ -7,7 +7,7 @@ Meteor.startup(function () {
   Accounts.emailTemplates.from = "BuyAnyCoin Admin <admin@buyanycoin.com>";
   Accounts.emailTemplates.resetPassword.text = function(user, url) {
     url = url.replace('#/', '');
-    return "Hello,\n\nTo reset your password, simply click the link below. \n\n"+url+" \n\nThanks.";
+    return "Hi!,\n\nLooks like you forgot your password, no worries. Just click the link below to setup a new one. \n\n"+url+" \n\nThank you,\nThe BuyAnyCoin Team";
   }
   Accounts.emailTemplates.verifyEmail.subject = function(user) {
     return "Please verify your email on BuyAnyCoin";
@@ -18,11 +18,11 @@ Meteor.startup(function () {
   }
 });
 
-var knoxKey = '775a518965876a2b68b9ae1de6ff8fc9ed543a92'
-var knoxPass = 'dd0bf99427252673aa72cf98af41d1ec26b665f3'
+var knoxKey = '8aa796419a91eb780d954179aa21d696b204787a'
+var knoxPass = '9b527490bb2bfe73097fd8314ef8ae9a0fd35301'
 var authyKey = '2a7cc1467513fd1c366de7620bb9361c'
-var blockScoreKey = 'sk_test_b98fde330db2149ab12e09475ef20d3a'
-
+//var blockScoreKey = 'sk_live_fbba96096568198ffa995843f0bc51ca'
+var blockScorekey = 'sk_test_b98fde330db2149ab12e09475ef20d3a'
 // Utility Functions
 var Utility = {
   addTransaction: function (currency, amount, note, txnid) {
@@ -186,7 +186,7 @@ Meteor.methods({
     var rate = Utility.getRate('USD', currency);
     rate = parseFloat(rate).toFixed(5);
     console.log('rate', rate);
-    var unitFee = rate * 0.1; //fee for transaction
+    var unitFee = rate * 0.01; //fee for transaction
     console.log('unitFee', unitFee);
     var cRate = parseFloat(parseFloat(rate) + parseFloat(unitFee)).toFixed(5)
     console.log('cRate', cRate);
@@ -223,13 +223,13 @@ Meteor.methods({
     return HTTP.call("GET", apiUrl+"?method=singlemarketdata&marketid="+mktID);
   },
   getBTCRate: function () {
-    // HTTP call to cryptsy’s api to get the rate of currency
+    // HTTP call to coinbase's api to get the rate of currency
     var apiUrl = 'https://api.coinbase.com/v1/currencies/exchange_rates'
     return HTTP.call("GET", apiUrl);
   },
   getCalculatedRate: function (currency) {
     var rate = Utility.getRate('USD', currency);
-    return rate + (rate * 0.0); //added 10 precent fee
+    return rate + (rate * 0.01); //added 10 precent fee
   },
   redeemVoucher: function (voucherid, currency, amount, code) {
     return Utility.redeemVoucher(voucherid, currency, amount, code);

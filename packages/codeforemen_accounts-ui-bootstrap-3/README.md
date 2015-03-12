@@ -4,7 +4,7 @@ meteor-accounts-ui-bootstrap-3
 Meteor accounts-ui styled with twitter/bootstrap 3
 
 Prerequisites
--------------
+--------------
 
 Use the meteorite package manager
 http://oortcloud.github.com/meteorite/

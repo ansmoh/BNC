@@ -59,7 +59,7 @@ SyncedCron.add({
 
       if(currency.code !== "USD"){
         Meteor.call("getBTCRate", function(error, exchangeRates){
-          var btcRate = exchangeRates.data.btc_to_usd * 1.1;
+          var btcRate = exchangeRates.data.btc_to_usd * 1.01;
           if(currency.code == "BTC"){
             Currencies.update({_id: currency._id}, {$set:{rate: btcRate, "btcRate": 1}});
             CurrencyRateLog.insert({currency: currency.code, rate: btcRate, btcRate: 1, timestamp: Date()})

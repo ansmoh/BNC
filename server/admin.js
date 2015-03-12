@@ -1,5 +1,5 @@
 AdminConfig = {
-  adminEmails:['buyanycoin@gmail.com', 'kapil.tomar@ongraph.com'],
+  adminEmails:['thor@buyanycoin.com', 'buyanycoin@gmail.com'],
   collections: {
     CustomerInfo: {},
     WithdrawalRequest:{},
