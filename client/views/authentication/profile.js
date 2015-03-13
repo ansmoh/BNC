@@ -48,23 +48,35 @@ Template.Profile.helpers({
   },
   totalDeposit: function () {
     var totalDeposit = 0;
+    var lastTimeStamp = 0;
     Transactions.find({user: Meteor.userId(), currency: "USD", status: 'complete'}).map(function(transaction) {
       if (parseFloat(transaction.amount) > 0) {
-        totalDeposit += parseFloat(transaction.amount)
+        totalDeposit += parseFloat(transaction.amount);
+        if (lastTimeStamp == 0 || lastTimeStamp > transaction.timestamp) {
+          lastTimeStamp = transaction.timestamp;
+        };
       };
     });
 
     Session.set('depositVerified', false);
+    Session.set('lastTimeStamp', lastTimeStamp);
     if (totalDeposit >= 5000) {
       Session.set('depositVerified', true);
     };
-    return totalDeposit
+    return totalDeposit;
+  },
+  depositTimestamp: function () {
+    var dt = Session.get('lastTimeStamp') || new Date();
+    var timeDiff = Math.abs(new Date().getTime() - dt.getTime());
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+    return  diffDays + ' days ago ('+ dt.toDateString()+')';
   },
   depositPanelClass: function () {
-    if (Session.get('depositVerified')) {
-      return "success"
+    console.log('lastTimeStamp', Session.get('lastTimeStamp'), new Date().setDate((new Date().getDate())-30));
+    if (Session.get('depositVerified') && (Session.get('lastTimeStamp').getTime() < new Date().setDate((new Date().getDate())-30))) {
+      return "success";
     };
-    return "danger"
+    return "danger";
   }
 });
 

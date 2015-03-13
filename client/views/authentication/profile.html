@@ -131,7 +131,8 @@
                 <span class="h4 text-white pull-right" data-toggle="collapse" data-target="#tier3" aria-expanded="false" aria-controls="tier3" style="cursor:pointer"><i class="fa fa-toggle-down"></i></span>
               </div> 
               <div class="collapse text-center m-t-md" id="tier3">
-                <p>You have deposited total <strong>{{totalDeposit}} USD</strong> till now.</p>     
+                <p>You have deposited total <strong>{{totalDeposit}} USD</strong> till now.</p>    
+                <p>First deposit : <strong>{{depositTimestamp}}</strong></p>    
               </div>
             </div>
           </div>
@@ -155,77 +156,61 @@
               <div class="col-sm-6">
                 <div class="list-group list-group-sm">
                   <div class="list-group-item">
-                    <label>Name</label>
+                    <label>Identity</label>
                   </div>
                   <div class="list-group-item">
-                    <input type="text" required="" class="form-control no-border" name="name_first" placeholder="First Name">
+                    <div class="row">
+                      <div class="col-sm-5">
+                        <input type="text" required="" class="form-control no-border" name="name_first" placeholder="Mike">
+                      </div>
+                      <div class="col-sm-2 b-l b-r">
+                        <input type="text" class="form-control no-border" name="name_middle" placeholder="V" >
+                      </div>
+                      <div class="col-sm-5">
+                        <input type="text" required="" class="form-control no-border" name="name_last" placeholder="Austin" >
+                      </div>
+                    </div>
                   </div>
-                  <div class="list-group-item">
-                    <input type="text" class="form-control no-border" name="name_middle" placeholder="Middle Name" >
-                  </div>
-                  <div class="list-group-item">
-                    <input type="text" required="" class="form-control no-border" name="name_last" placeholder="Last Name" >
-                  </div>
-                </div>
+                <!-- </div> -->
 
-                <div class="list-group list-group-sm">
+                <!-- <div class="list-group list-group-sm"> -->
+                  <!-- <div class="list-group-item"> -->
+                    <!-- <label>DOB</label> -->
+                  <!-- </div> -->
                   <div class="list-group-item">
-                    <label>DOB</label>
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <select name="birth_year" class="form-control no-border" >
+                          <option value="year">Year</option>
+                          {{#each yearValues}}
+                          <option value="{{value}}">{{name}}</option>
+                          {{/each}}
+                        </select>
+                      </div>
+                      <div class="col-sm-4 b-l b-r">
+                        <select name="birth_month" class="form-control no-border" >
+                          <option value="month">Month</option>
+                          {{#each monthValues}}
+                          <option value="{{value}}">{{name}}</option>
+                          {{/each}}
+                        </select>
+                      </div>
+                      <div class="col-sm-4">
+                        <select name="birth_day" class="form-control no-border" >
+                          <option value="Day">Day</option>
+                          {{#each dayValues}}
+                          <option value="{{value}}">{{name}}</option>
+                          {{/each}}
+                        </select>
+                      </div>
+                    </div>
                   </div>
-                  <div class="list-group-item">
-                      <select name="birth_year" class="form-control no-border" >
-                       <option value="year">Year</option>
-                       {{#each yearValues}}
-                       <option value="{{value}}">{{name}}</option>
-                       {{/each}}
-                       
-                     </select>
-                  </div>
-                  <div class="list-group-item">
-                     <select name="birth_month" class="form-control no-border" >
-                       <option value="month">Month</option>
-                       {{#each monthValues}}
-                       <option value="{{value}}">{{name}}</option>
-                       {{/each}}
-                     </select>
-                  </div>
-                  <div class="list-group-item">
-                     <select name="birth_day" class="form-control no-border" >
-                       <option value="Day">Day</option>
-                       {{#each dayValues}}
-                       <option value="{{value}}">{{name}}</option>
-                       {{/each}}
-                     </select>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="list-group list-group-sm">
-                  <div class="list-group-item">
-                    <label>Address</label>
-                  </div>
-                  <div class="list-group-item">
-                    <select name="address_country_code" class="form-control no-border" >
-                       <option value="US">United States of America</option>
-                     </select>
-                  </div>
-                  <div class="list-group-item">
-                     <input type="text" required="" class="form-control no-border" name="address_street1" placeholder="Street">
-                  </div>
-                  <div class="list-group-item">
-                     <input type="text" required="" class="form-control no-border" name="address_city" placeholder="City">
-                  </div>
-                  <div class="list-group-item">
-                     <input type="text" required="" class="form-control no-border" name="address_subdivision" placeholder="State">
-                  </div>
-                  <div class="list-group-item">
-                     <input type="text" required="" class="form-control no-border" name="address_postal_code" placeholder="Postal code">
-                  </div>
-                </div>
-                <div class="list-group list-group-sm">
-                  <div class="list-group-item">
-                    <label>Document</label>
-                  </div>
+                <!-- </div> -->
+
+                <!-- <div class="list-group list-group-sm"> -->
+                  <!-- <div class="list-group-item"> -->
+                    <!-- <label>Document</label> -->
+                  <!-- </div> -->
                   <div class="list-group-item">
                      <select name="document_type" class="form-control no-border" >
                        <option value="ssn">SSN</option>
@@ -236,7 +221,39 @@
                      <input type="number" required="" class="form-control no-border" name="document_value" placeholder="123-456-7890">
                   </div>
                 </div>
-                <button class="btn btn-primary btn-block blockscore-verify" type="button">Verify User</button>
+              </div>
+              <div class="col-sm-6">
+                <div class="list-group list-group-sm">
+                  <div class="list-group-item">
+                    <label>Address</label>
+                  </div>
+                  <div class="list-group-item">
+                     <input type="text" required="" class="form-control no-border" name="address_street1" placeholder="Street">
+                  </div>
+                  <div class="list-group-item">
+                    <div class="row">
+                      <div class="col-sm-6 b-r">
+                        <input type="text" required="" class="form-control no-border" name="address_city" placeholder="City">
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" required="" class="form-control no-border" name="address_subdivision" placeholder="State">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-group-item">
+                    <div class="row">
+                      <div class="col-sm-8 b-r">
+                        <select name="address_country_code" class="form-control no-border" >
+                          <option value="US">USA</option>
+                        </select>
+                      </div>
+                      <div class="col-sm-4">
+                        <input type="text" required="" class="form-control no-border" name="address_postal_code" placeholder="Zip Code">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn btn-primary btn-block blockscore-verify" type="button">Verify</button>
               </div>
             </div>
           </form>

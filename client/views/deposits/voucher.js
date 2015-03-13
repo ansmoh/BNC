@@ -1,6 +1,6 @@
 Template.VoucherModal.rendered = function () {
   var next = 1;
-  var success = true;
+  var success = false;
   $('#voucherModal').on('show.bs.modal', function (event) {
     $('.status-text').text('');
     $(".add-more").click(function(e){
