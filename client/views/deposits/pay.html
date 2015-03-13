@@ -3,7 +3,7 @@
     <div class="bg-light lter b-b wrapper-md">
       <h1 class="m-n font-thin h3">Payment Options</h1>
     </div>
-    <div class="wrapper-md">
+    <div class="wrapper-md deposit-page">
       <div class="row">
         <div class="col-md-4">
           <div class="panel no-border">
@@ -16,7 +16,8 @@
                 <p>{{status}}</p>
                 <a class="btn btn-success" href="/">Return</a>
               {{else}}
-                <div class="knox-payments-div" data-amount="custom"></div>
+                <div class="knox-payments-div" data-amount="custom"></div><br>
+                <span>By clicking Pay you agree to the <a href="/terms-and-conditions">terms and conditions</a></span>
               {{/if}}
               </div>
             </div>
@@ -28,7 +29,8 @@
               <div class="m-sm">
                 <span class="h4 text-white">Voucher Redemption</span>
               </div> 
-              <div class="text-center m-t-md">        
+              <div class="text-center m-t-md">
+                <p>Want to redeem voucher?</p>
                 <button class="btn btn-success" data-toggle="modal" data-target="#voucherModal">Redeem Voucher</button>
               </div>
             </div>

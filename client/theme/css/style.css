@@ -1,3 +1,7 @@
 #blockscore-form .form-control {
 	padding: 4px 0px;
 }
+
+.deposit-page .panel-heading{
+	min-height: 210px;
+}

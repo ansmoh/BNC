@@ -7,7 +7,7 @@ Template.VoucherModal.rendered = function () {
       e.preventDefault();
       var addto = "#fieldGroup1"
       next = next + 1;
-      var newField = $('<div class="form-group" id="fieldGroup' + next + '"><div class="input-group"><input type="text" class="form-control voucher-code" id="voucherCode' + next + '" placeholder="Voucher Code"><span class="input-group-btn"><button type="button" id="remove' + next + '" class="btn btn-danger remove-me" title="Remove">-</button></span></div><span class="status-text" id="status-text'+next+'"></span></div>');
+      var newField = $('<div class="form-group" id="fieldGroup' + next + '"><div class="input-group"><input type="text" class="form-control voucher-code" id="voucherCode' + next + '" placeholder="Voucher Code"><span class="input-group-btn"><button type="button" id="remove' + next + '" class="btn btn-danger remove-me" title="Remove">Remove</button></span></div><span class="status-text" id="status-text'+next+'"></span></div>');
       $(addto).after(newField);
       $("#voucherCode" + next).attr('data-source', $("#voucherCode" + (next-1)).attr('data-source'));
 
