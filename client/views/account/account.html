@@ -10,26 +10,36 @@
               </a>
               <div class="clear m-b">
                 <div class="m-b m-t-sm">
-                  <span class="h3 text-black">John.Smith</span>
-                  <small class="m-l">London, UK</small>
+                {{#if customerInfo}}
+                  {{#each customerInfo}}
+                    {{#if blockscore}}
+                  <span class="h3 text-black">{{blockscore.name_first}} {{#if blockscore.name_middle}}{{blockscore.name_middle}} {{/if}}{{blockscore.name_last}} {{#if nickName}}({{nickName}}){{/if}}</span>
+                  <small class="m-l">{{emailAddress}} </small>
+                    {{else}}
+                  <span class="h3 text-black">{{nickName}}</span>
+                  <small class="m-l">{{emailAddress}} </small>
+                    {{/if}}
+                  {{/each}}
+                {{else}}
+                  <span class="h3 text-black">{{emailAddress}}</span>
+                {{/if}}
                 </div>
-                <p class="m-b">
-                  <a class="btn btn-sm btn-bg btn-rounded btn-default btn-icon" href=""><i class="fa fa-twitter"></i></a>
-                  <a class="btn btn-sm btn-bg btn-rounded btn-default btn-icon" href=""><i class="fa fa-facebook"></i></a>
-                  <a class="btn btn-sm btn-bg btn-rounded btn-default btn-icon" href=""><i class="fa fa-google-plus"></i></a>
-                </p>
               </div>
             </div>
             <div class="col-sm-5">
+
               <div class="pull-right pull-none-xs text-center">
-                <a class="m-b-md inline m" href="">
-                  <span class="h3 block font-bold">2k</span>
-                  <small>Followers</small>
-                </a>
-                <a class="m-b-md inline m" href="">
-                  <span class="h3 block font-bold">250</span>
-                  <small>Following</small>
-                </a>
+              {{#if customerInfo}}
+                {{#each customerInfo}}
+                <a class="btn btn-sm btn-bg btn-rounded btn-{{tier1Class}} btn-icon l-h-2x font-bold" href="/verification">1</a>
+                <a class="btn btn-sm btn-bg btn-rounded btn-{{tier2Class}} btn-icon l-h-2x font-bold" href="/verification">2</a>
+                <a class="btn btn-sm btn-bg btn-rounded btn-{{tier3Class}} btn-icon l-h-2x font-bold" href="/verification">3</a>
+                {{/each}}
+              {{else}}
+                <a class="btn btn-sm btn-bg btn-rounded btn-danger btn-icon l-h-2x font-bold" href="/verification">1</a>
+                <a class="btn btn-sm btn-bg btn-rounded btn-danger btn-icon l-h-2x font-bold" href="/verification">2</a>
+                <a class="btn btn-sm btn-bg btn-rounded btn-danger btn-icon l-h-2x font-bold" href="/verification">3</a>
+              {{/if}}
               </div>
             </div>
           </div>
@@ -37,6 +47,8 @@
       </div>
       <div class="wrapper bg-white b-b">
         <div class="row">
+        {{#if customerInfo}}
+          {{#each customerInfo}}
           <div class="col-md-6">
             <div class="panel no-border">
               <div class="panel-heading bg-success lt">
@@ -45,8 +57,34 @@
                 </div> 
               </div> 
               <div class="panel-body bg-light">
-                <div class="text-center m-t-md">        
-                </div>
+                {{#if blockscore}}
+                  <table class="table table-striped">
+                    <tbody>
+                      <tr>
+                        <td>Name</td>
+                        <td>{{blockscore.name_first}} {{#if blockscore.name_middle}}{{blockscore.name_middle}} {{/if}}{{blockscore.name_last}} </td>
+                      </tr>
+                      <tr>
+                        <td>Birthday</td>
+                        <td>{{blockscore.birth_day}}/{{blockscore.birth_month}}/{{blockscore.birth_year}} </td>
+                      </tr>
+                      {{#if contactNo}} 
+                      <tr>
+                        <td>Phone Number</td>
+                        <td>{{contactNo}}</td>
+                      </tr>
+                      {{/if}}
+                      <tr>
+                        <td class="text-u-c">{{blockscore.document_type}}</td>
+                        <td>{{blockscore.document_value}} </td>
+                      </tr>
+                      <tr>
+                        <td>Verification Status</td>
+                        <td>{{blockscore.status}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                {{/if}}
               </div>
             </div>
           </div>
@@ -58,11 +96,37 @@
                 </div> 
               </div> 
               <div class="panel-body bg-light">
-                <div class="text-center m-t-md">
-                </div>
+                {{#if blockscore}}
+                  <table class="table table-striped">
+                    <tbody>
+                      <tr>
+                        <td>Street</td>
+                        <td>{{blockscore.address_street1}}</td>
+                      </tr>
+                      <tr>
+                        <td>City</td>
+                        <td>{{blockscore.address_city}}</td>
+                      </tr>
+                      <tr>
+                        <td>State</td>
+                        <td>{{blockscore.address_subdivision}}</td>
+                      </tr>
+                      <tr>
+                        <td>Country</td>
+                        <td>{{blockscore.address_country_code}}</td>
+                      </tr>
+                      <tr>
+                        <td>Zip/Postal code</td>
+                        <td>{{blockscore.address_postal_code}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                {{/if}}
               </div>
             </div>
           </div>
+          {{/each}}
+        {{/if}}
         </div>
       </div>
     </div>
