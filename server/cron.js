@@ -1,6 +1,6 @@
 Meteor.startup(function () {
 // code to run on server at startup
-   SyncedCron.start();
+  SyncedCron.start();
 });
 
 // Cron Job to check the Transaction collection every minute,
@@ -64,6 +64,9 @@ SyncedCron.add({
             Currencies.update({_id: currency._id}, {$set:{rate: btcRate, "btcRate": 1}});
             CurrencyRateLog.insert({currency: currency.code, rate: btcRate, btcRate: 1, timestamp: Date()})
           }
+          else if(currency.code == "BTS"){
+            return;
+          }
           else{
             var mktId = 0;
             switch(currency.code){
@@ -77,6 +80,22 @@ SyncedCron.add({
 
               case 'DOGE' :
                 mktId = 132;
+                break;
+
+              case 'NXT' :
+                mktId = 279;
+                break;
+
+              case 'XRP' :
+                mktId = 442;
+                break;
+
+              // case 'BTS' : //Not found on crypsy
+              //   mktId = 132;
+              //   break;
+
+              case 'PPC' :
+                mktId = 305;
                 break;
             }
             Meteor.call("updateCurrencyRate", mktId, function(error, results) {
