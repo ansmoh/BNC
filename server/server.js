@@ -7,14 +7,14 @@ Meteor.startup(function () {
   Accounts.emailTemplates.from = "BuyAnyCoin Admin <admin@buyanycoin.com>";
   Accounts.emailTemplates.resetPassword.text = function(user, url) {
     url = url.replace('#/', '');
-    return "Hi!,\n\nLooks like you forgot your password, no worries. Just click the link below to setup a new one. \n\n"+url+" \n\nThank you,\nThe BuyAnyCoin Team";
+    return "Hi!,\n\nLooks like you forgot your password, no worries. Just click the link below to setup a new one. \n\n"+url+" \n\nThank you,\n\n BuyAnyCoin Team";
   }
   Accounts.emailTemplates.verifyEmail.subject = function(user) {
-    return "Please verify your email on BuyAnyCoin";
+    return "Hi, Looks like you signed up for an account at BuyAnyCoin, click the link below to verify your email.\n\n Have Fun! \n\n BuyAnyCoin Team ";
   }
   Accounts.emailTemplates.verifyEmail.text = function(user, url) {
     url = url.replace('#/', '');
-    return "Hello,\n\nTo verify your account email, simply click the link below. \n\n"+url+" \n\nThanks.";
+    return "Hello,\n\nTo verify your account email, simply click the link below. \n\n"+url+" \n\n - BuyAnyCoin Team";
   }
 });
 
