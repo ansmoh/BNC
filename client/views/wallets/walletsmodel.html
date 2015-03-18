@@ -1,0 +1,57 @@
+<!-- Modal -->
+<template name="WalletsModal">
+  <div class="modal fade m-t" id="walletsModal" tabindex="-1" role="dialog" aria-labelledby="walletsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>    
+          <h4 class="modal-title font-bold">Transactions</h4>
+        </div>
+        <div class="modal-body m-sm">
+          <div class="row">
+            <span>Current Balance</span>
+          </div>
+          <div class="form-group row">
+            <span class="h4 text-success">{{currencyBalance}} {{currency}}</span>
+            <span class="h4"> = {{exchangeBalance}} USD</span>
+          </div>
+          <div class="form-group row">
+            {{#if transactions}}
+            <div class="table-responsive bg-white">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Transaction</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each transactions}}
+                    {{> TransactionDetail}}
+                  {{/each}}
+                </tbody>
+              </table>
+            </div>
+            {{else}}
+            <span>No transaction found for {{currency}}</span>
+            {{/if}}
+          </div>
+        </div>  
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="TransactionDetail">
+                  <tr>
+                    <td><i class="fa fa-arrow-right text-{{colorClass}}"></i> {{note}}</td>
+                    <td>{{timestamp}}</td>
+                    <td>{{status}}</td>
+                    <td class="text-{{colorClass}} fw-b">{{amount}}</td>
+                  </tr>
+</template>

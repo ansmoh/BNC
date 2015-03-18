@@ -3,7 +3,25 @@ if (Currencies.find().count() === 0) {
   Currencies.insert({code: 'BTC', name: 'Bitcoin' , rate: 389.01})
   Currencies.insert({code: 'LTC', name: 'Litecoin', rate: 3.89})
   Currencies.insert({code: 'DRK', name: 'Darkcoin', rate: 2})
-  Currencies.insert({code: 'DOGE', name: 'Dogecoin', rate: .00001})
+  Currencies.insert({code: 'DOGE', name: 'Dogecoin', rate: 0.00001})
+  Currencies.insert({code: 'NXT', name: 'Nxt', rate: 0.012932})
+  Currencies.insert({code: 'XRP', name: 'Ripple', rate: 0.010950})
+  Currencies.insert({code: 'BTS', name: 'BitShares', rate: 0.008363})
+  Currencies.insert({code: 'PPC', name: 'Peercoin', rate: 0.390607})
+}
+else{
+  if (Currencies.find({code: 'NXT'}).count() === 0) {
+    Currencies.insert({code: 'NXT', name: 'Nxt', rate: 0.012932})
+  }
+  if (Currencies.find({code: 'XRP'}).count() === 0) {
+    Currencies.insert({code: 'XRP', name: 'Ripple', rate: 0.010950})
+  }
+  if (Currencies.find({code: 'BTS'}).count() === 0) {
+    Currencies.insert({code: 'BTS', name: 'BitShares', rate: 0.008363})
+  }
+  if (Currencies.find({code: 'PPC'}).count() === 0) {
+    Currencies.insert({code: 'PPC', name: 'Peercoin', rate: 0.390607})
+  }
 }
 
 if (Voucher.find().count() === 0) {
