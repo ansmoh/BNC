@@ -42,7 +42,7 @@
           {{else}} 
             <div class="panel-heading bg-danger">
               <div class="m-sm">
-                <span class="h4 text-white">Tier 1</span>
+                <span class="h4 text-white">Level 1</span>
                 <span class="h4 text-white pull-right" data-toggle="collapse" data-target="#tier1" aria-expanded="false" aria-controls="tier1" style="cursor:pointer"><i class="fa fa-toggle-down"></i></span>
               </div> 
               <div class="collapse text-center m-t-md" id="tier1">  
@@ -79,7 +79,7 @@
                     {{> afFieldInput name="status" type="hidden" }}
                   </div>
                   <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block">Save</button>
+                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
                     <button type="reset" class="btn btn-default btn-block">Reset Form</button>
                   </div>
                 {{/autoForm}}
@@ -95,7 +95,7 @@
               {{#if blockscore}}
             <div class="panel-heading bg-{{bsPanelClass}}">
               <div class="m-sm">
-                <span class="h4 text-white">Tier 2</span>
+                <span class="h4 text-white">Level 2</span>
               </div> 
               <div class="text-center m-t-md">
                 <address>
@@ -127,7 +127,7 @@
           <div class="panel no-border">
             <div class="panel-heading bg-{{depositPanelClass}}">
               <div class="m-sm">
-                <span class="h4 text-white">Tier 3</span>
+                <span class="h4 text-white">Level 3</span>
                 <span class="h4 text-white pull-right" data-toggle="collapse" data-target="#tier3" aria-expanded="false" aria-controls="tier3" style="cursor:pointer"><i class="fa fa-toggle-down"></i></span>
               </div> 
               <div class="collapse text-center m-t-md" id="tier3">
@@ -148,7 +148,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-          <h4 class="modal-title font-bold" id="buyModalLabel">Verify Your Identity</h4>
+          <h4 class="modal-title font-bold">You're human? We will find out!</h4>
         </div>
         <div class="modal-body">
           <form class="form form-validation" id="blockscore-verify-form">
@@ -161,13 +161,13 @@
                   <div class="list-group-item">
                     <div class="row">
                       <div class="col-sm-5">
-                        <input type="text" required="" class="form-control no-border" name="name_first" placeholder="Mike">
+                        <input type="text" required="" class="form-control no-border" name="name_first" placeholder="Satoshi">
                       </div>
                       <div class="col-sm-2 b-l b-r">
-                        <input type="text" class="form-control no-border" name="name_middle" placeholder="V" >
+                        <input type="text" class="form-control no-border" name="name_middle" placeholder="" >
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" required="" class="form-control no-border" name="name_last" placeholder="Austin" >
+                        <input type="text" required="" class="form-control no-border" name="name_last" placeholder="Nakamoto" >
                       </div>
                     </div>
                   </div>
@@ -214,11 +214,11 @@
                   <div class="list-group-item">
                      <select name="document_type" class="form-control no-border" >
                        <option value="ssn">SSN</option>
-                       <option value="drivers_license">Driver's License</option>
+#                      <option value="drivers_license">Driver's License</option>
                      </select>
                   </div>
                   <div class="list-group-item">
-                     <input type="number" required="" class="form-control no-border" name="document_value" placeholder="123-456-7890">
+                     <input type="number" required="" class="form-control no-border" name="document_value" placeholder="123-45-7890">
                   </div>
                 </div>
               </div>
