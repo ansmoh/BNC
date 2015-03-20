@@ -17,10 +17,11 @@
 <template name="CoinBlock">
         <div class="col-md-3">
           <div class="panel no-border">
-            <a class="panel-heading bg-default" data-toggle="modal" data-target="#buySellModal" data-currency="{{code}}" data-rate="{{rate}}" >
-              <div class="text-center m-t-md"> 
-                <div class="thumb-lg m-b-lg">
+            <a class="panel-heading bg-default" data-toggle="modal" data-target="#buySellModal" data-currency="{{code}}" data-rate="{{rate}}" data-active="{{active}}" >
+              <div class="text-center">
+                <div class="thumb-lg avatar m-b-lg">
                   <img src="img/{{code}}.png" class="img-circle">
+                  <i class="b-white top right {{activeClass}}"></i>
                   <!-- <i class="fa fa-btc fa-5x"></i> -->
                 </div> 
                 <br>    
@@ -49,8 +50,11 @@
         <div class="modal-body m">
           <div class="form-group row">
             <div class="col-md-6">
-              <img src="img/{{currency}}.png" class="img-circle w-xs">
-              <!-- <i class="fa fa-btc fa-5x"></i> -->
+              <div class="thumb-md avatar">
+                <img src="img/{{currency}}.png" class="img-circle w-xs">
+                <i class="b-white top right {{activeClass}}"></i>
+                <!-- <i class="fa fa-btc fa-5x"></i> -->
+              </div>
             </div>
             <div class="col-md-3">
               {{#if addDepositButton}}
@@ -59,10 +63,10 @@
               </div>
               {{else}}
               <div class="row">
-                <button class="btn btn-primary m-b" data-toggle="modal" data-target="#buyModal" data-currency="{{currency}}" data-rate="{{rate}}">{{increaseButtonText}}</button>
+                <button class="btn btn-primary m-b {{isInactive}}" data-toggle="modal" data-target="#buyModal" data-currency="{{currency}}" data-rate="{{rate}}">{{increaseButtonText}}</button>
               </div>
               <div class="row">
-                <button class="btn btn-info" data-toggle="modal" data-target="#sellModal" data-currency="{{currency}}" data-rate="{{rate}}">Sell</button>
+                <button class="btn btn-info {{isInactive}}" data-toggle="modal" data-target="#sellModal" data-currency="{{currency}}" data-rate="{{rate}}">Sell</button>
               </div>
               {{/if}}
             </div>

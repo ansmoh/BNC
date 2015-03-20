@@ -1,24 +1,39 @@
 Template.BuyModal.rendered = function () {
   $('#buyModal').on('show.bs.modal', function (event) {
-    console.log('aa', 'shown');
-    var button = $(event.relatedTarget); // Button that triggered the modal
-    var currency = button.data('currency'); // Extract info from data-* attributes
-    Session.set('buyCurrency', currency);
-    var rate = button.data('rate'); // Extract info from data-* attributes
-    Session.set('buyRate', rate);
+    // console.log('buyModal', 'shown');
+    // var button = $(event.relatedTarget); // Button that triggered the modal
+    // var currency = button.data('currency'); // Extract info from data-* attributes
+    // console.log('currency', button.data('currency'));
+    // Session.set('buyCurrency', currency);
+    // var rate = button.data('rate'); // Extract info from data-* attributes
+    // console.log('rate', button.data('rate'));
+    // Session.set('buyRate', rate);
+    var curr = Session.get('buyCurrency'), rt = Session.get('buyRate');
     var modal = $(this);
     var amount = parseInt(modal.find('.modal-body #amount').val()) || 0;
     Session.set('buyCoins', amount); //to set initially
-    modal.find('.modal-title').text('Buy request for ' + currency);
-    modal.find('.modal-body #currency').val(currency);
-    modal.find('.modal-body .currency-text').text(currency);
-    modal.find('.modal-body .rate-text').text('@' + (parseFloat(rate) * 1.01).toFixed(5) + ' USD');
+    modal.find('.modal-title').text('Buy request for ' + curr);
+    modal.find('.modal-body #currency').val(curr);
+    modal.find('.modal-body .currency-text').text(curr);
+    modal.find('.modal-body .rate-text').text('@' + (parseFloat(rt) * 1.01).toFixed(5) + ' USD');
+    Session.set('buyOption', true);
   })
 }
 
 Template.BuyModal.helpers({
+  currency: function () {
+    return Session.get('buyCurrency');
+  },
+  rate: function () {
+    return Session.get('buyRate');
+  },
   totalPrice: function () {
-    var totalPrice = parseFloat(Session.get('buyCoins')) / (parseFloat(Session.get('buyRate')) * 1.01);
+    if (Session.get('buyOption')) {
+      var totalPrice = parseFloat(Session.get('buyCoins')) * (parseFloat(Session.get('buyRate')) * 1.01);
+    }
+    else{
+      var totalPrice = parseFloat(Session.get('buyCoins')) / (parseFloat(Session.get('buyRate')) * 1.01);
+    }
     return parseFloat(Math.round(totalPrice * 100) / 100).toFixed(2);
   },
   balance : function () {
@@ -29,6 +44,9 @@ Template.BuyModal.helpers({
     });
     totalBalance = parseFloat(totalBalance).toFixed(2);
     return VMasker.toMoney(totalBalance, {separator: '.', delimiter: ','});
+  },
+  isBuyOption: function () {
+    return Session.get('buyOption');
   }
 });
 
@@ -39,6 +57,9 @@ Template.BuyModal.events({
       return;
     }
 
+    if (Session.get('buyOption')) {
+      amount = amount * (parseFloat(Session.get('buyRate')) * 1.01);
+    }
     var currency = template.find('#buyModal #currency').value;
     console.log('inputs', amount, currency);
     //Request to server
@@ -48,10 +69,11 @@ Template.BuyModal.events({
         alert(error)
       } else {
         console.log(result)
+        template.find('#buyModal #amount').value = ''
+        $('#buyModal').modal('hide')
       }
     })
 
-    $('#buyModal').modal('hide');
   },
   'propertychange #amount, change #amount, click #amount, keyup #amount, input #amount, paste #amount': function (evt, template) {
     var amount = template.find('#amount').value;
@@ -63,6 +85,15 @@ Template.BuyModal.events({
     }
   },
   'click .buy-max':function(e, t){
-    t.find('#buyModal #amount').value = parseFloat(t.find('#buyModal #t-balance').innerHTML.replace(/,/g, ''));
+    if (Session.get('buyOption')) {
+      var tb = parseFloat(t.find('#buyModal #t-balance').innerHTML.replace(/,/g, ''));
+      var coins = tb / (parseFloat(Session.get('buyRate')) * 1.01);
+      t.find('#buyModal #amount').value = parseFloat(Math.round(coins * 100) / 100).toFixed(2);
+    }
+    else
+      t.find('#buyModal #amount').value = parseFloat(t.find('#buyModal #t-balance').innerHTML.replace(/,/g, ''));
+  },
+  'change #buyCurrency, change #exchangeCurrency': function (e, t) {
+    Session.set('buyOption', t.find('#buyModal #buyCurrency').checked)
   }
 })
