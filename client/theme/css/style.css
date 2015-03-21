@@ -5,3 +5,9 @@
 .deposit-page .panel-heading{
 	min-height: 210px;
 }
+
+.avatar.thumb-lg i {
+  width: 20px;
+  height: 20px;
+  margin: 3px;
+}

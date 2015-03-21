@@ -1,14 +1,19 @@
 Template.BuySellModal.rendered = function () {
   $('#buySellModal').on('show.bs.modal', function (event) {
-   console.log('in', 'shown');
-   var button = $(event.relatedTarget); // Button that triggered the modal
-   var currency = button.data('currency'); // Extract info from data-* attributes
-   Session.set('buyCurrency', currency);
-   var rate = button.data('rate'); // Extract info from data-* attributes
-   Session.set('buyRate', rate);
-   var modal = $(this);
-   modal.find('.modal-title').text(currency);
-   modal.find('.modal-body .rate').text(parseFloat(Math.round(rate * 100000) / 100000));
+    console.log('in', 'shown');
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var currency = button.data('currency'); // Extract info from data-* attributes
+    Session.set('buyCurrency', currency);
+    var rate = button.data('rate'); // Extract info from data-* attributes
+    Session.set('buyRate', rate);
+    var active = button.data('active'); // Extract info from data-* attributes
+    Session.set('isCurrencyActive', active);
+    var modal = $(this);
+    modal.find('.modal-title').text(currency);
+    modal.find('.modal-body .rate').text(parseFloat(Math.round(rate * 100000) / 100000));
+    if (!active) {
+      toastr.error('Currency '+ Session.get('buyCurrency') +' is inactive for some reasons. Please wait until it is activated again or contact support.', 'Currency Inactive');
+    };
   })
 }
 
@@ -29,6 +34,9 @@ Template.Trade.helpers({
 Template.CoinBlock.helpers({
   isNewRow: function () {
     return ((this.position+1) % 4 == 0)
+  },
+  activeClass: function () {
+    return this.active ? 'on' : 'busy'
   },
   roundedRate: function () {
      // var rt = (this.rate).toPrecision(5);
@@ -62,5 +70,18 @@ Template.BuySellModal.helpers({
       };
     });
     return disabled;
+  },
+  activeClass: function () {
+    return Currencies.find({code: Session.get('buyCurrency')}).map(function (currency) {
+      return currency.active ? 'on' : 'busy'
+    })
+  },
+  isInactive: function () {
+    return Currencies.find({code: Session.get('buyCurrency')}).map(function (currency) {
+      if (currency.active) {
+        return ''
+      };
+      return 'disabled'
+    })
   }
 })
