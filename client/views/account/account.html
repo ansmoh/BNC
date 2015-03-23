@@ -51,45 +51,6 @@
           {{#each customerInfo}}
           <div class="col-md-6">
             <div class="panel no-border">
-              <div class="panel-heading bg-success lt">
-                <div class="m-sm">
-                  <span class="h4 text-white">Personal Information </span>
-                </div> 
-              </div> 
-              <div class="panel-body bg-light">
-                {{#if blockscore}}
-                  <table class="table table-striped">
-                    <tbody>
-                      <tr>
-                        <td>Name</td>
-                        <td>{{blockscore.name_first}} {{#if blockscore.name_middle}}{{blockscore.name_middle}} {{/if}}{{blockscore.name_last}} </td>
-                      </tr>
-                      <tr>
-                        <td>Birthday</td>
-                        <td>{{blockscore.birth_day}}/{{blockscore.birth_month}}/{{blockscore.birth_year}} </td>
-                      </tr>
-                      {{#if contactNo}} 
-                      <tr>
-                        <td>Phone Number</td>
-                        <td>{{contactNo}}</td>
-                      </tr>
-                      {{/if}}
-                      <tr>
-                        <td class="text-u-c">{{blockscore.document_type}}</td>
-                        <td>{{blockscore.document_value}} </td>
-                      </tr>
-                      <tr>
-                        <td>Verification Status</td>
-                        <td>{{blockscore.status}}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                {{/if}}
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="panel no-border">
               <div class="panel-heading bg-info lt">
                 <div class="m-sm">
                   <span class="h4 text-white">Address</span>
@@ -122,6 +83,41 @@
                     </tbody>
                   </table>
                 {{/if}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="panel no-border">
+              <div class="panel-heading bg-success lt">
+                <div class="m-sm">
+                  <span class="h4 text-white">Notifications/Alerts </span>
+                </div> 
+              </div> 
+              <div class="panel-body bg-light">
+                <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="checkbox">
+                          <label class="control-label" for="notifUpdate">
+                            <input type="checkbox" class="form-control" id="notifUpdate" {{isUpdateNotifChecked}}>
+                            News/Updates
+                          </label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="checkbox">
+                          <label class="control-label" for="notifPromotion">
+                            <input type="checkbox" class="form-control" id="notifPromotion" {{isPromotionNotifChecked}}>
+                            Promotions
+                          </label>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
