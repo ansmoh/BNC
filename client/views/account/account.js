@@ -33,5 +33,21 @@ Template.Account.helpers({
       return "success";
     };
     return "danger";
+  },
+  isUpdateNotifChecked: function (){
+    Session.set('cID', this._id);
+    return (this.notifUpdate)? 'checked': '';
+  },
+  isPromotionNotifChecked: function (){
+    return (this.notifPromotion)? 'checked': '';
   }
 });
+
+Template.Account.events({
+  'change #notifUpdate': function (e, t){
+    CustomerInfo.update({_id: Session.get('cID')}, {$set: {notifUpdate: t.find('#notifUpdate').checked}});
+  },
+  'change #notifPromotion': function (e, t){
+    CustomerInfo.update({_id: Session.get('cID')}, {$set: {notifPromotion: t.find('#notifPromotion').checked}});
+  }
+})

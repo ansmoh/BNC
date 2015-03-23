@@ -3,8 +3,18 @@ AdminConfig = {
   nonAdminRedirectRoute: "/",
   adminEmails:['buyanycoin@gmail.com', 'thor@buyanycoin.com', 'kapil.tomar@ongraph.com'],
   collections: {
+    Currencies: {
+      icon: "usd",
+      tableColumns:[
+        {label: 'Currency Code', name: 'code'},
+        {label: 'Name', name: 'name'},
+        {label: 'Price(in USD)', name: 'rate'},
+        {label: 'Price(in BTC)', name: 'btcRate'},
+        {label: 'Status', name: 'active'}
+      ]
+    },
     CustomerInfo: {
-      icon: "users",
+      icon: "info-circle",
       color: "green",
       omitFields: ['userId'],
       tableColumns:[
