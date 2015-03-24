@@ -5,6 +5,7 @@ AdminConfig = {
     CustomerInfo: {},
     WithdrawalRequest:{},
     Transactions:{},
+    AccountStatus:{},
     Voucher:{}
   }
 };

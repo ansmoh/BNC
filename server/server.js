@@ -209,6 +209,39 @@ Meteor.methods({
       fee: Utility.depositFee('USD', totalFee, note + ' and fee is '+ totalFee)
     }
   },
+  sell: function (currency, count) {
+    check(currency, String);
+    check(count, Number);
+    console.log('currency', currency);
+    console.log('count', count);
+
+    var rate = Utility.getRate('USD', currency);
+    rate = parseFloat(rate).toFixed(5);
+    console.log('rate', rate);
+    rate = rate * 0.98; //2% down for selling
+    var unitFee = rate * 0.01; //fee for transaction
+    console.log('unitFee', unitFee);
+    var cRate = parseFloat(parseFloat(rate) - parseFloat(unitFee)).toFixed(5)
+    console.log('cRate', cRate);
+    var amount = Number(parseFloat(count * cRate).toFixed(2));
+    console.log('amount', amount);
+    var totalFee = count * unitFee;
+    console.log('totalFee', totalFee);
+    var note = 'Sell: Sold ' + count + ' ' + currency + ' for ' + amount + ' USD @ ' + cRate;
+
+    if (Utility.getTotalBalance('USD') < amount) {
+      throw new Meteor.Error("insufficient-funds", 'There is not enough USD for this transaction.')
+      return {
+        failMessage: 'There are not enough USD for this transaction.'
+      }
+    }
+
+    return {
+      debit: Utility.addTransaction('USD', amount, note),
+      credit: Utility.addTransaction(currency, -count, note),
+      fee: Utility.depositFee('USD', totalFee, note + ' and fee is '+ totalFee)
+    }
+  },
   depositViaKnox: function (currency, amount, txnid) {
     return Utility.addTransaction(currency, amount, 'Deposit: Knox', txnid);
   },

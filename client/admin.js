@@ -25,6 +25,15 @@ AdminConfig = {
         {label: 'Status', name: 'status'}
       ]
     },
+    AccountStatus: {
+      icon: "exclamation-triangle",
+      color: "red",
+      omitFields: ['userId'],
+      tableColumns:[
+        {label: 'User', name: 'userId'},
+        {label: 'Email', name: 'email'}
+      ]
+    },
     WithdrawalRequest:{
       icon: "sign-out",
       color: "purple",

@@ -1,0 +1,25 @@
+<!-- Modal -->
+<template name="SellModal">
+  <div class="modal fade m-t" id="sellModal" tabindex="-1" role="dialog" aria-labelledby="sellModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title font-bold" id="sellModalLabel">Sell</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="coinCount" class="control-label">Amount(Coins):</label>
+            <input type="text" class="form-control" id="coinCount">
+            <input type="hidden" class="form-control" id="currency">
+            <span class="rate-text"></span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary sell">Sell</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
