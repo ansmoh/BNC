@@ -67,6 +67,9 @@ Template.Profile.helpers({
     return 'danger'
   },
   showVerificationArea: function () {
+    if (this.status== 'complete') {
+      Session.set('showVerificationArea', null);
+    };
     return Session.equals('showVerificationArea', true)
   },
   totalDeposit: function () {
