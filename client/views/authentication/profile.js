@@ -17,11 +17,34 @@ Template.Profile.helpers({
     if (this.status == 'complete') {
       return "Authorized"
     };
+    if (this.status == 'pending' && this.contactNo) {
+      var infoId = this._id;
+      Meteor.call('verifyNumber', this.contactNo.replace('-', ''), function (error, result) {
+        console.log("verifyNumber res ", error, result)
+        if (error) {
+          console.log(error)
+          toastr.error(error.reason, 'Phone Verification')
+        } else {
+          console.log(result)
+          if(!result.data.success)
+            toastr.error(result.data.message, 'Phone Verification')
+          else{
+            Session.set('showVerificationArea', true);
+            CustomerInfo.update({_id: infoId}, {$set: {status: 'processing'}})
+            toastr.success(result.data.message, 'Phone Verification')
+          }
+        }
+      })
+      
+    };
     return this.status
   },
   statusClass: function () {
     if (this.status == 'complete' && this.nickName != "" && Meteor.user().emails[0].verified) {
       return "success"
+    }
+    else if(this.status == 'processing'){
+      return 'info'
     };
     return 'warning'
   },
@@ -179,6 +202,7 @@ Template.BlockscoreModal.events({
         console.log('resp', resp, res.data);
         toastr.success('Verification successful.', 'Verification');
         $('#tier2').removeClass('in');
+        $('#blockscore-form').modal('hide')
       })
     })
   }
