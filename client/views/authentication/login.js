@@ -17,8 +17,13 @@ Template.Login.events({
       if (err){
         // The user might not have been found, or their passwword
         // could be incorrect. Inform the user that their
-        // login attempt has failed.
-        toastr.error(err, 'Login error');
+        // login attempt has failed.      
+        if (err.reason.indexOf('forbidden') > -1) {
+          toastr.error("Your account is not active. Please contact admin to activate your account.", 'Login error: Account blocked');
+        }
+        else{
+          toastr.error(err.reason, 'Login error');
+        };  
       } else {
         // The user has been logged in.
         console.log('logged in')

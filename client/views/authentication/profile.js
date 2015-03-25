@@ -20,7 +20,7 @@ Template.Profile.helpers({
     return this.status
   },
   statusClass: function () {
-    if (this.status == 'complete') {
+    if (this.status == 'complete' && this.nickName != "" && Meteor.user().emails[0].verified) {
       return "success"
     };
     return 'warning'
@@ -82,11 +82,13 @@ Template.Profile.helpers({
 
 Template.Profile.events({
   'click .verify':function (e, t) {
-    t.find('.verify').innerHTML = 'Resend token';
+    console.log("in verify area")
+    //t.find('.verify').innerHTML = 'Resend token';
     Meteor.call('verifyNumber', this.contactNo.replace('-', ''), function (error, result) {
+      console.log("verifyNumber res ", error, result)
       if (error) {
         console.log(error)
-        toastr.error(error, 'Phone Verification')
+        toastr.error(error.reason, 'Phone Verification')
       } else {
         console.log(result)
         if(!result.data.success)
@@ -166,15 +168,15 @@ Template.BlockscoreModal.events({
     Meteor.call('verifyBlockScoreUser', userData, function (err, res) {
       // console.log(err, res);
       if (err) {
-        toastr.error(err, 'Verification Error');
+        toastr.error(err.reason, 'Verification Error');
         return console.log(err);
       };
       Meteor.call('saveUserInfo', userData, res.data, function(error, resp){
         if (error) {
-          toastr.error(error, 'Verification Error');
+          toastr.error(error.reason, 'Verification Error');
           return console.log(error);
         };
-        console.log('resp', resp);
+        console.log('resp', resp, res.data);
         toastr.success('Verification successful.', 'Verification');
         $('#tier2').removeClass('in');
       })

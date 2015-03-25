@@ -25,7 +25,7 @@ Template.SignUp.events({
         if (err) {
           // Inform the user that account creation failed
           // alert(err);
-          toastr.error(err, 'SignUp error');
+          toastr.error(err.reason, 'SignUp error');
         } else {
           // Success. Account has been created and the user
           // has logged in successfully. 

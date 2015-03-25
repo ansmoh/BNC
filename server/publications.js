@@ -21,3 +21,7 @@ Meteor.publish('withdrawRequest', function() {
 Meteor.publish('voucher', function() {
   return Voucher.find();
 });
+
+Meteor.publish('accountStatus', function() {
+  return AccountStatus.find({userId: this.userId});
+});
