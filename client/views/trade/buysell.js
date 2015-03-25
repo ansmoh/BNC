@@ -41,7 +41,10 @@ Template.CoinBlock.helpers({
   roundedRate: function () {
      // var rt = (this.rate).toPrecision(5);
      // return parseFloat(rt).toString();
-    return parseFloat(Math.round(this.rate * 100000) / 100000);
+    if (this.code == "USD") {
+      return parseFloat(Math.round(this.rate * 100) / 100).toFixed(2);
+    };
+    return parseFloat(Math.round(this.rate * 1000000) / 1000000).toFixed(6);
   }
 });
 
