@@ -34,7 +34,7 @@ Template.BuyModal.helpers({
     else{
       var totalPrice = parseFloat(Session.get('buyCoins')) / (parseFloat(Session.get('buyRate')) * 1.01);
     }
-    return parseFloat(Math.round(totalPrice * 100) / 100).toFixed(2);
+    return parseFloat(Math.round(totalPrice * 100) / 100).toFixed(5);
   },
   balance : function () {
     var totalBalance = 0;
@@ -57,8 +57,8 @@ Template.BuyModal.events({
       return;
     }
 
-    if (Session.get('buyOption')) {
-      amount = amount * (parseFloat(Session.get('buyRate')) * 1.01);
+    if (!Session.get('buyOption')) {
+      amount = parseFloat(amount / parseFloat(Session.get('buyRate')));
     }
     var currency = template.find('#buyModal #currency').value;
     console.log('inputs', amount, currency);

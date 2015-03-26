@@ -1,7 +1,15 @@
 <template name="Wallets">
   <div class="app-content-body fade-in-up">
     <div class="bg-light lter b-b wrapper-md">
-      <h1 class="m-n font-thin h3">Wallets</h1>
+      <div class="row">
+        <div class="col-sm-4">
+          <h1 class="m-n font-thin h3">Wallets</h1>
+        </div>
+        <div class="col-sm-4">
+          <h1 class="m-n h3 text-center">Total Balance: ${{total}}</h1>
+        </div>
+        <div class="col-sm-4"></div>
+      </div>
     </div> 
 
     <div class="wrapper-md">
@@ -9,6 +17,12 @@
         {{#each currencies}}
           {{> Wallet}}
         {{/each}}
+      </div>
+    </div>
+
+    <div class="wrapper-md">
+      <div class="row">
+        {{> TransactionHistory}}
       </div>
     </div>
 
@@ -37,4 +51,39 @@
         {{#if isNewRow}}
         <div class="clear"></div>
         {{/if}}
+</template>
+
+<template name="TransactionHistory">
+    <div class="col-lg-12">
+      {{#if alltransactions}}
+      <div class="table-responsive bg-white">
+        <table class="table table-striped">
+          <thead>
+            <tr class="bg-info">
+              <th>Currency</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each alltransactions}}
+              {{> TransactionHistoryDetail}}
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+      {{else}}
+      <span>No transaction found for {{currency}}</span>
+      {{/if}}
+    </div>
+</template>
+
+<template name="TransactionHistoryDetail">
+    <tr>
+      <td><i class="fa fa-arrow-right text-{{colorClass}}"></i> {{currency}}</td>
+      <td class="text-{{colorClass}} fw-b">{{amount}}</td>
+      <td><span class="label label-{{labelColorClass}}">{{status}}</span></td>
+      <td>{{timestamp}}</td>
+    </tr>
 </template>

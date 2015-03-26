@@ -24,10 +24,10 @@ Template.WalletsModal.helpers({
 		return Session.get('WalletModelCurrency');
 	},
 	exchangeBalance: function () {
-		return parseFloat(Session.get('WalletModelBalance'))*parseFloat(Session.get('WalletModelRate'));
+		return (parseFloat(Session.get('WalletModelBalance'))*parseFloat(Session.get('WalletModelRate'))).toFixed(6);
 	},
 	transactions: function () {
-		return Transactions.find({user: Meteor.userId(), currency: Session.get('WalletModelCurrency')}).fetch();
+		return Transactions.find({user: Meteor.userId(), currency: Session.get('WalletModelCurrency')}, {sort: {timestamp: -1}}).fetch();
 	}
 });
 
