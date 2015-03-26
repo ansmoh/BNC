@@ -177,11 +177,11 @@ Meteor.methods({
     Utility.addTransaction(currency, -amount, 'Withdraw -> ' + destination)
     return Utility.addWithdrawRequest(currency, amount, destination)
   },
-  buy: function (currency, amount) {
+  buy: function (currency, count) {
     check(currency, String);
-    check(amount, Number);
+    check(count, Number);
     console.log('currency', currency);
-    console.log('amount', amount);
+    console.log('count', count);
 
     var rate = Utility.getRate('USD', currency);
     rate = parseFloat(rate).toFixed(5);
@@ -190,11 +190,11 @@ Meteor.methods({
     console.log('unitFee', unitFee);
     var cRate = parseFloat(parseFloat(rate) + parseFloat(unitFee)).toFixed(5)
     console.log('cRate', cRate);
-    var quantity = Number(parseFloat(amount / cRate).toFixed(2));
-    console.log('quantity', quantity);
-    var totalFee = quantity * unitFee;
+    var amount = Number(parseFloat(count * cRate).toFixed(2));
+    console.log('count', count);
+    var totalFee = count * unitFee;
     console.log('totalFee', totalFee);
-    var note = 'Bought ' + quantity + ' ' + currency + ' for ' + amount + ' USD @ ' + cRate;
+    var note = 'Bought ' + count + ' ' + currency + ' for ' + amount + ' USD @ ' + cRate;
 
     if (Utility.getTotalBalance('USD') < amount) {
       throw new Meteor.Error("insufficient-funds", 'There is not enough USD for this transaction.')
@@ -204,7 +204,7 @@ Meteor.methods({
     }
 
     return {
-      debit: Utility.addTransaction(currency, quantity, note),
+      debit: Utility.addTransaction(currency, count, note),
       credit: Utility.addTransaction('USD', -amount, note),
       fee: Utility.depositFee('USD', totalFee, note + ' and fee is '+ totalFee)
     }

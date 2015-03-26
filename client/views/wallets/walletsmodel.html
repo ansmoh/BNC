@@ -12,35 +12,36 @@
         </div>
         <div class="modal-body m-sm">
           <div class="row">
-            <span>Current Balance</span>
-          </div>
-          <div class="form-group row">
-            <span class="h4 text-success">{{currencyBalance}} {{currency}}</span>
-            <span class="h4"> = {{exchangeBalance}} USD</span>
-          </div>
-          <div class="form-group row">
-            {{#if transactions}}
-            <div class="table-responsive bg-white">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>Transaction</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {{#each transactions}}
-                    {{> TransactionDetail}}
-                  {{/each}}
-                </tbody>
-              </table>
+            <div class="col-xs-8 m-b-md">
+              <span>Current Balance</span><br>
+              <span class="h4 text-success">{{currencyBalance}} {{currency}}</span>
+              <span class="h4"> = {{exchangeBalance}} USD</span>
             </div>
-            {{else}}
-            <span>No transaction found for {{currency}}</span>
-            {{/if}}
+            <div class="col-xs-4 m-b-md">
+              <button class="btn btn-primary">Withdraw</button>
+            </div>
           </div>
+          {{#if transactions}}
+          <div class="table-responsive bg-white">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Transaction</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each transactions}}
+                  {{> TransactionDetail}}
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+          {{else}}
+          <span>No transaction found for {{currency}}</span>
+          {{/if}}
         </div>  
       </div>
     </div>
