@@ -18,10 +18,13 @@ Template.WalletsModal.helpers({
 			totalBalance += parseFloat(transaction.amount)
 		});
 		Session.set('WalletModelBalance', totalBalance);
-		return totalBalance
+		return parseFloat(Math.round(totalBalance * 100000)/100000).toString()
 	},
 	currency: function () {
 		return Session.get('WalletModelCurrency');
+	},
+	display: function () {
+		return Session.get('WalletModelCurrency') == 'USD'? 'none' : '';
 	},
 	exchangeBalance: function () {
 		return (parseFloat(Session.get('WalletModelBalance'))*parseFloat(Session.get('WalletModelRate'))).toFixed(6);

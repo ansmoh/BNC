@@ -1,4 +1,5 @@
 Template.Profile.rendered = function() {
+    $('[data-toggle="tooltip"]').tooltip()
     VMasker(this.find("[maskphone]")).maskPattern("999-999-9999");
 };
 
@@ -30,6 +31,7 @@ Template.Profile.helpers({
             toastr.error(result.data.message, 'Phone Verification')
           else{
             Session.set('showVerificationArea', true);
+            $('#tier1').addClass('in')
             CustomerInfo.update({_id: infoId}, {$set: {status: 'processing'}})
             toastr.success(result.data.message, 'Phone Verification')
           }
@@ -98,6 +100,7 @@ Template.Profile.helpers({
     return  diffDays + ' days ago ('+ dt.toDateString()+')';
   },
   depositPanelClass: function () {
+    $('[data-toggle="tooltip"]').tooltip() //just hack: initiating again if not added anywhere on render
     console.log('lastTimeStamp', Session.get('lastTimeStamp'), new Date().setDate((new Date().getDate())-30));
     if (Session.get('depositVerified') && (Session.get('lastTimeStamp').getTime() < new Date().setDate((new Date().getDate())-30))) {
       return "success";
@@ -208,5 +211,32 @@ Template.BlockscoreModal.events({
         $('#blockscore-form').modal('hide')
       })
     })
+  },
+  'propertychange .numbers, change .numbers, click .numbers, keydown .numbers, input .numbers, paste .numbers': function (e, t) {
+    // Allow: backspace, delete, tab, escape, enter and no need of . so not allowing 110, 190
+    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13]) !== -1 ||
+       // Allow: Ctrl+A
+       (e.keyCode == 65 && e.ctrlKey === true) || 
+       // Allow: home, end, left, right, down, up
+       (e.keyCode >= 35 && e.keyCode <= 40)) {
+        // let it happen, don't do anything
+        return;
+    }
+    // Ensure that it is a number and stop the keypress
+    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+      e.preventDefault();
+    }
+  },
+  'propertychange .chars, change .chars, click .chars, keydown .chars, input .chars, paste .chars': function (e, t) {
+    // Allow: backspace, delete, tab, escape, enter
+    if ($.inArray(e.keyCode, [8, 46, 9, 27, 13]) !== -1 ||
+       // Allow: home, end, left, right, down, up
+       (e.keyCode >= 35 && e.keyCode <= 40) ||
+       // Allow: a-z and A-Z
+       (e.keyCode >= 65 && e.keyCode <= 90)) {
+        // let it happen, don't do anything
+        return;
+    }
+    e.preventDefault();
   }
 })

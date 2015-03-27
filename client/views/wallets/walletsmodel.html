@@ -15,10 +15,10 @@
             <div class="col-xs-8 m-b-md">
               <span>Current Balance</span><br>
               <span class="h4 text-success">{{currencyBalance}} {{currency}}</span>
-              <span class="h4"> = {{exchangeBalance}} USD</span>
+              <span class="h4 {{display}}"> = {{exchangeBalance}} USD</span>
             </div>
             <div class="col-xs-4 m-b-md">
-              <button class="btn btn-primary">Withdraw</button>
+              <button class="btn btn-primary" data-toggle="modal" data-target="#withdrawModal">Withdraw</button>
             </div>
           </div>
           {{#if transactions}}

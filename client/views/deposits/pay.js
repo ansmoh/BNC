@@ -49,6 +49,9 @@ Template.Pay.helpers({
 
 // Run if we see parameters in the url in url
 if (undefined !== Utils.parseUrl().completed){
+  if (Utils.parseUrl().completed == 'cancelled' || Utils.parseUrl().completed == 'canceled') {
+    window.location.href = '/trade'
+  };
   Session.set('depositStatus', 'Processing transaction.....')
   var payID = Utils.parseUrl().pay_id
   // HTTP call to knoxpayments to get the transaction_details according to the txnID
