@@ -34,7 +34,7 @@ Template.BuyModal.helpers({
     else{
       var totalPrice = parseFloat(Session.get('buyCoins')) / (parseFloat(Session.get('buyRate')) * 1.01);
     }
-    return parseFloat(Math.round(totalPrice * 100) / 100).toFixed(5);
+    return parseFloat(Math.round(totalPrice * 100000) / 100000).toFixed(5);
   },
   balance : function () {
     var totalBalance = 0;
@@ -92,6 +92,8 @@ Template.BuyModal.events({
     }
     else
       t.find('#buyModal #amount').value = parseFloat(t.find('#buyModal #t-balance').innerHTML.replace(/,/g, ''));
+
+    Session.set('buyCoins', t.find('#buyModal #amount').value);
   },
   'change #buyCurrency, change #exchangeCurrency': function (e, t) {
     Session.set('buyOption', t.find('#buyModal #buyCurrency').checked)

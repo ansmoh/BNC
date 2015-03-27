@@ -14,6 +14,7 @@
                   <div class="m-sm">
                     <span class="h4 text-white">Tier 1</span>
                     <span class="h4 text-white pull-right" data-toggle="collapse" data-target="#tier1" aria-expanded="false" aria-controls="tier1" style="cursor:pointer"><i class="fa fa-toggle-down"></i></span>
+                    <span class="h4 text-white pull-right m-r-sm" data-toggle="tooltip" data-placement="top" title="Tier 1 requires a valid phone number and a full name to be verified. Once you have confirmed these two requirements you will have access to transact $800 a day." style="cursor:pointer"><i class="fa fa-question-circle"></i></span>
                   </div> 
                   <div class="collapse text-center m-t-md" id="tier1">  
                     <p>
@@ -41,8 +42,9 @@
           {{else}} 
             <div class="panel-heading bg-danger">
               <div class="m-sm">
-                <span class="h4 text-white">Level 1</span>
+                <span class="h4 text-white">Tier 1</span>
                 <span class="h4 text-white pull-right" data-toggle="collapse" data-target="#tier1" aria-expanded="false" aria-controls="tier1" style="cursor:pointer"><i class="fa fa-toggle-down"></i></span>
+                <span class="h4 text-white pull-right m-r-sm" data-toggle="tooltip" data-placement="top" title="Tier 1 requires a valid phone number and a full name to be verified. Once you have confirmed these two requirements you will have access to transact $800 a day." style="cursor:pointer"><i class="fa fa-question-circle"></i></span>
               </div> 
               <div class="collapse text-center m-t-md" id="tier1">  
                 {{#autoForm collection="CustomerInfo" id="afCustomerInfo" class="form" type="insert"}}
@@ -95,7 +97,8 @@
             <div class="panel-heading bg-{{bsPanelClass}}">
               <div class="m-sm">
                 <span class="h4 text-white">Tier 2</span>
-                 <span class="h4 text-white pull-right" data-toggle="collapse" data-target="#tier-2" aria-expanded="false" aria-controls="tier2" style="cursor:pointer"><i class="fa fa-toggle-down"></i></span>
+                <span class="h4 text-white pull-right" data-toggle="collapse" data-target="#tier-2" aria-expanded="false" aria-controls="tier2" style="cursor:pointer"><i class="fa fa-toggle-down"></i></span>
+                <span class="h4 text-white pull-right m-r-sm" data-toggle="tooltip" data-placement="top" title="Tier 2 requires a full identity verification to include your address, tax ID number, birth date, etc. Once verified you will be allowed to transact up to $10,000 a day." style="cursor:pointer"><i class="fa fa-question-circle"></i></span>
 
               </div> 
               <div class="collapse text-center m-t-md" id="tier-2">
@@ -115,6 +118,7 @@
               <div class="m-sm">
                 <span class="h4 text-white">Tier 2</span>
                 <span class="h4 text-white pull-right" data-toggle="collapse" data-target="#tier2" aria-expanded="false" aria-controls="tier2" style="cursor:pointer"><i class="fa fa-toggle-down"></i></span>
+                <span class="h4 text-white pull-right m-r-sm" data-toggle="tooltip" data-placement="top" title="Tier 2 requires a full identity verification to include your address, tax ID number, birth date, etc. Once verified you will be allowed to transact up to $10,000 a day." style="cursor:pointer"><i class="fa fa-question-circle"></i></span>
               </div> 
               <div class="collapse text-center m-t-md" id="tier2">
                 <button class="btn btn-info" data-toggle="modal" data-target="#blockscore-form">Add details</button>
@@ -127,8 +131,9 @@
           <div class="panel no-border">
             <div class="panel-heading bg-{{depositPanelClass}}">
               <div class="m-sm">
-                <span class="h4 text-white">Level 3</span>
+                <span class="h4 text-white">Tier 3</span>
                 <span class="h4 text-white pull-right" data-toggle="collapse" data-target="#tier3" aria-expanded="false" aria-controls="tier3" style="cursor:pointer"><i class="fa fa-toggle-down"></i></span>
+                <span class="h4 text-white pull-right m-r-sm" data-toggle="tooltip" data-placement="top" title="Tier 3 requires $5,000 in confirmed deposits and a one month wait time from your first deposit. Once you have fulfilled this requirement you will be able to transact up to $50,000 per day." style="cursor:pointer"><i class="fa fa-question-circle"></i></span>
               </div> 
               <div class="collapse text-center m-t-md" id="tier3">
                 <p>You have deposited total <strong>{{totalDeposit}} USD</strong> till now.</p>    
@@ -155,21 +160,21 @@
             <div class="row">
               <div class="col-sm-6">
                 <div class="list-group list-group-sm">
-                  <div class="list-group-item">
-                    <label>Identity</label>
+                  <div class="list-group-item text-center">
+                    <label class="text-muted font-bold">Identity</label>
                   </div>
                   <div class="list-group-item">
                     <div class="row">
                       <div class="col-sm-5">
-                        <input type="text" required="" class="form-control no-border" name="name_first" placeholder="Satoshi">
+                        <input type="text" required="" class="form-control no-border chars" name="name_first" placeholder="Satoshi" maxlength="25">
                       </div>
                       <div class="col-sm-2 b-l b-r">
 
-                        <input type="text" class="form-control no-border" name="name_middle" placeholder="V" maxlength="1">
+                        <input type="text" class="form-control no-border chars" name="name_middle" placeholder="V" maxlength="1">
 
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" required="" class="form-control no-border" name="name_last" placeholder="Nakamoto" >
+                        <input type="text" required="" class="form-control no-border chars" name="name_last" placeholder="Nakamoto" maxlength="25">
                       </div>
                     </div>
                   </div>
@@ -214,22 +219,22 @@
                     <!-- <label>Document</label> -->
                   <!-- </div> -->
                   <div class="list-group-item">
-                     <select name="document_type" class="form-control no-border" >
-                       <option value="ssn">SSN</option>
-#                      <option value="drivers_license">Driver's License</option>
-                     </select>
+                    <select name="document_type" class="form-control no-border" >
+                      <option value="ssn">SSN</option>
+                      <!-- <option value="drivers_license">Driver's License</option> -->
+                    </select>
                   </div>
                   <div class="list-group-item">
 
-                     <input type="text" required="" class="form-control no-border" name="document_value" placeholder="123-456-7890">
+                     <input type="text" required="" class="form-control no-border numbers" name="document_value" placeholder="123-456-7890" maxlength="9">
 
                   </div>
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="list-group list-group-sm">
-                  <div class="list-group-item">
-                    <label>Address</label>
+                  <div class="list-group-item text-center">
+                    <label class="text-muted font-bold">Address</label>
                   </div>
                   <div class="list-group-item">
                      <input type="text" required="" class="form-control no-border" name="address_street1" placeholder="Street">
@@ -252,7 +257,7 @@
                         </select>
                       </div>
                       <div class="col-sm-4">
-                        <input type="text" required="" class="form-control no-border" name="address_postal_code" placeholder="Zip Code">
+                        <input type="text" required="" class="form-control no-border numbers" name="address_postal_code" placeholder="Zip Code" maxlength="5">
                       </div>
                     </div>
                   </div>

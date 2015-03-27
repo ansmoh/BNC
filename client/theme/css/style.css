@@ -11,3 +11,7 @@
   height: 20px;
   margin: 3px;
 }
+
+.navbar-brand img {
+	max-height: 36px !important;
+}
