@@ -2,7 +2,7 @@ if (Currencies.find().count() === 0) {
   Currencies.insert({code: 'USD', name: 'Dollars', rate: 1, sortOrder: 1})
   Currencies.insert({code: 'BTC', name: 'Bitcoin' , rate: 389.01, sortOrder: 2})
   Currencies.insert({code: 'LTC', name: 'Litecoin', rate: 3.89, sortOrder: 3})
-  Currencies.insert({code: 'DRK', name: 'Darkcoin', rate: 2, sortOrder: 4})
+  Currencies.insert({code: 'DASH', name: 'Dash', rate: 2, sortOrder: 4})
   Currencies.insert({code: 'DOGE', name: 'Dogecoin', rate: 0.00001, sortOrder: 5})
   Currencies.insert({code: 'NXT', name: 'Nxt', rate: 0.012932, sortOrder: 6})
   Currencies.insert({code: 'XRP', name: 'Ripple', rate: 0.010950, sortOrder: 7})
