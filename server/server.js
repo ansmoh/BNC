@@ -288,5 +288,18 @@ Meteor.methods({
   },
   saveUserInfo: function(userData, blockScoreData){
     return Utility.saveUserInfo(userData, blockScoreData);  
+  },
+  resendVerificationEmail: function(){
+    return Accounts.sendVerificationEmail(Meteor.userId());
+  },
+  sendEmail: function(sub, content){
+    console.log("in send mail");
+    //send mail to user
+    return Email.send({
+        from: 'support@buyanycoin.com',
+        to: Meteor.user().emails[0].address,
+        subject: sub,
+        text: content
+      });
   }
 })

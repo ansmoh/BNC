@@ -66,6 +66,15 @@ Template.VoucherModal.events({
               $('.' + result.id + ' .status-text').text('Congrats!! You voucher has been redeemed for '+ result.amount +' '+ result.currency +'!!!');
               $('.' + result.id).addClass('has-success');
               success = true;
+              var content = 'Hello '+Meteor.user().emails[0].address+',\n\nCongrats!! You voucher has been redeemed for '+ result.amount +' '+ result.currency +'! \n\nThanks.'
+              Meteor.call('sendEmail', 'BuyAnyCoin: Voucher redeemed', content, function(err, res){
+                if (err) {
+                  console.log(err)
+                  toastr.error(err.reason, 'Mail not sent')
+                } else {
+                  console.log("Mail send successfully ")
+                }
+              })
             }
           })
           break;

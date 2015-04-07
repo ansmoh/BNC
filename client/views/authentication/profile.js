@@ -146,6 +146,15 @@ Template.Profile.events({
         else{
           Session.set('showVerificationArea', null);
           toastr.success(result.data.message, 'Phone Verification')
+          var content = 'Hello '+Meteor.user().emails[0].address+',\n\n Your tier1 details have been verified succesfully. \n\nThanks.'
+          Meteor.call('sendEmail', 'BuyAnyCoin: Tier1 verified', content, function(err, res){
+            if (err) {
+              console.log(err)
+              toastr.error(err.reason, 'Mail not sent')
+            } else {
+              console.log("Mail send successfully ")
+            }
+          })
           Meteor.call('authrizeNumber', function (err, res) {
             console.log(err, res);
           })
@@ -209,6 +218,18 @@ Template.BlockscoreModal.events({
         toastr.success('Verification successful.', 'Verification');
         $('#tier2').removeClass('in');
         $('#blockscore-form').modal('hide')
+        if (res.data.status && res.data.status == 'valid') {
+          var content = 'Hello '+Meteor.user().emails[0].address+',\n\n Your tier2 details have been verified succesfully. \n\nThanks.'
+          Meteor.call('sendEmail', 'BuyAnyCoin: Tier2 verified', content, function(err, res){
+            if (err) {
+              console.log(err)
+              toastr.error(err.reason, 'Mail not sent')
+            } else {
+              console.log("Mail send successfully ")
+            }
+          })
+        }
+
       })
     })
   },
