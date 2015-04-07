@@ -152,7 +152,7 @@ var Utility = {
       throw new Meteor.Error("not-logged-in", "Must be logged in to verify information.");
     }
     console.log("saveUserInfo", user, bsData);
-    return CustomerInfo.update({userId: Meteor.userId}, {$set:{firstName: user.name_first, middleName: user.name_middle, lastName: user.name_last, blockscore: bsData}});
+    return CustomerInfo.update({userId: Meteor.userId()}, {$set:{firstName: user.name_first, middleName: user.name_middle, lastName: user.name_last, blockscore: bsData}});
   }
 }
 
@@ -288,5 +288,18 @@ Meteor.methods({
   },
   saveUserInfo: function(userData, blockScoreData){
     return Utility.saveUserInfo(userData, blockScoreData);  
+  },
+  resendVerificationEmail: function(){
+    return Accounts.sendVerificationEmail(Meteor.userId());
+  },
+  sendEmail: function(sub, content){
+    console.log("in send mail");
+    //send mail to user
+    return Email.send({
+        from: 'support@buyanycoin.com',
+        to: Meteor.user().emails[0].address,
+        subject: sub,
+        text: content
+      });
   }
 })

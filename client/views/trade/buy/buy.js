@@ -38,10 +38,10 @@ Template.BuyModal.helpers({
   },
   fee: function () {
     if (Session.get('buyOption')) {
-      var fee = parseFloat(Session.get('buyCoins')) * (parseFloat(Session.get('modalRate')) * 0.01);
+      var fee = (parseFloat(Session.get('buyCoins')) * (parseFloat(Session.get('modalRate')) * 1.01)) * 0.01;
     }
     else{
-      var fee = parseFloat(Session.get('buyCoins')) / (parseFloat(Session.get('modalRate')) * 0.01);
+      var fee = parseFloat(Session.get('buyCoins')) * 0.01;
     }
     return parseFloat(Math.round(fee * 100000) / 100000).toFixed(5);
   },
@@ -52,6 +52,7 @@ Template.BuyModal.helpers({
       totalBalance += parseFloat(transaction.amount)
     });
     totalBalance = parseFloat(totalBalance).toFixed(2);
+    Session.set('totalBalance', totalBalance);
     return VMasker.toMoney(totalBalance, {separator: '.', delimiter: ','});
   },
   isBuyOption: function () {
@@ -67,7 +68,15 @@ Template.BuyModal.events({
     }
 
     if (!Session.get('buyOption')) {
+      if (parseFloat(Session.get('totalBalance')) < amount) {
+        return toastr.error('Please make a deposit.', 'Insufficient Funds');
+      };
       amount = parseFloat(amount / parseFloat(Session.get('modalRate')));
+    }
+    else{
+      if (parseFloat(Session.get('totalBalance')) < parseFloat(amount * parseFloat(Session.get('modalRate')))) {
+        return toastr.error('Please make a deposit.', 'Insufficient Funds');
+      };
     }
     var currency = template.find('#buyModal #currency').value;
     console.log('inputs', amount, currency);
@@ -101,7 +110,6 @@ Template.BuyModal.events({
     else{
       Session.set('buyCoins', amount);
     }
-    console.log('amount changed')
   },
   'click .buy-max':function(e, t){
     if (Session.get('buyOption')) {

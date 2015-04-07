@@ -26,3 +26,17 @@ Template.VerifyEmail.helpers({
     };
   }
 });
+
+Template.EmailVerificationInfo.events({
+  'click .resend': function (e, t) {
+    Meteor.call('resendVerificationEmail', function(err, res){
+      if (err) {
+        console.log(err)
+        toastr.error(err.reason, 'Mail not sent')
+      } else {
+        console.log("Mail send successfully ")
+        toastr.success("Mail sent successfully", 'Mail sent')
+      }
+    })
+  }
+});

@@ -75,6 +75,15 @@ if (undefined !== Utils.parseUrl().completed){
           }
           else {
             Session.set('depositStatus', amount+' has been successfully deposited to your account!')
+            var content = 'Hello '+Meteor.user().emails[0].address+',\n\n$'+amount+' has been successfully deposited to your account! \n\nThanks.'
+            Meteor.call('sendEmail', 'BuyAnyCoin: Deposit', content, function(err, res){
+              if (err) {
+                console.log(err)
+                toastr.error(err.reason, 'Mail not sent')
+              } else {
+                console.log("Mail send successfully ")
+              }
+            })
           }
         });
       }
