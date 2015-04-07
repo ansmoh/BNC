@@ -152,7 +152,7 @@ var Utility = {
       throw new Meteor.Error("not-logged-in", "Must be logged in to verify information.");
     }
     console.log("saveUserInfo", user, bsData);
-    return CustomerInfo.update({userId: Meteor.userId}, {$set:{firstName: user.name_first, middleName: user.name_middle, lastName: user.name_last, blockscore: bsData}});
+    return CustomerInfo.update({userId: Meteor.userId()}, {$set:{firstName: user.name_first, middleName: user.name_middle, lastName: user.name_last, blockscore: bsData}});
   }
 }
 
