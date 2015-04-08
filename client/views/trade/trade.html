@@ -54,53 +54,56 @@
         </div>
         <div class="modal-body">
           <div class="form-group row">
-            <div class="col-md-3 col-xs-4">
+            <div class="col-md-2 col-xs-4">
               <div class="thumb-md avatar">
                 <img src="img/{{currency}}.png" class="img-circle w-xs">
                 <i class="b-white top right {{activeClass}}"></i>
                 <!-- <i class="fa fa-btc fa-5x"></i> -->
               </div>
             </div>
-            <div class="col-md-5 col-xs-8">
+            <div class="col-md-2 col-xs-8">
               <div class="row">
                 <span class="h2">Price</span><br>
                 <span><i class="fa fa-usd"></i><b class="rate">32.9</b></span>
               </div>
-              <div class="row">
-                <span>Current Balance</span><br>
-                <span class="h4 text-success">{{currencyBalance}} {{currency}}</span>
-                <span class="h4 {{display}}"> = {{exchangeBalance}} USD</span>
-              </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               {{#if addDepositButton}}
               <div class="row">
                 <div class="col-xs-12">
-                  <a href="/deposit" class="btn btn-sm btn-primary m-b">{{increaseButtonText}}</a>
+                  <a href="/deposit" class="btn btn-sm btn-success m-b">{{increaseButtonText}}</a>
                 </div>
               </div>
               {{else}}
               <div class="row">
-                <div class="col-xs-6">
+                <div class="col-xs-5">
                   {{#if haveBalance}}
                   <button class="btn btn-primary m-b {{isInactive}}" data-toggle="modal" data-target="#buyModal" data-currency="{{currency}}" data-rate="{{rate}}">{{increaseButtonText}}</button>
                   {{else}}
                   <button class="btn btn-primary m-b no-balance {{isInactive}}">{{increaseButtonText}}</button>
                   {{/if}}
                 </div>
-                <div class="col-xs-6">
-                  <button class="btn btn-info {{isInactive}}" data-toggle="modal" data-target="#sellModal" data-currency="{{currency}}" data-rate="{{rate}}">Sell</button>
+                <div class="col-xs-5">
+                  <button class="btn btn-danger {{isInactive}}" data-toggle="modal" data-target="#sellModal" data-currency="{{currency}}" data-rate="{{rate}}">Sell</button>
                 </div>
               </div>
               {{/if}}
+             <div class="col-md-3">
               <div class="row">
                 <div class="col-xs-12">
-                  <button class="btn btn-primary" data-toggle="modal" data-target="#withdrawModal">Withdraw</button>
+                  <button class="btn btn-info" data-toggle="modal" data-target="#withdrawModal">Withdraw</button>
                 </div>
               </div>
+             </div>
             </div>
+              <div class="col-md-4 col-xs-6">
+                <span>Current Balance</span><br>
+                <span class="h4 text-success">{{currencyBalance}} {{currency}}</span>
+                <span class="h4 {{display}}"> = <i class="fa fa-usd"></i>{{exchangeBalance}}</span>
+              </div>        
           </div>
-          
+            
+
           <div class="form-group row">            
             {{#if transactions}}
             <div class="table-responsive bg-white">
@@ -127,7 +130,16 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> 
+</template>
+
+<template name="TransactionDetail">
+    <tr>
+      <td><i class="fa fa-arrow-right text-{{colorClass}}"></i> {{note}}</td>
+      <td>{{timestamp}}</td>
+      <td>{{status}}</td>
+      <td class="text-{{colorClass}} fw-b">{{amount}}</td>
+    </tr>
 </template>
 
 <template name="TransactionDetail">
