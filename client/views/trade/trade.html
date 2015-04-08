@@ -80,28 +80,27 @@
                   {{#if haveBalance}}
                   <button class="btn btn-primary m-b {{isInactive}}" data-toggle="modal" data-target="#buyModal" data-currency="{{currency}}" data-rate="{{rate}}">{{increaseButtonText}}</button>
                   {{else}}
-                  <button class="btn btn-primary m-b no-balance {{isInactive}}">{{increaseButtonText}}</button>
+                  <button class="btn btn-success m-b no-balance {{isInactive}}">{{increaseButtonText}}</button>
                   {{/if}}
-                </div>
-                <div class="col-xs-5">
-                  <button class="btn btn-danger {{isInactive}}" data-toggle="modal" data-target="#sellModal" data-currency="{{currency}}" data-rate="{{rate}}">Sell</button>
                 </div>
               </div>
               {{/if}}
-             <div class="col-md-3">
-              <div class="row">
-                <div class="col-xs-12">
-                  <button class="btn btn-info" data-toggle="modal" data-target="#withdrawModal">Withdraw</button>
-                </div>
-              </div>
-             </div>
-            </div>
-              <div class="col-md-4 col-xs-6">
+            
+             <div class="col-md-0">
+               <button class="btn btn-danger {{isInactive}}" data-toggle="modal" data-target="#sellModal" data-currency="{{currency}}" data-rate="{{rate}}">Sell</button>
+             </div>     
+           </div>          
+             <div class="col-md-4 col-xs-6">
                 <span>Current Balance</span><br>
                 <span class="h4 text-success">{{currencyBalance}} {{currency}}</span>
                 <span class="h4 {{display}}"> = <i class="fa fa-usd"></i>{{exchangeBalance}}</span>
-              </div>        
-          </div>
+             </div> 
+              <div class="row">
+               <div class="col-md-3">
+                  <button class="btn btn-primary" data-toggle="modal" data-target="#withdrawModal">Withdraw</button>
+               </div>  
+              </div>
+            </div>
             
 
           <div class="form-group row">            
