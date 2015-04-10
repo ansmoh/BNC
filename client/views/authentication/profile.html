@@ -1,7 +1,7 @@
 <template name="Profile">
   <div class="app-content-body fade-in-up">
     <div class="bg-light lter b-b wrapper-md">
-      <h1 class="m-n font-thin h3">Your Information</h1>
+      <h1 class="m-n font-thin h3"> Identity and Information Verification</h1>
     </div>
     <div class="wrapper-md">
       <div class="row">
@@ -121,7 +121,7 @@
                 <span class="h4 text-white pull-right m-r-sm" data-toggle="tooltip" data-placement="top" title="Tier 2 requires a full identity verification to include your address, tax ID number, birth date, etc. Once verified you will be allowed to transact up to $10,000 a day." style="cursor:pointer"><i class="fa fa-question-circle"></i></span>
               </div> 
               <div class="collapse text-center m-t-md" id="tier2">
-                <button class="btn btn-info" data-toggle="modal" data-target="#blockscore-form">Add details</button>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#blockscore-form">Add details</button>
               </div>
             </div>
           {{/if}}
@@ -161,7 +161,7 @@
               <div class="col-sm-6">
                 <div class="list-group list-group-sm">
                   <div class="list-group-item text-center">
-                    <label class="text-muted font-bold">Identity</label>
+                    <label class="h3 text-muted font-bold">Identity</label>
                   </div>
                   <div class="list-group-item">
                     <div class="row">
@@ -226,7 +226,7 @@
                   </div>
                   <div class="list-group-item">
 
-                     <input type="text" required="" class="form-control no-border numbers" name="document_value" placeholder="123-456-7890" maxlength="9">
+                     <input type="text" required="" class="form-control no-border numbers" name="document_value" placeholder="123456789" maxlength="9">
 
                   </div>
                 </div>
@@ -234,7 +234,7 @@
               <div class="col-sm-6">
                 <div class="list-group list-group-sm">
                   <div class="list-group-item text-center">
-                    <label class="text-muted font-bold">Address</label>
+                    <label class="h3 text-muted font-bold">Address</label>
                   </div>
                   <div class="list-group-item">
                      <input type="text" required="" class="form-control no-border" name="address_street1" placeholder="Street">

@@ -146,13 +146,13 @@ Template.Profile.events({
         else{
           Session.set('showVerificationArea', null);
           toastr.success(result.data.message, 'Phone Verification')
-          var content = 'Hello '+Meteor.user().emails[0].address+',\n\n Your tier1 details have been verified succesfully. \n\nThanks.'
-          Meteor.call('sendEmail', 'BuyAnyCoin: Tier1 verified', content, function(err, res){
+          var content = 'Hello '+Meteor.user().emails[0].address+',\n\n Your tier 1 details have been verified succesfully. \n\nThanks.'
+          Meteor.call('sendEmail', 'BuyAnyCoin: Tier 1 Verified', content, function(err, res){
             if (err) {
               console.log(err)
               toastr.error(err.reason, 'Mail not sent')
             } else {
-              console.log("Mail send successfully ")
+              console.log("Mail sent successfully")
             }
           })
           Meteor.call('authrizeNumber', function (err, res) {

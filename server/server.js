@@ -3,7 +3,7 @@ Meteor.startup(function () {
   // to send mails
   process.env.MAIL_URL = 'smtp://review321%40gmail.com:test1231@smtp.gmail.com:587';
   Accounts.emailTemplates.siteName = "BuyAnyCoin";
-  Accounts.emailTemplates.from = "BuyAnyCoin Admin <admin@buyanycoin.com>";
+  Accounts.emailTemplates.from = "BuyAnyCoin <admin@buyanycoin.com>";
   Accounts.emailTemplates.resetPassword.text = function(user, url) {
     url = url.replace('#/', '');
     return "Hi!,\n\nLooks like you forgot your password, no worries. Just click the link below to setup a new one. \n\n"+url+" \n\nThank you,\n\n BuyAnyCoin Team";

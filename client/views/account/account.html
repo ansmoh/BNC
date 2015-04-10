@@ -1,19 +1,19 @@
 <template name="Account">
   <div class="app-content-body ">
     <div class="hbox hbox-auto-xs hbox-auto-sm">
-      <div style="background:url(img/c4.jpg) center center; background-size:cover">
+      <div style="background:url(img/c0.jpg) center center; background-size:cover">
         <div class="wrapper-lg bg-white-opacity">
           <div class="row m-t">
             <div class="col-sm-7">
               <a class="thumb-lg pull-left m-r" href="">
-                <img class="img-circle" src="img/a0.jpg">
+                <img class="img-circle" src="img/b10.jpg">
               </a>
               <div class="clear m-b">
                 <div class="m-b m-t-sm">
                 {{#if customerInfo}}
                   {{#each customerInfo}}
                     {{#if blockscore}}
-                  <span class="h3 text-black">{{blockscore.name_first}} {{#if blockscore.name_middle}}{{blockscore.name_middle}} {{/if}}{{blockscore.name_last}} {{#if nickName}}({{nickName}}){{/if}}</span>
+                  <span class="h3 text-black">{{blockscore.name_first}} {{#if blockscore.name_middle}}{{blockscore.name_middle}} {{/if}}{{blockscore.name_last}}</span>
                   <small class="m-l">{{emailAddress}} </small>
                     {{else}}
                   <span class="h3 text-black">{{nickName}}</span>
