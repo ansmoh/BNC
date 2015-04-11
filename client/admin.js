@@ -18,7 +18,7 @@ AdminConfig = {
       color: "green",
       omitFields: ['userId'],
       tableColumns:[
-        {label: 'Email', name: 'email'},
+        {label: 'User', name: 'userId'},
         {label: 'First Name', name: 'firstName'},
         {label: 'Last Name', name: 'lastName'},
         {label: 'Contact #', name: 'contactNo'},
