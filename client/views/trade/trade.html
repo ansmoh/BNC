@@ -63,11 +63,11 @@
             </div>
             <div class="col-md-2 col-xs-8">
               <div class="row">
-                <span class="h2">Price</span><br>
+                <span class="h3">Price</span><br>
                 <span><i class="fa fa-usd"></i><b class="rate">32.9</b></span>
               </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
               {{#if addDepositButton}}
               <div class="row">
                 <div class="col-xs-12">
@@ -86,11 +86,11 @@
               </div>
               {{/if}}
             
-             <div class="col-md-0">
+             <div>
                <button class="btn btn-danger {{isInactive}}" data-toggle="modal" data-target="#sellModal" data-currency="{{currency}}" data-rate="{{rate}}">Sell</button>
              </div>     
            </div>          
-             <div class="col-md-3 col-xs-6" style="height: 49px;">
+             <div style="height: 49px;">
                 <span>Current Balance</span><br>
                 <span class="h4 text-success">{{currencyBalance}} {{currency}}</span>
                 <span class="h4 {{display}}"> = <i class="fa fa-usd"></i>{{exchangeBalance}}</span>
