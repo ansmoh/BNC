@@ -170,7 +170,7 @@ Meteor.methods({
     if (Utility.getTotalBalance(currency) < amount) {
       throw new Meteor.Error("insufficient-balance", 'There is not enough '+currency+' for this transaction.')
       return {
-        failMessage: 'There are not enough '+currency+' for this transaction.'
+        failMessage: 'There is not enough '+currency+' for this transaction.'
       }
     }
     Utility.addTransaction(currency, -amount, 'Withdraw -> ' + destination)
