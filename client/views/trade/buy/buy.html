@@ -6,16 +6,15 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
           <h4 class="modal-title font-bold" id="buyModalLabel">Buy</h4>
-          <span>By clicking Buy you agree to the <a href="http://buyanycoin.com/terms-and-conditions">terms and conditions</a></span>
         </div>
         <div class="modal-body">
           <div class="form-group">
             <div class="btn-group" data-toggle="buttons">
-              <label class="btn btn-primary active">
-                <input type="radio" name="options" id="buyCurrency" autocomplete="off" checked> Buy {{currency}}
+              <label class="btn btn-info active">
+                <input type="radio" name="options" id="buyCurrency" autocomplete="off" checked> {{currency}}
               </label>
               <label class="btn btn-primary">
-                <input type="radio" name="options" id="exchangeCurrency" autocomplete="off"> Exchange {{currency}}
+                <input type="radio" name="options" id="exchangeCurrency" autocomplete="off"> USD 
               </label>
             </div>
           </div>
@@ -24,7 +23,7 @@
             {{#if isBuyOption}}
             <label for="amount" class="control-label">Number of coins to buy:</label>
             {{else}}
-            <label for="amount" class="control-label">Amount in USD to exchange:</label>
+            <label for="amount" class="control-label">Amount of USD to exchange:</label>
             {{/if}}
             <input type="text" class="form-control" id="amount">
             <span class="currency-text"></span>
@@ -47,6 +46,7 @@
             <button type="button" class="btn btn-primary btn-sm buy-max">Buy Max</button>
           </div>
         </div>
+        <span>By clicking Buy you agree to the <a href="http://buyanycoin.com/terms-and-conditions">terms and conditions</a></span>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
           <button type="button" class="btn btn-success buy">Buy</button>

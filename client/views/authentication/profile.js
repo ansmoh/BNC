@@ -206,12 +206,12 @@ Template.BlockscoreModal.events({
     Meteor.call('verifyBlockScoreUser', userData, function (err, res) {
       // console.log(err, res);
       if (err) {
-        toastr.error(err.reason, 'Verification Error');
+        toastr.error(err.reason, 'Please check the form to ensure it is complete and try again.');
         return console.log(err);
       };
       Meteor.call('saveUserInfo', userData, res.data, function(error, resp){
         if (error) {
-          toastr.error(error.reason, 'Verification Error');
+          toastr.error(error.reason, 'Unable to save user data to account, please contact support.');
           return console.log(error);
         };
         console.log('resp', resp, res.data);
@@ -225,7 +225,7 @@ Template.BlockscoreModal.events({
               console.log(err)
               toastr.error(err.reason, 'Mail not sent')
             } else {
-              console.log("Mail send successfully ")
+              console.log('Mail send successfully')
             }
           })
         }

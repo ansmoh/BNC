@@ -80,7 +80,7 @@ var Utility = {
     var rate = 400;
     Currencies.find({code: currency2}).map(function(currency) {
       console.log('getRate', currency);
-      rate = currency.rate;
+      rate = (currency.rate * 1.01);
     });
     return parseFloat(rate);
   },

@@ -51,7 +51,6 @@
                   <div class="form-group">
                     {{> afFieldInput name="userId" type="hidden" }}
                   </div>
-
                   <div class="list-group list-group-sm{{#if afFieldIsInvalid name='nickName'}}has-error{{/if}}">
                     <div class="list-group-item">
                       <label class="control-label">{{afFieldLabelText name='nickName'}}</label>
@@ -63,7 +62,6 @@
                       {{/if}}
                     </div>
                   </div>
-
                   <div class="list-group list-group-sm{{#if afFieldIsInvalid name='contactNo'}}has-error{{/if}}">
                     <div class="list-group-item">
                       <label class="control-label">{{afFieldLabelText name='contactNo'}}</label>
@@ -75,7 +73,6 @@
                       {{/if}}
                     </div>
                   </div>
-
                   <div class="form-group">
                     {{> afFieldInput name="status" type="hidden" }}
                   </div>
@@ -99,7 +96,6 @@
                 <span class="h4 text-white">Tier 2</span>
                 <span class="h4 text-white pull-right" data-toggle="collapse" data-target="#tier-2" aria-expanded="false" aria-controls="tier2" style="cursor:pointer"><i class="fa fa-toggle-down"></i></span>
                 <span class="h4 text-white pull-right m-r-sm" data-toggle="tooltip" data-placement="top" title="Tier 2 requires a full identity verification to include your address, tax ID number, birth date, etc. Once verified you will be allowed to transact up to $10,000 a day." style="cursor:pointer"><i class="fa fa-question-circle"></i></span>
-
               </div> 
               <div class="collapse text-center m-t-md" id="tier-2">
                 <address>
@@ -169,9 +165,7 @@
                         <input type="text" required="" class="form-control no-border chars" name="name_first" placeholder="Satoshi" maxlength="25">
                       </div>
                       <div class="col-sm-2 b-l b-r">
-
                         <input type="text" class="form-control no-border chars" name="name_middle" placeholder="V" maxlength="1">
-
                       </div>
                       <div class="col-sm-5">
                         <input type="text" required="" class="form-control no-border chars" name="name_last" placeholder="Nakamoto" maxlength="25">
@@ -225,9 +219,7 @@
                     </select>
                   </div>
                   <div class="list-group-item">
-
                      <input type="text" required="" class="form-control no-border numbers" name="document_value" placeholder="123456789" maxlength="9">
-
                   </div>
                 </div>
               </div>
@@ -237,15 +229,15 @@
                     <label class="h4 text-muted font-bold">Address</label>
                   </div>
                   <div class="list-group-item">
-                     <input type="text" required="" class="form-control no-border" name="address_street1" placeholder="Street">
+                     <input type="text" required="" class="form-control no-border" name="address_street1" placeholder="Street" maxlength="50">
                   </div>
                   <div class="list-group-item">
                     <div class="row">
                       <div class="col-sm-6 b-r">
-                        <input type="text" required="" class="form-control no-border" name="address_city" placeholder="City">
+                        <input type="text" required="" class="form-control no-border" name="address_city" placeholder="City" maxlength="25">
                       </div>
                       <div class="col-sm-6">
-                        <input type="text" required="" class="form-control no-border" name="address_subdivision" placeholder="State">
+                        <input type="text" required="" class="form-control no-border" name="address_subdivision" placeholder="State" maxlength="15">
                       </div>
                     </div>
                   </div>

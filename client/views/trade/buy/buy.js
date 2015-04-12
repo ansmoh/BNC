@@ -15,7 +15,7 @@ Template.BuyModal.rendered = function () {
     modal.find('.modal-title').text('Buy request for ' + curr);
     modal.find('.modal-body #currency').val(curr);
     modal.find('.modal-body .currency-text').text(curr);
-    modal.find('.modal-body .rate-text').text('@' + (parseFloat(rt) * 1.01).toFixed(5) + ' USD');
+    modal.find('.modal-body .rate-text').text('@' + (parseFloat(rt) * 1.00).toFixed(5) + ' USD');
     Session.set('buyOption', true);
   })
 }
@@ -38,7 +38,7 @@ Template.BuyModal.helpers({
   },
   fee: function () {
     if (Session.get('buyOption')) {
-      var fee = (parseFloat(Session.get('buyCoins')) * (parseFloat(Session.get('modalRate')) * 1.01)) * 0.01;
+      var fee = (parseFloat(Session.get('buyCoins')) * (parseFloat(Session.get('modalRate')) * 1.00)) * 0.01;
     }
     else{
       var fee = parseFloat(Session.get('buyCoins')) * 0.01;
