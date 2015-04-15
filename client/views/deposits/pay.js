@@ -4,7 +4,7 @@ Template.Pay.created = function () {
   fileRef = document.createElement('script');
   fileRef.setAttribute('id', "knox_payments_script");
   fileRef.setAttribute("button_text","PAY USING KNOX PAYMENTS");
-  fileRef.setAttribute("api-key","775a518965876a2b68b9ae1de6ff8fc9ed543a92");
+  fileRef.setAttribute("api-key","8aa796419a91eb780d954179aa21d696b204787a");
   fileRef.setAttribute("recurring","ot");
   fileRef.setAttribute("user_request","show_all");
   fileRef.setAttribute("response_url","/");

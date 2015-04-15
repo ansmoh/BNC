@@ -198,7 +198,7 @@ Meteor.methods({
     if (Utility.getTotalBalance('USD') < amount) {
       throw new Meteor.Error("insufficient-funds", 'There is not enough USD for this transaction.')
       return {
-        failMessage: 'There are not enough USD for this transaction.'
+        failMessage: 'There is not enough USD for this transaction.'
       }
     }
 
