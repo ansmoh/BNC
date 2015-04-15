@@ -242,7 +242,7 @@ Meteor.methods({
     }
   },
   depositViaKnox: function (currency, amount, txnid) {
-    return Utility.addTransaction(currency, amount, 'Deposit: Knox', txnid);
+    return Utility.addTransaction(currency, amount, 'ACH Deposit', txnid);
   },
   transactionDetails: function (txnID) {
     // HTTP call to knoxpayments to get the transaction_details according to the txnID
@@ -296,7 +296,7 @@ Meteor.methods({
     console.log("in send mail");
     //send mail to user
     return Email.send({
-        from: 'support@buyanycoin.com',
+        from: 'donotreply@buyanycoin.com',
         to: Meteor.user().emails[0].address,
         subject: sub,
         text: content

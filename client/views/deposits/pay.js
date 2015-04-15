@@ -3,7 +3,7 @@ Template.Pay.created = function () {
   var fileRef;
   fileRef = document.createElement('script');
   fileRef.setAttribute('id', "knox_payments_script");
-  fileRef.setAttribute("button_text","PAY USING KNOX PAYMENTS");
+  fileRef.setAttribute("button_text","Deposit with Bank Account");
   fileRef.setAttribute("api-key","8aa796419a91eb780d954179aa21d696b204787a");
   fileRef.setAttribute("recurring","ot");
   fileRef.setAttribute("user_request","show_all");
@@ -74,7 +74,7 @@ if (undefined !== Utils.parseUrl().completed){
             Session.set('depositStatus', 'Error')
           }
           else {
-            Session.set('depositStatus', amount+' has been successfully deposited to your account!')
+            Session.set('depositStatus', amount+' USD has been successfully deposited to your account!')
             var content = 'Hello '+Meteor.user().emails[0].address+',\n\n$'+amount+' has been successfully deposited to your account! \n\nThanks.'
             Meteor.call('sendEmail', 'BuyAnyCoin: Deposit', content, function(err, res){
               if (err) {
