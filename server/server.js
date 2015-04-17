@@ -1,7 +1,7 @@
 Meteor.startup(function () {
   // code to run on server at startup.
   // to send mails
-  process.env.MAIL_URL = 'smtp://donotreply%40gmail.com:njiokmJIOKM@smtp.gmail.com:465/';
+  process.env.MAIL_URL = "smtp://donotreply%40buyanycoin.com:njiokmJIOKM@smtp.gmail.com:465/";
   Accounts.emailTemplates.siteName = "BuyAnyCoin";
   Accounts.emailTemplates.from = "BuyAnyCoin <donotreply@buyanycoin.com>";
   Accounts.emailTemplates.resetPassword.text = function(user, url) {
