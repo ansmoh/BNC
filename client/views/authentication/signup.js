@@ -38,7 +38,7 @@ Template.SignUp.events({
               console.log(result)
             }
           })
-          toastr.success('You have signed-up successfully. We sent a confirmation email to you and to verify your email address. Please check your emails and confirm your email address.', 'SignUp');
+          toastr.success('You have signed-up successfully. Please check your email and confirm your email address.', 'SignUp');
         }
       });
     }
