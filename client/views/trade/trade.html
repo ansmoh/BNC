@@ -61,18 +61,13 @@
                 <!-- <i class="fa fa-btc fa-5x"></i> -->
               </div>
             </div>
-            <div class="col-md-5 col-xs-8">
+            <div class="col-md-2 col-xs-4">
               <div class="row">
                 <span class="h2">Price</span><br>
                 <span><i class="fa fa-usd"></i><b class="rate">32.9</b></span>
               </div>
-              <div class="row">
-                <span>Current Balance</span><br>
-                <span class="h4 text-success">{{currencyBalance}} {{currency}}</span>
-                <span class="h4 {{display}}"> = {{exchangeBalance}} USD</span>
-              </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2 col-xs-4">
               {{#if addDepositButton}}
               <div class="row">
                 <div class="col-xs-12">
@@ -81,18 +76,25 @@
               </div>
               {{else}}
               <div class="row">
-                <div class="col-xs-6">
-                  {{#if haveBalance}}
-                  <button class="btn btn-primary m-b {{isInactive}}" data-toggle="modal" data-target="#buyModal" data-currency="{{currency}}" data-rate="{{rate}}">{{increaseButtonText}}</button>
-                  {{else}}
-                  <button class="btn btn-primary m-b no-balance {{isInactive}}">{{increaseButtonText}}</button>
-                  {{/if}}
-                </div>
-                <div class="col-xs-6">
-                  <button class="btn btn-info {{isInactive}}" data-toggle="modal" data-target="#sellModal" data-currency="{{currency}}" data-rate="{{rate}}">Sell</button>
-                </div>
+                {{#if haveBalance}}
+                <button class="btn btn-success m-b {{isInactive}}" data-toggle="modal" data-target="#buyModal" data-currency="{{currency}}" data-rate="{{rate}}">{{increaseButtonText}}</button>
+                {{else}}
+                <button class="btn btn-success m-b no-balance {{isInactive}}">{{increaseButtonText}}</button>
+                {{/if}}
+              </div>
+              <div class="row">
+                <button class="btn btn-info {{isInactive}}" data-toggle="modal" data-target="#sellModal" data-currency="{{currency}}" data-rate="{{rate}}">Sell</button>
               </div>
               {{/if}}
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-xs-12 m-b-xs">
+                  <span>Current Balance</span><br>
+                  <span class="h4 text-success">{{currencyBalance}} {{currency}}</span>
+                  <span class="h4 {{display}}"> = {{exchangeBalance}} USD</span>
+                </div>
+              </div>
               <div class="row">
                 <div class="col-xs-12">
                   <button class="btn btn-primary" data-toggle="modal" data-target="#withdrawModal">Withdraw</button>
@@ -103,25 +105,23 @@
           
           <div class="form-group row">            
             {{#if transactions}}
-            <div class="table-responsive bg-white">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>Transaction</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {{#each transactions}}
-                    {{> TransactionDetail}}
-                  {{/each}}
-                </tbody>
-              </table>
-            </div>
+            <table id="currencytxns" class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Transaction</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each transactions}}
+                  {{> TransactionDetail}}
+                {{/each}}
+              </tbody>
+            </table>
             {{else}}
-            <span>No transaction found for {{currency}}</span>
+            <div class="m">No transaction found for {{currency}}</div>
             {{/if}}
           </div>          
         </div>
@@ -133,7 +133,7 @@
 <template name="TransactionDetail">
     <tr>
       <td><i class="fa fa-arrow-right text-{{colorClass}}"></i> {{note}}</td>
-      <td>{{timestamp}}</td>
+      <td>{{datetime}}</td>
       <td>{{status}}</td>
       <td class="text-{{colorClass}} fw-b">{{amount}}</td>
     </tr>
@@ -143,26 +143,24 @@
 <template name="TransactionHistory">
     <div class="col-lg-12">
       {{#if alltransactions}}
-      <div class="table-responsive bg-white">
-        <table class="table table-striped">
-          <thead>
-            <tr class="bg-info">
-              <!-- <th>S. No.</th> -->
-              <th>Currency</th>
-              <th>Amount</th>
-              <th>Status</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each alltransactions}}
-              {{> TransactionHistoryDetail}}
-            {{/each}}
-          </tbody>
-        </table>
-      </div>
+      <table id="transactions" class="table table-striped">
+        <thead>
+          <tr class="bg-info">
+            <!-- <th>S. No.</th> -->
+            <th>Currency</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each alltransactions}}
+            {{> TransactionHistoryDetail}}
+          {{/each}}
+        </tbody>
+      </table>
       {{else}}
-      <span>No transaction found for {{currency}}</span>
+      <div>No transaction found.</div>
       {{/if}}
     </div>
 </template>
@@ -173,6 +171,6 @@
       <td><i class="fa fa-arrow-right text-{{colorClass}}"></i> {{currency}}</td>
       <td class="text-{{colorClass}} fw-b">{{amount}}</td>
       <td><span class="label label-{{labelColorClass}}" title="{{title}}">{{statusText}}</span></td>
-      <td>{{timestamp}}</td>
+      <td>{{datetime}}</td>
     </tr>
 </template>

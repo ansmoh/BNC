@@ -211,7 +211,8 @@ Template.BlockscoreModal.events({
       };
       Meteor.call('saveUserInfo', userData, res.data, function(error, resp){
         if (error) {
-          toastr.error(error.reason, 'Verification Error');
+          // toastr.error(error.reason, 'Verification Error');
+          toastr.error("Please check the form for the correct information and try again.", 'Verification Error');
           return console.log(error);
         };
         console.log('resp', resp, res.data);
