@@ -1,4 +1,5 @@
 Template.BuySellModal.rendered = function () {
+  var table;
   $('#buySellModal').on('show.bs.modal', function (event) {
     console.log('in', 'shown');
     var button = $(event.relatedTarget); // Button that triggered the modal
@@ -15,6 +16,25 @@ Template.BuySellModal.rendered = function () {
     modal.find('.modal-body .rate').text(parseFloat(Math.round(rate * 100000) / 100000));
     if (!active) {
       toastr.error('Currency '+ Session.get('modalCurrency') +' is inactive for some reasons. Please wait until it is activated again or contact support.', 'Currency Inactive');
+    };
+  
+    setTimeout(function () {
+      if ($('#currencytxns').html() !== undefined) {
+        table = $('#currencytxns').DataTable({
+          retrieve: true,
+          searching: false,
+          pageLength: 10,
+          lengthChange: false,
+          ordering: false
+        });
+      };
+    }, 100);
+
+  })
+
+  $('#buySellModal').on('show.bs.modal', function (event) {
+    if (table) {
+      table.destroy()
     };
   })
 }
@@ -127,6 +147,30 @@ Template.BuySellModal.events({
   }
 })
 
+Template.TransactionDetail.helpers({
+  colorClass: function () {
+    return (this.amount > 0)? 'success': 'danger';
+  },
+  datetime: function () {
+    var date = new Date(this.timestamp);
+    var options = {
+      weekday: "short", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"
+    };
+    return date.toLocaleTimeString("en-us", options)
+  }
+});
+
+Template.TransactionHistory.rendered = function () {
+  setTimeout(function () {
+    $('#transactions').DataTable({
+      searching: false,
+      pageLength: 20,
+      lengthChange: false,
+      ordering: false
+    });
+  }, 100);
+}
+
 Template.TransactionHistory.helpers({
   alltransactions: function () {
     var Txns = [], _i = 1;
@@ -134,7 +178,7 @@ Template.TransactionHistory.helpers({
       t.pos = _i++; Txns.push(t);
     });    
     return Txns;
-  },
+  }
 });
 
 Template.TransactionHistoryDetail.rendered = function () {
@@ -153,5 +197,12 @@ Template.TransactionHistoryDetail.helpers({
   },
   title: function () {
     return (this.currency == "USD" && this.status == "complete")? 'Completed': 'Your transaction is pending and will be completed as soon as possible'
+  },
+  datetime: function () {
+    var date = new Date(this.timestamp);
+    var options = {
+      weekday: "short", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"
+    };
+    return date.toLocaleTimeString("en-us", options)
   }
 });

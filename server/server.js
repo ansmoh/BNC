@@ -18,6 +18,42 @@ Meteor.startup(function () {
   }
 });
 
+Accounts.onCreateUser(function(options, user) {
+  //send mail to admin for new account
+  Email.send({
+    from: 'support@buyanycoin.com',
+    to: 'admin@buyanycoin.com',
+    subject: 'BuyAnyCoin: New account created',
+    text: 'Hello Admin,\n\nWelcome the new user "'+user.emails[0].address+'" signed-up at "'+user.createdAt+'". \n\nThanks.'
+  });
+  // add field to active/inactive account
+  AccountStatus.insert({userId: user._id, active: true, email: user.emails[0].address});
+  return user;
+});
+
+Accounts.validateLoginAttempt(function (attempt) {
+  if (!attempt.allowed)
+    return false;
+
+  if(AccountStatus.find({userId: attempt.user._id}).count()){
+    return AccountStatus.find({userId: attempt.user._id}).map(function (customer) {
+      //fixture if not added
+      if (undefined == customer.active) {
+        AccountStatus.update({userId: customer.userId}, {$set:{active: true}});
+        return true;
+      };
+      return customer.active;
+    });
+  }
+  else{
+    //fixture if user is not in AccountStatus
+    AccountStatus.insert({userId: attempt.user._id, active: true, email: attempt.user.emails[0].address});
+    return true;
+  }
+  return false;
+});
+
+
 var knoxKey = '8aa796419a91eb780d954179aa21d696b204787a'
 var knoxPass = '9b527490bb2bfe73097fd8314ef8ae9a0fd35301'
 var authyKey = '2a7cc1467513fd1c366de7620bb9361c'
