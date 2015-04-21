@@ -61,7 +61,7 @@
                 <!-- <i class="fa fa-btc fa-5x"></i> -->
               </div>
             </div>
-          <div class="col-md-2 col-xs-8">
+            <div class="col-md-2 col-xs-8">
             <div class="col-md-2 col-xs-4">
               <div class="row">
                 <span class="h3">Price</span><br>
@@ -87,6 +87,7 @@
                 </div>
               </div>
               {{/if}}
+            
              <div>
                <button class="btn btn-danger {{isInactive}}" data-toggle="modal" data-target="#sellModal" data-currency="{{currency}}" data-rate="{{rate}}">Sell</button>
              </div>     
@@ -96,7 +97,6 @@
                 <span class="h4 text-success">{{currencyBalance}} {{currency}}</span>
                 <span class="h4 {{display}}"> = <i class="fa fa-usd"></i>{{exchangeBalance}}</span>
              </div> 
-              <div>
                 {{#if haveBalance}}
                 <button class="btn btn-success m-b {{isInactive}}" data-toggle="modal" data-target="#buyModal" data-currency="{{currency}}" data-rate="{{rate}}">{{increaseButtonText}}</button>
                 {{else}}
@@ -107,8 +107,7 @@
                 <button class="btn btn-info {{isInactive}}" data-toggle="modal" data-target="#sellModal" data-currency="{{currency}}" data-rate="{{rate}}">Sell</button>
               </div>
               {{/if}}
-          </div>
-
+            </div>
             <div class="col-md-6">
               <div class="row">
                 <div class="col-xs-12 m-b-xs">
@@ -144,8 +143,7 @@
             {{else}}
             <div class="m">No transaction found for {{currency}}</div>
             {{/if}}
-          </div>
-
+          </div>          
         </div>
       </div>
     </div>
