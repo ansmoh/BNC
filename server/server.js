@@ -17,18 +17,18 @@ Meteor.startup(function () {
   }
 });
 
-Accounts.onCreateUser(function(options, user) {
-  //send mail to admin for new account
-  Email.send({
-    from: 'support@buyanycoin.com',
-    to: 'admin@buyanycoin.com',
-    subject: 'BuyAnyCoin: New account created',
-    text: 'Hello Admin,\n\nWelcome the new user "'+user.emails[0].address+'" signed-up at "'+user.createdAt+'". \n\nThanks.'
-  });
-  // add field to active/inactive account
-  AccountStatus.insert({userId: user._id, active: true, email: user.emails[0].address});
-  return user;
-});
+//Accounts.onCreateUser(function(options, user) {
+  //*send mail to admin for new account
+ // Email.send({
+//    from: 'support@buyanycoin.com',
+//    to: 'admin@buyanycoin.com',
+//    subject: 'BuyAnyCoin: New account created',
+//    text: 'Hello Admin,\n\nWelcome the new user "'+user.emails[0].address+'" signed-up at "'+user.createdAt+'". \n\nThanks.'
+//  });
+  //* add field to active/inactive account
+//  AccountStatus.insert({userId: user._id, active: true, email: user.emails[0].address});
+//  return user;
+//});
 
 Accounts.validateLoginAttempt(function (attempt) {
   if (!attempt.allowed)

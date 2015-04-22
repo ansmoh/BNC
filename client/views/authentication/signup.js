@@ -15,7 +15,7 @@ Template.SignUp.events({
       if (val.length >= 6) {
         return true;
       } else {
-        toastr.error("Too short password.", 'Password error');
+        toastr.error("Password must be at least 6 characters", 'Password Error');
         return false; 
       }
     }
@@ -25,7 +25,7 @@ Template.SignUp.events({
         if (err) {
           // Inform the user that account creation failed
           // alert(err);
-          toastr.error(err.reason, 'SignUp error');
+          toastr.error(err.reason, 'Sign Up error');
         } else {
           // Success. Account has been created and the user
           // has logged in successfully. 
@@ -38,7 +38,7 @@ Template.SignUp.events({
               console.log(result)
             }
           })
-          toastr.success('You have signed-up successfully. Please check your email and confirm your email address.', 'SignUp');
+          toastr.success('You have signed up successfully. Please check your email to confirm the address.', 'Sign Up');
         }
       });
     }
