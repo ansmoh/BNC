@@ -15,7 +15,7 @@ Template.BuySellModal.rendered = function () {
     modal.find('.modal-title').text(currency +" - "+ name);
     modal.find('.modal-body .rate').text(parseFloat(Math.round(rate * 100000) / 100000));
     if (!active) {
-      toastr.error('Currency '+ Session.get('modalCurrency') +' is inactive for some reasons. Please wait until it is activated again or contact support.', 'Currency Inactive');
+      toastr.error('Currency '+ Session.get('modalCurrency') +' is inactive. Please wait until it is activated again or contact support.', 'Currency Inactive');
     };
   
     setTimeout(function () {
