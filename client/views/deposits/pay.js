@@ -8,7 +8,7 @@ Template.Pay.created = function () {
   fileRef.setAttribute("recurring","ot");
   fileRef.setAttribute("user_request","show_all");
   fileRef.setAttribute("response_url","/");
-  fileRef.setAttribute("invoice_detail","To buy coins from www.buyanycoin.com");
+  fileRef.setAttribute("invoice_detail","Buying coins");
   fileRef.setAttribute("src", "https://knoxpayments.com/merchant/knox.js");
 
   if (typeof fileRef !== "undefined") {
@@ -49,8 +49,8 @@ Template.Pay.helpers({
 
 // Run if we see parameters in the url in url
 if (undefined !== Utils.parseUrl().completed){
-  if (Utils.parseUrl().completed == 'cancelled' || Utils.parseUrl().completed == 'canceled') {
-    window.location.href = '/trade'
+  if (Utils.parseUrl().completed == 'canceled' || Utils.parseUrl().completed == 'canceled') {
+    window.location.href = '/deposit'
   };
   Session.set('depositStatus', 'Processing transaction.....')
   var payID = Utils.parseUrl().pay_id
