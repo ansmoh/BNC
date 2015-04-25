@@ -63,7 +63,7 @@ Template.VoucherModal.events({
             if (error) {
               alert(error)
             } else {
-              $('.' + result.id + ' .status-text').text('Congrats!! You voucher has been redeemed for '+ result.amount +' '+ result.currency +'!!!');
+              $('.' + result.id + ' .status-text').text('Awesome! You voucher has been redeemed for '+ result.amount +' '+ result.currency +'!');
               $('.' + result.id).addClass('has-success');
               success = true;
               var content = 'Hello '+Meteor.user().emails[0].address+',\n\nCongrats!! You voucher has been redeemed for '+ result.amount +' '+ result.currency +'! \n\nThanks.'

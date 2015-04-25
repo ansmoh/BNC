@@ -10,11 +10,6 @@
         {{/each}}
       </div>
     </div>
-    <div class="wrapper-md">
-      <div class="row">
-        {{> TransactionHistory}}
-      </div>
-    </div>
   </div>
   {{> BuySellModal}} 
 </template>
@@ -83,7 +78,7 @@
                 {{/if}}
               </div>
               <div class="row">
-                <button class="btn btn-info {{isInactive}}" data-toggle="modal" data-target="#sellModal" data-currency="{{currency}}" data-rate="{{rate}}">Sell</button>
+                <button class="btn btn-danger {{isInactive}}" data-toggle="modal" data-target="#sellModal" data-currency="{{currency}}" data-rate="{{rate}}">Sell</button>
               </div>
               {{/if}}
             </div>
