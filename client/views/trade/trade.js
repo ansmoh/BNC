@@ -88,7 +88,7 @@ Template.BuySellModal.helpers({
     return balance > 0 ? true : false;
   },
   exchangeBalance: function () {
-    return (parseFloat(Session.get('modelBalance'))*parseFloat(Session.get('modalRate'))).toFixed(6);
+    return (parseFloat(Session.get('modelBalance'))*parseFloat(Session.get('modalRate'))).toFixed(2);
   },
   currency: function () {
     return Session.get('modalCurrency');
