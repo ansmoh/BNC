@@ -362,5 +362,13 @@ Meteor.methods({
         subject: sub,
         text: content
       });
+  },
+  getNamesStatus: function(firstname, lastname){
+    console.log(firstname,lastname);
+    var url = "http://ofac.openach.com/api/nameSearch/api_key/CNoHeAiE5MAWBlrMdoBWUTzbGOE7TsSM7ZnaPygo7FT/first_name/"+firstname+"/last_name/"+lastname;
+    return HTTP.get(url, {});
+  },
+  addCustomerInfo:function(fname, lname, cont){
+    return CustomerInfo.insert({"firstName": fname, "lastName": lname, "contactNo": cont});
   }
 })

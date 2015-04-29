@@ -18,8 +18,8 @@
                   </div> 
                   <div class="collapse text-center m-t-md" id="tier1">  
                     <p>
-                      {{#if nickName}}
-                      <h3>{{nickName}}</h3><br />
+                      {{#if firstName}}
+                      <h3>{{firstName}} {{lastName}}</h3><br />
                       {{/if}}
                       <h3><i class="fa fa-phone"></i> &nbsp; {{contactNo}} </h3><br />
                       <a class="btn btn-sm btn-{{statusClass}} btn-rounded" href="">{{status}}</a>
@@ -47,18 +47,29 @@
                 <span class="h4 text-white pull-right m-r-sm" data-toggle="tooltip" data-placement="top" title="Tier 1 requires a valid phone number and a full name to be verified. Once you have confirmed these two requirements you will have access to transact $800 a day." style="cursor:pointer"><i class="fa fa-question-circle"></i></span>
               </div> 
               <div class="collapse text-center m-t-md" id="tier1">  
-                {{#autoForm collection="CustomerInfo" id="afCustomerInfo" class="form" type="insert"}}
+                {{#autoForm collection="CustomerInfo" id="afCustomerInfo"}}
                   <div class="form-group">
                     {{> afFieldInput name="userId" type="hidden" }}
                   </div>
-                  <div class="list-group list-group-sm{{#if afFieldIsInvalid name='nickName'}}has-error{{/if}}">
+                  <div class="list-group list-group-sm{{#if afFieldIsInvalid name='firstName'}}has-error{{/if}}">
                     <div class="list-group-item">
-                      <label class="control-label">{{afFieldLabelText name='nickName'}}</label>
+                      <label class="control-label">{{afFieldLabelText name='firstName'}}</label>
                     </div>
                     <div class="list-group-item">
-                      {{> afFieldInput name='nickName' class="form-control no-border"}}
-                      {{#if afFieldIsInvalid name='nickName'}}
-                        <span class="help-block">{{{afFieldMessage name='nickName'}}}</span>
+                      {{> afFieldInput autocomplete="off" name='firstName' id="firstName" class="form-control no-border"}}
+                      {{#if afFieldIsInvalid name='firstName'}}
+                        <span class="help-block">{{{afFieldMessage name='firstName'}}}</span>
+                      {{/if}}
+                    </div>
+                  </div>
+                  <div class="list-group list-group-sm{{#if afFieldIsInvalid name='lastName'}}has-error{{/if}}">
+                    <div class="list-group-item">
+                      <label class="control-label">{{afFieldLabelText name='lastName'}}</label>
+                    </div>
+                    <div class="list-group-item">
+                      {{> afFieldInput autocomplete="off" name='lastName' id="lastName" class="form-control no-border"}}
+                      {{#if afFieldIsInvalid name='lastName'}}
+                        <span class="help-block">{{{afFieldMessage name='lastName'}}}</span>
                       {{/if}}
                     </div>
                   </div>
@@ -67,7 +78,7 @@
                       <label class="control-label">{{afFieldLabelText name='contactNo'}}</label>
                     </div>
                     <div class="list-group-item">
-                      {{> afFieldInput name='contactNo' class="form-control no-border"}}
+                      {{> afFieldInput name='contactNo' id="contactNo" class="form-control no-border"}}
                       {{#if afFieldIsInvalid name='contactNo'}}
                         <span class="help-block">{{{afFieldMessage name='contactNo'}}}</span>
                       {{/if}}
@@ -77,7 +88,7 @@
                     {{> afFieldInput name="status" type="hidden" }}
                   </div>
                   <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    <button type="submit" id="submitTier" class="btn btn-primary btn-block">Submit</button>
                     <button type="reset" class="btn btn-default btn-block">Reset Form</button>
                   </div>
                 {{/autoForm}}

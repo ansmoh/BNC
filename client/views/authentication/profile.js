@@ -166,6 +166,34 @@ Template.Profile.events({
     t.find('.verify').innerHTML = 'Resend token';
     Session.set('showVerificationArea', true);
   },
+  'click #submitTier':function(e, t){
+    e.preventDefault();
+    var firstname = $("#firstName").val();
+    var lastname = $("#lastName").val();
+    var contact = $("#contactNo").val();
+    Meteor.call('getNamesStatus',firstname,lastname,function(e,r){
+      if(e){
+        toastr.error(e.reason);
+      }
+      else{
+        if(r.statusCode === 200){
+          if( r.content !== undefined && r.content === "[]"){
+            Meteor.call('addCustomerInfo', firstname, lastname, contact, function(err,res){
+              if(err){
+                toastr.error(err.reason);
+              }
+              else{
+                toastr.success('User details updated');
+              }
+            })
+          }
+          else{
+            toastr.error("Contact Support")
+          }
+        }
+      }
+    });
+  }
 });
 
 Template.BlockscoreModal.helpers({
