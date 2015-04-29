@@ -146,7 +146,7 @@ Template.Profile.events({
         else{
           Session.set('showVerificationArea', null);
           toastr.success(result.data.message, 'Phone Verification')
-          var content = 'Hello '+Meteor.user().emails[0].address+',\n\n Your tier 1 details have been verified succesfully. \n\nThanks.'
+          var content = 'Hello '+Meteor.user().emails[0].address+',\n\n Your Tier 1 details have been verified succesfully. \n\nGood Job!'
           Meteor.call('sendEmail', 'BuyAnyCoin: Tier 1 Verified', content, function(err, res){
             if (err) {
               console.log(err)
@@ -206,13 +206,13 @@ Template.BlockscoreModal.events({
     Meteor.call('verifyBlockScoreUser', userData, function (err, res) {
       // console.log(err, res);
       if (err) {
-        toastr.error(err.reason, 'Please check the form to ensure it is complete and try again.');
+        toastr.error(err.reason, 'Please check the form to ensure it is complete and try again.', 'Submission Error');
         return console.log(err);
       };
       Meteor.call('saveUserInfo', userData, res.data, function(error, resp){
         if (error) {
           // toastr.error(error.reason, 'Verification Error');
-          toastr.error("Please check the form for the correct information and try again.", 'Verification Error');
+          toastr.error("Please check the form for the correct information and try again.", 'Submission Error');
           return console.log(error);
         };
         console.log('resp', resp, res.data);
@@ -220,8 +220,8 @@ Template.BlockscoreModal.events({
         $('#tier2').removeClass('in');
         $('#blockscore-form').modal('hide')
         if (res.data.status && res.data.status == 'valid') {
-          var content = 'Hello '+Meteor.user().emails[0].address+',\n\n Your tier2 details have been verified succesfully. \n\nThanks.'
-          Meteor.call('sendEmail', 'BuyAnyCoin: Tier2 verified', content, function(err, res){
+          var content = 'Hello '+Meteor.user().emails[0].address+',\n\n Your Tier 2 details have been verified succesfully. \n\n Even Better!'
+          Meteor.call('sendEmail', 'BuyAnyCoin: Tier 2 Verified', content, function(err, res){
             if (err) {
               console.log(err)
               toastr.error(err.reason, 'Mail not sent')

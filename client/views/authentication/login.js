@@ -19,7 +19,7 @@ Template.Login.events({
         // could be incorrect. Inform the user that their
         // login attempt has failed.      
         if (err.reason.indexOf('forbidden') > -1) {
-          toastr.error("Your account is temporarily disable. Please wait or reset your password.", 'Login error: Account Locked');
+          toastr.error("Your account is temporarily disabled. Please wait or reset your password.", 'Login error: Account Locked');
         }
         else{
           toastr.error(err.reason, 'Login error');

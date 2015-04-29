@@ -75,7 +75,7 @@ if (undefined !== Utils.parseUrl().completed){
           }
           else {
             Session.set('depositStatus', amount+' USD has been successfully deposited to your account!')
-            var content = 'Hello '+Meteor.user().emails[0].address+',\n\n$'+amount+' has been successfully deposited to your account! \n\nThanks.'
+            var content = 'Hello '+Meteor.user().emails[0].address+',\n\n$'+amount+' has been successfully deposited to your account!'
             Meteor.call('sendEmail', 'BuyAnyCoin: Deposit', content, function(err, res){
               if (err) {
                 console.log(err)

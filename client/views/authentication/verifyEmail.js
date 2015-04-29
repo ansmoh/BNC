@@ -22,7 +22,7 @@ Template.VerifyEmail.helpers({
       return "Sorry, your email is not verified."
     }
     else{
-      return "Your email is verified successfully."
+      return "Your email has been verified successfully!"
     };
   }
 });

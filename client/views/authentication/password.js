@@ -10,7 +10,7 @@ var isValidPassword = function(val) {
   if (val.length >= 6) {
     return true;
   } else {
-    toastr.error("Too short password.", 'Password error');
+    toastr.error("Password is too short", 'Password error');
     return false; 
   }
 }
@@ -37,7 +37,7 @@ Template.ForgotPassword.events({
         if (err)
           toastr.error(err.reason, 'Password Reset Error');
         else {
-          toastr.success('Email Sent. Please check your email.', 'Password Reset');
+          toastr.success('Please check your email for your password reset link', 'Password Reset');
         }
         Session.set('loading', false);
       });
@@ -54,7 +54,7 @@ Template.ForgotPassword.events({
           toastr.error(err.reason, 'Password Reset Error');
         else {
           Session.set('resetPassword', null);
-          toastr.success("Password changed successfully.", 'Password Reset');
+          toastr.success("Password changed successfully", 'Password Reset');
         }
         Session.set('loading', false);
       });

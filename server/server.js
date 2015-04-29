@@ -23,7 +23,7 @@ Accounts.onCreateUser(function(options, user) {
        from: 'support@buyanycoin.com',
        to: 'admin@buyanycoin.com',
        subject: 'BuyAnyCoin: New account created',
-       text: 'Hello Admin,\n\nWelcome the new user "'+user.emails[0].address+'" signed-up at "'+user.createdAt+'". \n\nThanks.'
+       text: 'Hello Admin,\n\nWelcome the new user '+user.emails[0].address+' signed-up at '+user.createdAt+'.'
      });   
  
   // * add field to active/inactive account
