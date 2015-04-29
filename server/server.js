@@ -17,32 +17,41 @@ Meteor.startup(function () {
   }
 });
 
-//Accounts.onCreateUser(function(options, user) {
-  //*send mail to admin for new account
- // Email.send({
-//    from: 'support@buyanycoin.com',
-//    to: 'admin@buyanycoin.com',
-//    subject: 'BuyAnyCoin: New account created',
-//    text: 'Hello Admin,\n\nWelcome the new user "'+user.emails[0].address+'" signed-up at "'+user.createdAt+'". \n\nThanks.'
-//  });
-  //* add field to active/inactive account
-//  AccountStatus.insert({userId: user._id, active: true, email: user.emails[0].address});
-//  return user;
-//});
+Accounts.onCreateUser(function(options, user) {
+  // *send mail to admin for new account
+      Email.send({
+       from: 'support@buyanycoin.com',
+       to: 'admin@buyanycoin.com',
+       subject: 'BuyAnyCoin: New account created',
+       text: 'Hello Admin,\n\nWelcome the new user "'+user.emails[0].address+'" signed-up at "'+user.createdAt+'". \n\nThanks.'
+     });   
+ 
+  // * add field to active/inactive account
+ AccountStatus.insert({userId: user._id, active: true, email: user.emails[0].address});
+ console.log(user);
+ return user;
+});
 
 Accounts.validateLoginAttempt(function (attempt) {
+  console.log('validateLoginAttempt');
   if (!attempt.allowed)
     return false;
 
   if(AccountStatus.find({userId: attempt.user._id}).count()){
-    return AccountStatus.find({userId: attempt.user._id}).map(function (customer) {
+    var res= AccountStatus.find({userId: attempt.user._id}).map(function (customer) {
       //fixture if not added
       if (undefined == customer.active) {
         AccountStatus.update({userId: customer.userId}, {$set:{active: true}});
         return true;
       };
+      console.log(customer.active);
+      if(customer.active){
+         var user_id = attempt.user._id;
+        AccountStatus.upsert({userId: user_id},{$set: {active: true, attempts: 0}})
+      }
       return customer.active;
     });
+    return res[0];
   }
   else{
     //fixture if user is not in AccountStatus
@@ -50,6 +59,22 @@ Accounts.validateLoginAttempt(function (attempt) {
     return true;
   }
   return false;
+});
+
+//on login failure setting incrementing attempts by 1 and if attempts greater than 5 setting account as inactive for 5 minutes
+Accounts.onLoginFailure(function(details){
+  console.log('onLoginFailure');
+  if(details && _.has(details, "user")){
+    var user_id = details.user._id;
+    AccountStatus.upsert({userId: user_id},{$inc: {attempts: 1}});
+    var account = AccountStatus.findOne({userId: user_id});
+    if(account.attempts >= 5){
+      AccountStatus.update({userId: user_id},{$set: {active: false}});
+      Meteor.setTimeout(function () {
+        AccountStatus.update({userId: user_id},{$set: {active: true}});
+      }, 5 * 60 * 1000);
+    }
+  }
 });
 
 

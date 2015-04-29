@@ -33,7 +33,7 @@ Template.SellModal.events({
   'click .sell': function (e, t) {
     var count = parseFloat(t.find('#coins').value);
     console.log('inputs', count, Session.get('modalCurrency'));
-    Meteor.call('sell', currency, count, function (error, result) {
+    Meteor.call('sell', Session.get('modalCurrency'), count, function (error, result) {
       if (error) {
         alert(error)
       } else {
