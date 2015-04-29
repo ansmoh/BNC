@@ -89,8 +89,8 @@ Template.BuyModal.events({
         console.log(result)
         template.find('#buyModal #amount').value = ''
         $('#buyModal').modal('hide')
-        var content = 'Hello '+Meteor.user().emails[0].address+',\n\n You have purchased "'+currency+'" at price $"'+amount+'". \n\nThanks.'
-        Meteor.call('sendEmail', 'BuyAnyCoin: Purchased Coin', content, function(err, res){
+        var content = ''+Meteor.user().emails[0].address+',\n\n You have purchased '+amount+' '+currency+'. \n\nThanks,\n BuyAnyCoin Team'
+        Meteor.call('sendEmail', 'BuyAnyCoin: '+currency+' Purchased', content, function(err, res){
           if (err) {
             console.log(err)
             toastr.error(err.reason, 'Mail not sent')
