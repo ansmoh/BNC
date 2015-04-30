@@ -13,10 +13,10 @@
                 {{#if customerInfo}}
                   {{#each customerInfo}}
                     {{#if blockscore}}
-                  <span class="h3 text-black">{{blockscore.name_first}} {{#if blockscore.name_middle}}{{blockscore.name_middle}} {{/if}}{{blockscore.name_last}}</span>
+                  <span class="h3 text-black">{{firstName}} {{#if blockscore.name_middle}}{{blockscore.name_middle}} {{/if}}{{lastName}}</span>
                   <small class="m-l">{{emailAddress}} </small>
                     {{else}}
-                  <span class="h3 text-black">{{nickName}}</span>
+              <!--    <span class="h3 text-black">{{nickName}}</span> -->
                   <small class="m-l">{{emailAddress}} </small>
                     {{/if}}
                   {{/each}}
