@@ -99,7 +99,7 @@ var Utility = {
         currency: currency,
         amount: amount,
         note: note,
-        status: 'pending',
+        status: 'complete',
         timestamp: Date()
       };
     if( txnid !== undefined ){
