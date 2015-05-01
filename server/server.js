@@ -2,6 +2,7 @@ Meteor.startup(function () {
   // code to run on server at startup.
   // to send mails
   // process.env.MAIL_URL = "smtp://donotreply%40buyanycoin.com:njiokmNJIOKM@smtp.gmail.com:587/";
+  process.env.SIKKA_BLOCK_IP_FOR_MILLIS = 1140000;
   Accounts.emailTemplates.siteName = "BuyAnyCoin";
   Accounts.emailTemplates.from = "BuyAnyCoin <donotreply@buyanycoin.com>";
   Accounts.emailTemplates.resetPassword.text = function(user, url) {
@@ -195,7 +196,7 @@ var Utility = {
         amount: amount,
         note: "Deposit via voucher redemption: Voucher code - '"+code+"'",
         txnid: voucherid,
-        status: 'pending',
+        status: 'complete',
         timestamp: Date()
       };
     var txn = Transactions.insert( t_data );
