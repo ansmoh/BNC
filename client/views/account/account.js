@@ -40,6 +40,25 @@ Template.Account.helpers({
   },
   isPromotionNotifChecked: function (){
     return (this.notifPromotion)? 'checked': '';
+  },
+  profileCompleted:function(){
+    var res = CustomerInfo.findOne({userId: Meteor.userId()});
+    var deposit = totalDepositFn();
+    var dt = Session.get('lastTimeStamp') || new Date();
+    var timeDiff = Math.abs(new Date().getTime() - dt.getTime());
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+    if( res && _.has(res, "blockscore")&& deposit >= 5000 & diffDays > 30){
+      return 100;
+    }
+    else if( res && _.has(res, "blockscore")){
+      return 80;
+    }
+    else if(res){
+      return 30;
+    }
+    else{
+      return 0;
+    }
   }
 });
 

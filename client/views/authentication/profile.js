@@ -75,23 +75,7 @@ Template.Profile.helpers({
     return Session.equals('showVerificationArea', true)
   },
   totalDeposit: function () {
-    var totalDeposit = 0;
-    var lastTimeStamp = 0;
-    Transactions.find({user: Meteor.userId(), currency: "USD", status: 'complete'}).map(function(transaction) {
-      if (parseFloat(transaction.amount) > 0) {
-        totalDeposit += parseFloat(transaction.amount);
-        if (lastTimeStamp == 0 || lastTimeStamp > transaction.timestamp) {
-          lastTimeStamp = transaction.timestamp;
-        };
-      };
-    });
-
-    Session.set('depositVerified', false);
-    Session.set('lastTimeStamp', lastTimeStamp);
-    if (totalDeposit >= 5000) {
-      Session.set('depositVerified', true);
-    };
-    return totalDeposit;
+    return totalDepositFn();
   },
   depositTimestamp: function () {
     var dt = Session.get('lastTimeStamp') || new Date();
