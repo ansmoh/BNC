@@ -122,6 +122,78 @@
             </div>
           </div>
           {{/each}}
+
+        {{else}}
+          <div class="col-md-6">
+            <div class="panel no-border">
+              <div class="panel-heading bg-info lt">
+                <div class="m-sm">
+                  <span class="h4 text-white">Address</span>
+                </div> 
+              </div> 
+              <div class="panel-body bg-light">
+                  <table class="table table-striped">
+                    <tbody>
+                      <tr>
+                        <td>Street</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>City</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>State</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>Country</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>Zip/Postal code</td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="panel no-border">
+              <div class="panel-heading bg-success lt">
+                <div class="m-sm">
+                  <span class="h4 text-white">Notifications/Alerts </span>
+                </div> 
+              </div> 
+              <div class="panel-body bg-light">
+                <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="checkbox">
+                          <label class="control-label" for="notifUpdate">
+                            <input type="checkbox" class="form-control">
+                            News/Updates
+                          </label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="checkbox">
+                          <label class="control-label" for="notifPromotion">
+                            <input type="checkbox" class="form-control" >
+                            Promotions
+                          </label>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         {{/if}}
         </div>
       </div>
