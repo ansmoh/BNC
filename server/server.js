@@ -1,4 +1,4 @@
-Meteor.startup(function () {
+﻿Meteor.startup(function () {
   // code to run on server at startup.
   // to send mails
   // process.env.MAIL_URL = "smtp://donotreply%40buyanycoin.com:njiokmNJIOKM@smtp.gmail.com:587/";
@@ -100,6 +100,27 @@ var Utility = {
         amount: amount,
         note: note,
         status: 'pending',
+        timestamp: Date()
+      };
+    if( txnid !== undefined ){
+      t_data.txnid = txnid;
+    }
+    return Transactions.insert( t_data );
+  },
+  addKnoxTransaction: function (currency, amount, note, txnid) {
+    check(currency, String);
+    check(amount, Number);
+    check(note, String);
+
+    if (! Meteor.userId()) {
+      throw new Meteor.Error("not-logged-in", "Must be logged in to initiate a transaction.");
+    }
+    var t_data = {
+        user: Meteor.userId(),
+        currency: currency,
+        amount: amount,
+        note: note,
+        status: 'complete',
         timestamp: Date()
       };
     if( txnid !== undefined ){
@@ -304,7 +325,7 @@ Meteor.methods({
     }
   },
   depositViaKnox: function (currency, amount, txnid) {
-    return Utility.addTransaction(currency, amount, 'ACH Deposit', txnid);
+    return Utility.addKnoxTransaction(currency, amount, 'ACH Deposit', txnid);
   },
   transactionDetails: function (txnID) {
     // HTTP call to knoxpayments to get the transaction_details according to the txnID
