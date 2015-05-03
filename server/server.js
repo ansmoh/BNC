@@ -90,7 +90,11 @@ var Utility = {
     check(currency, String);
     check(amount, Number);
     check(note, String);
-
+    console.log(currency);
+    var status = "pending";
+    if(currency === 'USD'){
+      status = "complete";
+    }
     if (! Meteor.userId()) {
       throw new Meteor.Error("not-logged-in", "Must be logged in to initiate a transaction.");
     }
@@ -99,7 +103,7 @@ var Utility = {
         currency: currency,
         amount: amount,
         note: note,
-        status: 'pending',
+        status: status,
         timestamp: Date()
       };
     if( txnid !== undefined ){
@@ -216,12 +220,19 @@ var Utility = {
     if(user){
       if(_.has(user, "redeem_info") && user.redeem_info.length >= 10){
         var dates = user.redeem_info;
-        var lastTenthDate = dates.slice(Math.max(dates.length - 10, 1));
-        var diffMs = (d - lastTenthDate[0]);
-        var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
-        if(diffMins <= 30){
-          throw new Meteor.Error("You can redeem only 10 vouchers in 30 minutes");
+        console.log(dates);
+        if(dates.length >= 10){
+          var lastTenthDate = dates.length - 10;
+          var diffMs = (d - dates[lastTenthDate]);
+          var diffMins = Math.round(diffMs  / 60000);
+          if(diffMins <= 30){
+            throw new Meteor.Error("You can redeem only 10 vouchers in 30 minutes");
+          }
         }
+        else{
+          AccountStatus.update({userId: this.userId}, {$push: {redeem_info: d}});
+        }
+        
       }
       else{
         
