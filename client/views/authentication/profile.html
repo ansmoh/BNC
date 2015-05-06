@@ -112,8 +112,7 @@
                 <address>
                   <strong>{{blockscore.name_first}} {{#if blockscore.name_middle}}{{blockscore.name_middle}} {{/if}}{{blockscore.name_last}} </strong><br>
                   {{blockscore.address_street1}}<br>
-                  {{blockscore.address_city}}, {{blockscore.address_subdivision}} {{blockscore.address_postal_code}} {{blockscore.address_country_code}} <br>
-                  Status: {{blockscore.status}}<br>
+                  {{blockscore.address_city}}, {{blockscore.address_subdivision}} {{blockscore.address_postal_code}} {{blockscore.address_country_code}}<br>
                 </address>
               </div>
             </div>
@@ -178,13 +177,13 @@
                   <div class="list-group-item">
                     <div class="row">
                       <div class="col-sm-5">
-                        <input type="text" required="" class="form-control no-border chars" name="name_first" placeholder="Satoshi" maxlength="25">
+                        <input type="text" required="" class="form-control no-border chars" name="name_first" placeholder="First Name" maxlength="25">
                       </div>
-                      <div class="col-sm-2 b-l b-r">
-                        <input type="text" class="form-control no-border chars" name="name_middle" placeholder="V" maxlength="1">
-                      </div>
+                   <!-- <div class="col-sm-2 b-l b-r">
+                        <input type="text" class="form-control no-border chars" name="name_middle" placeholder="M.I." maxlength="1">
+                      </div> -->
                       <div class="col-sm-5">
-                        <input type="text" required="" class="form-control no-border chars" name="name_last" placeholder="Nakamoto" maxlength="25">
+                        <input type="text" required="" class="form-control no-border chars" name="name_last" placeholder="Last Name" maxlength="25">
                       </div>
                     </div>
                   </div>
@@ -249,10 +248,10 @@
                   </div>
                   <div class="list-group-item">
                     <div class="row">
-                      <div class="col-sm-6">
+                      <div class="col-sm-6 b-r">
                         <input type="text" required="" class="form-control no-border chars" name="address_city" placeholder="City" maxlength="25">
                       </div>
-                      <div class="col-sm-6">
+                      <div class="col-sm-6 b-r">
                         <input type="text" required="" class="form-control no-border chars" name="address_subdivision" placeholder="State" maxlength="15">
                       </div>
                     </div>
