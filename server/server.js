@@ -307,7 +307,7 @@ Meteor.methods({
     console.log('count', count);
     var totalFee = count * unitFee;
     console.log('totalFee', totalFee);
-    var note = 'Bought ' + count + ' ' + currency + ' for ' + amount + ' USD @ ' + cRate;
+    var note = 'Bought ' + count + ' ' + currency + ' @ ' + cRate;
 
     if (Utility.getTotalBalance('USD') < amount) {
       throw new Meteor.Error("insufficient-funds", 'There is not enough USD for this transaction.')

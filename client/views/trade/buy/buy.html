@@ -23,7 +23,7 @@
             {{#if isBuyOption}}
             <label for="amount" class="control-label">Number of coins to buy:</label>
             {{else}}
-            <label for="amount" class="control-label">Amount of USD to exchange:</label>
+            <label for="amount" class="control-label">Amount of USD to spend:</label>
             {{/if}}
             <input type="text" class="form-control" id="amount">
             <span class="currency-text"></span>
@@ -40,7 +40,7 @@
             <label class="control-label"><strong>Fee:</strong> ${{fee}}</label>
           </div>
           <div class="form-group">
-            <label class="control-label"><strong>USD Balance :</strong></label>
+            <label class="control-label"><strong>USD Balance:</strong></label>
             <span id="t-balance">{{balance}}</span>
             <span>&nbsp;&nbsp;</span>
             <button type="button" class="btn btn-primary btn-sm buy-max">Buy Max</button>
