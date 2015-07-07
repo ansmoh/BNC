@@ -5,9 +5,12 @@ Meteor.startup(function () {
   // process.env.SIKKA_BLOCK_IP_FOR_MILLIS = 1140000;
   Accounts.emailTemplates.siteName = "BuyAnyCoin";
   Accounts.emailTemplates.from = "BuyAnyCoin <donotreply@buyanycoin.com>";
+    Accounts.emailTemplates.resetPassword.subject = function(user) {
+    return "Password Reset - BuyAnyCoin";
+  }
   Accounts.emailTemplates.resetPassword.text = function(user, url) {
     url = url.replace('#/', '');
-    return "Hi!,\n\nLooks like you forgot your password, no worries. Just click the link below to setup a new one. \n\n"+url+" \n\nThank you,\n\n BuyAnyCoin Team";
+    return "Looks like you forgot your password, no worries. Just click the link below to setup a new one. \n\n"+url+" \n\nThank you,\n\n BuyAnyCoin Team";
   }
   Accounts.emailTemplates.verifyEmail.subject = function(user) {
     return "Please verify your email";
