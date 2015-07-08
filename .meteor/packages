@@ -22,7 +22,7 @@ jparker:crypto-sha256
 nemo64:bootstrap
 bankfacil:vanilla-masker
 chrismbeckett:toastr
-codeforemen:accounts-ui-bootstrap-3
 yogiben:admin
 coffeescript
 email
+ian:accounts-ui-bootstrap-3
