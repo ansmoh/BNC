@@ -12,6 +12,14 @@ Template.WithdrawModal.events({
   'click .withdraw':function () {
     var count = parseFloat($('#withdrawModal #coinCount').val());
     var wAdd = $('#withdrawModal #wAddress').val();
+    function isPositiveInteger(n) {
+        return n >>> 0 === parseFloat(n);
+    }
+
+    if( !isPositiveInteger(count) || count === 0 ){
+      toastr.error("amount should be postive number.");
+      return;
+    }
     Meteor.call('withdrawCoin', Session.get('modalCurrency'), count, wAdd, function (error, result) {
       if (error) {
         alert(error)

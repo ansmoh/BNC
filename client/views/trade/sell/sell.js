@@ -26,6 +26,9 @@ Template.SellModal.helpers({
   },
   fee: function () {
     return (parseFloat(Session.get('sellCoins')) * parseFloat(Session.get('modalRate')) * 0.01).toFixed(5)
+  },
+  sellallVisisibility: function(bal){
+    return bal > 0;
   }
 });
 
@@ -33,6 +36,10 @@ Template.SellModal.events({
   'click .sell': function (e, t) {
     var count = parseFloat(t.find('#coins').value);
     console.log('inputs', count, Session.get('modalCurrency'));
+    if( count <= 0){
+      toastr.error("You cannot sell less than 0 coins");
+      return;
+    }
     Meteor.call('sell', Session.get('modalCurrency'), count, function (error, result) {
       if (error) {
         alert(error)
