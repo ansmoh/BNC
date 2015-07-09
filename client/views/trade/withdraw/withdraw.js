@@ -24,5 +24,8 @@ Template.WithdrawModal.events({
       }
     })
     $('#withdrawModal').modal('hide');
+  },
+  'click .withdrawAll': function(){
+    $('#withdrawModal #coinCount').val( Session.get('modelBalance') )
   }
 })

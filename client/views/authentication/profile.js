@@ -21,7 +21,6 @@ Template.Profile.helpers({
     if (this.status == 'pending' && this.contactNo) {
       var infoId = this._id;
       Meteor.call('verifyNumber', this.contactNo.replace('-', ''), function (error, result) {
-        console.log("verifyNumber res ", error, result)
         if (error) {
           console.log(error)
           toastr.error(error.reason, 'Phone Verification')
@@ -63,6 +62,7 @@ Template.Profile.helpers({
     return true
   },
   bsPanelClass: function () {
+    console.log(this);
     if (this.blockscore && this.blockscore.status && this.blockscore.status == 'valid') {
       return "success"
     };
@@ -210,24 +210,26 @@ Template.BlockscoreModal.helpers({
 
 Template.BlockscoreModal.events({
   'click .blockscore-verify' : function(e, t){
+    $(".tier2CusColor").css('background-color', "orange");
     userData={};
     $.each($('#blockscore-verify-form').serializeArray(), function() {
         userData[this.name] = this.value;
     });
     console.log(userData);
     Meteor.call('verifyBlockScoreUser', userData, function (err, res) {
-      // console.log(err, res);
       if (err) {
         toastr.error(err.reason, 'Please check the form to ensure it is complete and try again.', 'Submission Error');
         return console.log(err);
       };
+      console.log(res);
       Meteor.call('saveUserInfo', userData, res.data, function(error, resp){
         if (error) {
           // toastr.error(error.reason, 'Verification Error');
           toastr.error("Please check the form for the correct information and try again.", 'Submission Error');
           return console.log(error);
         };
-        console.log('resp', resp, res.data);
+        // console.log('resp', resp, res.data);
+        $(".tier2CusColor").css('background-color', "");
         toastr.success('Verification successful.', 'Verification');
         $('#tier2').removeClass('in');
         $('#blockscore-form').modal('hide')

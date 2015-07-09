@@ -40,6 +40,12 @@ Template.SellModal.events({
       toastr.error("You cannot sell this amount of coins");
       return;
     }
+
+    if( count > Session.get('coinsBalance') ){
+      toastr.error("Insufficient Funds");
+      return;
+    }
+
     Meteor.call('sell', Session.get('modalCurrency'), count, function (error, result) {
       if (error) {
         alert(error)

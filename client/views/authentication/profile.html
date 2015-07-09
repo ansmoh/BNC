@@ -102,7 +102,7 @@
           {{#if customerInfo}}
             {{#each customerInfo}}           
               {{#if blockscore}}
-            <div class="panel-heading bg-{{bsPanelClass}}">
+            <div class="panel-heading bg-{{bsPanelClass}} tier2CusColor">
               <div class="m-sm" data-toggle="collapse" data-target="#tier-2" aria-expanded="false" aria-controls="tier2" style="cursor:pointer">
                 <span class="h4 text-white">Tier 2</span>
                 <span class="h4 text-white pull-right"><i class="fa fa-toggle-down"></i></span>
@@ -120,7 +120,7 @@
             {{/each}}
           {{/if}}
           {{#if showCustomerInfoForm}}
-            <div class="panel-heading bg-danger">
+            <div class="panel-heading bg-{{bsPanelClass}} tier2CusColor">
               <div class="m-sm" data-toggle="collapse" data-target="#tier2" aria-expanded="false" aria-controls="tier2" style="cursor:pointer">
                 <span class="h4 text-white">Tier 2</span>
                 <span class="h4 text-white pull-right" ><i class="fa fa-toggle-down"></i></span>

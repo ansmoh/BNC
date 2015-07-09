@@ -75,8 +75,11 @@ Template.BuySellModal.helpers({
   currencyBalance: function () {
     var totalBalance = 0;
     Transactions.find({user: Meteor.userId(), currency: Session.get('modalCurrency')}).map(function(transaction) {
-      totalBalance += parseFloat(transaction.amount)
+      if( !isNaN(transaction.amount) ){
+        totalBalance += parseFloat(transaction.amount)
+      }
     });
+    console.log(totalBalance);
     Session.set('modelBalance', totalBalance);
     return parseFloat(Math.round(totalBalance * 100000)/100000).toString()
   },
