@@ -68,6 +68,14 @@ AdminConfig = {
         {label: 'Activated', name: 'activated'},
         {label: 'Redeemed', name: 'redeemed'}
       ]
+    },
+    Settings:{
+      icon: "cog",
+      color: "red",
+      tableColumns:[
+        {label: 'Desc', name: 'desc'},
+        {label: 'Active', name: 'active'}
+      ]
     }
   }
 };

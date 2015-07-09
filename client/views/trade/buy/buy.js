@@ -63,8 +63,8 @@ Template.BuyModal.helpers({
 Template.BuyModal.events({
   'click .buy':function (evt, template) {
     var amount = parseFloat(template.find('#buyModal #amount').value);
-if( !isPositiveInteger(amount) || 0 == amount ){
-+      toastr.error("you cannot buy negative or 0 coins");
+    if( !isPositiveInteger(amount) ){
+      toastr.error("you cannot buy negative or 0 coins");
       return;
     }
 

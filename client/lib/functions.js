@@ -1,3 +1,7 @@
 isPositiveInteger = function(n) {
-    return n > 0 ;
+	if( isNaN(n) ){
+		return false;
+	}else{
+    	return n > 0 ;
+	}
 }

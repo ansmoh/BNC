@@ -19,6 +19,10 @@ Meteor.startup(function () {
     url = url.replace('#/', '');
     return "Hello,\n\nTo verify your account email, simply click the link below. \n\n"+url+" \n\n - BuyAnyCoin Team";
   }
+
+  if( !Settings.findOne() ){
+    Settings.insert({ active: false, desc: "Customize text" });
+  }
 });
 
 Accounts.onCreateUser(function(options, user) {

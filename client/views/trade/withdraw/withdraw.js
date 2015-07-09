@@ -12,9 +12,7 @@ Template.WithdrawModal.events({
   'click .withdraw':function () {
     var count = parseFloat($('#withdrawModal #coinCount').val());
     var wAdd = $('#withdrawModal #wAddress').val();
-    
-
-    if( !isPositiveInteger(count) || count === 0 ){
+    if( !isPositiveInteger(count)){
       toastr.error("amount should be postive number.");
       return;
     }

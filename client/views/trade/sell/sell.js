@@ -36,8 +36,8 @@ Template.SellModal.events({
   'click .sell': function (e, t) {
     var count = parseFloat(t.find('#coins').value);
     console.log('inputs', count, Session.get('modalCurrency'));
-    if( count <= 0){
-      toastr.error("You cannot sell less than 0 coins");
+    if( !isPositiveInteger(count)){
+      toastr.error("You cannot sell this amount of coins");
       return;
     }
     Meteor.call('sell', Session.get('modalCurrency'), count, function (error, result) {

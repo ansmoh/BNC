@@ -25,3 +25,7 @@ Meteor.publish('voucher', function() {
 Meteor.publish('accountStatus', function() {
   return AccountStatus.find({userId: this.userId});
 });
+
+Meteor.publish('settingsInfo', function () {
+	return Settings.find({});
+});
