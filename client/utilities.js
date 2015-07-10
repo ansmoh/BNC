@@ -24,7 +24,7 @@ totalDepositFn = function(){
         };
       };
     });
-
+    totalDeposit = totalDeposit.toFixed(2);
     Session.set('depositVerified', false);
     Session.set('lastTimeStamp', lastTimeStamp);
     if (totalDeposit >= 5000) {
