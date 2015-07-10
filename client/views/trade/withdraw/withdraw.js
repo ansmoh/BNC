@@ -12,6 +12,10 @@ Template.WithdrawModal.events({
   'click .withdraw':function () {
     var count = parseFloat($('#withdrawModal #coinCount').val());
     var wAdd = $('#withdrawModal #wAddress').val();
+    if( !wAdd || wAdd === " " || wAdd.length < 4){
+      toastr.error("Destination address is required and should be min 4 characters.");
+      return;
+    }
     if( !isPositiveInteger(count)){
       toastr.error("amount should be postive number.");
       return;

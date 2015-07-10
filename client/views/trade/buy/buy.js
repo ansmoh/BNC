@@ -114,9 +114,20 @@ Template.BuyModal.events({
   },
   'click .buy-max':function(e, t){
     if (Session.get('buyOption')) {
+      
       var tb = parseFloat(t.find('#buyModal #t-balance').innerHTML.replace(/,/g, ''));
       var coins = tb / (parseFloat(Session.get('modalRate')) * 1.01);
-      t.find('#buyModal #amount').value = parseFloat(Math.round(coins * 100) / 100).toFixed(2);
+      var res = parseFloat(Math.round(coins * 100) / 100).toFixed(2);
+      console.log(coins);
+      var fee = (res * (parseFloat(Session.get('modalRate')) * 1.00)) * 0.01;
+      console.log(fee);
+      var with_fee = (coins * Session.get('modalRate') ) + fee;
+      console.log(with_fee);
+      console.log(tb);
+      if( with_fee > tb ){
+        res = res-1.0;
+      }
+      t.find('#buyModal #amount').value = res;
     }
     else
       t.find('#buyModal #amount').value = parseFloat(t.find('#buyModal #t-balance').innerHTML.replace(/,/g, ''));
