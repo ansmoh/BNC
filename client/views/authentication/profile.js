@@ -31,7 +31,7 @@ Template.Profile.helpers({
           else{
             Session.set('showVerificationArea', true);
             $('#tier1').addClass('in')
-            CustomerInfo.update({_id: infoId}, {$set: {status: 'processing'}})
+            Meteor.call('setStatusProcessing', infoId);
             toastr.success(result.data.message, 'Phone Verification')
           }
         }

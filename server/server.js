@@ -430,5 +430,8 @@ Meteor.methods({
   },
   addCustomerInfo:function(fname, lname, cont){
     return CustomerInfo.insert({"firstName": fname, "lastName": lname, "contactNo": cont});
+  },
+  setStatusProcessing: function(id){
+    CustomerInfo.update({_id: id}, {$set: {status: 'processing'}})
   }
 })
