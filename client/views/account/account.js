@@ -64,9 +64,11 @@ Template.Account.helpers({
 
 Template.Account.events({
   'change #notifUpdate': function (e, t){
-    CustomerInfo.update({_id: Session.get('cID')}, {$set: {notifUpdate: t.find('#notifUpdate').checked}});
+    // CustomerInfo.update({_id: Session.get('cID')}, {$set: {notifUpdate: t.find('#notifUpdate').checked}});
+    $(e.currentTarget).prop('checked', true);
   },
   'change #notifPromotion': function (e, t){
-    CustomerInfo.update({_id: Session.get('cID')}, {$set: {notifPromotion: t.find('#notifPromotion').checked}});
+    // CustomerInfo.update({_id: Session.get('cID')}, {$set: {notifPromotion: t.find('#notifPromotion').checked}});
+    $(e.currentTarget).prop('checked', true);
   }
 })

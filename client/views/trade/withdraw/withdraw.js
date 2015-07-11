@@ -20,6 +20,10 @@ Template.WithdrawModal.events({
       toastr.error("amount should be postive number.");
       return;
     }
+    var url = "https://shapeshift.io/validateAddress/"+wAdd+"/$";
+   /* HTTP.get(url, {}, function(e,r){
+      console.log(e, r);
+    });*/
     Meteor.call('withdrawCoin', Session.get('modalCurrency'), count, wAdd, function (error, result) {
       if (error) {
         alert(error)
