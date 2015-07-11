@@ -1,6 +1,9 @@
 Template.Account.helpers({
   customerInfo:function () {
-    return CustomerInfo.find({userId: Meteor.userId()}).fetch();
+    var res = User.findOne({userId: Meteor.userId()});
+    if( res && res.firstName ){
+      return res;
+    }
   },
   emailAddress:function () {
     return Meteor.user().emails[0].address;
@@ -42,7 +45,8 @@ Template.Account.helpers({
     return (this.notifPromotion)? 'checked': '';
   },
   profileCompleted:function(){
-    var res = CustomerInfo.findOne({userId: Meteor.userId()});
+    var res = User.findOne({userId: Meteor.userId()});
+    // var res = user_info.customerInfo;
     var deposit = totalDepositFn();
     var dt = Session.get('lastTimeStamp') || new Date();
     var timeDiff = Math.abs(new Date().getTime() - dt.getTime());

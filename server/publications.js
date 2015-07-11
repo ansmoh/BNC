@@ -3,7 +3,7 @@ Meteor.publish('currencies', function() {
 });
 
 Meteor.publish('customerInfo', function() {
-  return CustomerInfo.find({userId: this.userId});
+  return User.find({userId: this.userId});
 });
 
 Meteor.publish('images', function() {

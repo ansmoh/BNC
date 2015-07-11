@@ -77,5 +77,13 @@ AdminConfig = {
         {label: 'Active', name: 'active'}
       ]
     }
-  }
+  },
+  userSchema: new SimpleSchema({
+    'firstname': {
+       type: String,
+       autoValue: function(){
+        console.log(this.userId);
+       }
+     }
+  })
 };

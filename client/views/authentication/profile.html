@@ -8,37 +8,37 @@
         <div class="col-md-4">
           <div class="panel no-border">
           {{#if customerInfo}}
-            {{#each customerInfo}}                 
-              {{#if contactNo}} 
-                <div class="panel-heading bg-{{contactPanelClass}}">
-                  <div class="m-sm" data-toggle="collapse" data-target="#tier1" aria-expanded="false" aria-controls="tier1" style="cursor:pointer">
-                    <span class="h4 text-white">Tier 1</span>
-                    <span class="h4 text-white pull-right" ><i class="fa fa-toggle-down"></i></span>
-                    <span class="h4 text-white pull-right m-r-sm" data-toggle="tooltip" data-placement="top" title="Tier 1 requires a valid phone number and a full name to be verified. Once you have confirmed these two requirements you will have access to transact $800 a day." style="cursor:pointer"><i class="fa fa-question-circle"></i></span>
-                  </div> 
-                  <div class="collapse text-center m-t-md" id="tier1">  
-                    <p>
-                      {{#if firstName}}
-                      <h3>{{firstName}} {{lastName}}</h3><br />
-                      {{/if}}
-                      <h3><i class="fa fa-phone"></i> &nbsp; {{contactNo}} </h3><br />
-                      <a class="btn btn-sm btn-{{statusClass}} btn-rounded" href="">{{status}}</a>
-                      {{#if showVerifyButton}}
-                      <button class="btn btn-sm btn-success btn-rounded verify">Resend Token</button><br>
-                      <!-- <span>If already have a token, <a href="#" class='tokenSent'>click here</a></span> -->
-                      {{/if}}
-                      {{#if showVerificationArea}}
-                      <br>
-                      <span>Enter token sent to your phone number</span>
-                      <br>
-                      <input type="text" id="token"/>
-                      <button class="btn btn-sm btn-success verifyToken">Submit</button>
-                      {{/if}}
-                    </p>
+            {{#with customerInfo}}                 
+                {{#if contactNo}} 
+                  <div class="panel-heading bg-{{contactPanelClass}}">
+                    <div class="m-sm" data-toggle="collapse" data-target="#tier1" aria-expanded="false" aria-controls="tier1" style="cursor:pointer">
+                      <span class="h4 text-white">Tier 1</span>
+                      <span class="h4 text-white pull-right" ><i class="fa fa-toggle-down"></i></span>
+                      <span class="h4 text-white pull-right m-r-sm" data-toggle="tooltip" data-placement="top" title="Tier 1 requires a valid phone number and a full name to be verified. Once you have confirmed these two requirements you will have access to transact $800 a day." style="cursor:pointer"><i class="fa fa-question-circle"></i></span>
+                    </div> 
+                    <div class="collapse text-center m-t-md" id="tier1">  
+                      <p>
+                        {{#if firstName}}
+                        <h3>{{firstName}} {{lastName}}</h3><br />
+                        {{/if}}
+                        <h3><i class="fa fa-phone"></i> &nbsp; {{contactNo}} </h3><br />
+                        <a class="btn btn-sm btn-{{statusClass}} btn-rounded" href="">{{status }}</a>
+                        {{#if showVerifyButton}}
+                        <button class="btn btn-sm btn-success btn-rounded verify">Resend Token</button><br>
+                        <!-- <span>If already have a token, <a href="#" class='tokenSent'>click here</a></span> -->
+                        {{/if}}
+                        {{#if showVerificationArea}}
+                        <br>
+                        <span>Enter token sent to your phone number</span>
+                        <br>
+                        <input type="text" id="token"/>
+                        <button class="btn btn-sm btn-success verifyToken">Submit</button>
+                        {{/if}}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              {{/if}}
-            {{/each}}
+                {{/if}}
+            {{/with}}
           {{else}} 
             <div class="panel-heading bg-danger">
               <div class="m-sm" data-toggle="collapse" data-target="#tier1" aria-expanded="false" aria-controls="tier1" style="cursor:pointer">
@@ -100,7 +100,7 @@
         <div class="col-md-4">
           <div class="panel no-border">
           {{#if customerInfo}}
-            {{#each customerInfo}}           
+            {{#with customerInfo}}           
               {{#if blockscore}}
             <div class="panel-heading bg-{{bsPanelClass}} tier2CusColor">
               <div class="m-sm" data-toggle="collapse" data-target="#tier-2" aria-expanded="false" aria-controls="tier2" style="cursor:pointer">
@@ -117,7 +117,7 @@
               </div>
             </div>
           {{/if}}
-            {{/each}}
+            {{/with}}
           {{/if}}
           {{#if showCustomerInfoForm}}
             <div class="panel-heading bg-{{bsPanelClass}} tier2CusColor">

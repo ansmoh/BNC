@@ -36,7 +36,9 @@ Accounts.onCreateUser(function(options, user) {
  
   // * add field to active/inactive account
  AccountStatus.insert({userId: user._id, active: true, email: user.emails[0].address});
- console.log(user);
+ 
+ User.insert({ userId: user._id, active: true, email: user.emails[0].address });
+
  return user;
 });
 
@@ -272,8 +274,8 @@ var Utility = {
     if (! Meteor.userId()) {
       throw new Meteor.Error("not-logged-in", "Must be logged in to verify information.");
     }
-    console.log("saveUserInfo", user, bsData);
-    return CustomerInfo.update({userId: Meteor.userId()}, {$set:{firstName: user.name_first, middleName: user.name_middle, lastName: user.name_last, blockscore: bsData}});
+    var info_obj = {firstName: user.name_first, middleName: user.name_middle, lastName: user.name_last, blockscore: bsData};
+    return User.update({userId: Meteor.userId()}, {$set: info_obj  });
   }
 }
 
@@ -401,7 +403,7 @@ Meteor.methods({
     return HTTP.call("GET", apiUrl+'&phone_number='+phone_number+'&country_code=1&verification_code='+token);
   },
   authrizeNumber: function () {
-    return CustomerInfo.update({userId: Meteor.userId()}, { $set: {status: 'complete'}})
+    return User.update({userId: Meteor.userId()}, { $set: {'status': 'complete'}})
   },
   verifyBlockScoreUser: function(userData){
     var apiURL = 'https://api.blockscore.com/people';
@@ -429,9 +431,10 @@ Meteor.methods({
     return HTTP.get(url, {});
   },
   addCustomerInfo:function(fname, lname, cont){
-    return CustomerInfo.insert({"firstName": fname, "lastName": lname, "contactNo": cont});
+    var data = {"firstName": fname, "lastName": lname, "contactNo": cont};
+    return User.update({ userId: this.userId }, { $set:  data } );
   },
-  setStatusProcessing: function(id){
-    CustomerInfo.update({_id: id}, {$set: {status: 'processing'}})
+  setStatusProcessing: function(){
+    User.update({userId: this.userId}, {$set: {'status': 'processing'}})
   }
 })

@@ -11,7 +11,7 @@
               <div class="clear m-b">
                 <div class="m-b m-t-sm">
                 {{#if customerInfo}}
-                  {{#each customerInfo}}
+                  {{#with customerInfo}}
                     {{#if blockscore}}
                   <span class="h3 text-black">{{firstName}} {{#if blockscore.name_middle}}{{blockscore.name_middle}} {{/if}}{{lastName}}</span>
                   <small class="m-l">{{emailAddress}} </small>
@@ -19,7 +19,7 @@
               <!--    <span class="h3 text-black">{{nickName}}</span> -->
                   <small class="m-l">{{emailAddress}} </small>
                     {{/if}}
-                  {{/each}}
+                  {{/with}}
                 {{else}}
                   <span class="h3 text-black">{{emailAddress}}</span>
                 {{/if}}
@@ -30,11 +30,11 @@
 
               <div class="pull-right pull-none-xs text-center">
               {{#if customerInfo}}
-                {{#each customerInfo}}
+                {{#with customerInfo}}
                 <a class="btn btn-sm btn-bg btn-rounded btn-{{tier1Class}} btn-icon l-h-2x font-bold" href="/verification" title="Verification Progress">1</a>
                 <a class="btn btn-sm btn-bg btn-rounded btn-{{tier2Class}} btn-icon l-h-2x font-bold" href="/verification" title="Verification Progress">2</a>
                 <a class="btn btn-sm btn-bg btn-rounded btn-{{tier3Class}} btn-icon l-h-2x font-bold" href="/verification" title="Verification Progress">3</a>
-                {{/each}}
+                {{/with}}
               {{else}}
                 <a class="btn btn-sm btn-bg btn-rounded btn-danger btn-icon l-h-2x font-bold" href="/verification" title="Verification Progress">1</a>
                 <a class="btn btn-sm btn-bg btn-rounded btn-danger btn-icon l-h-2x font-bold" href="/verification" title="Verification Progress">2</a>
@@ -55,7 +55,7 @@
         </div>
         <div class="row">
         {{#if customerInfo}}
-          {{#each customerInfo}}
+          {{#with customerInfo}}
           <div class="col-md-6">
             <div class="panel no-border">
               <div class="panel-heading bg-info lt">
@@ -130,7 +130,7 @@
               </div>
             </div>
           </div>
-          {{/each}}
+          {{/with}}
 
         {{else}}
           <div class="col-md-6">

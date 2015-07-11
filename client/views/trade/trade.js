@@ -113,7 +113,7 @@ Template.BuySellModal.helpers({
   },
   isDisabled: function () {
     var disabled = "disabled";
-    CustomerInfo.find({userId: Meteor.userId()}).map(function (customer) {
+    User.find({userId: Meteor.userId()}).map(function (customer) {
       if ("complete" == customer.status) {
         disabled = "";
       };

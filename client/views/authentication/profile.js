@@ -5,10 +5,13 @@ Template.Profile.rendered = function() {
 
 Template.Profile.helpers({
   customerInfo:function () {
-    return CustomerInfo.find({userId: Meteor.userId()}).fetch();
+    var res = User.findOne({userId: Meteor.userId()});
+    if( res && res.firstName ){
+      return res;
+    }
   },
   showCustomerInfoForm:function () {
-    var customerData = CustomerInfo.find({userId: Meteor.userId(), "blockscore.object": "person"}).fetch();
+    var customerData = User.find({userId: Meteor.userId(), "blockscore.object": "person"}).fetch();
     return customerData.length ? false: true;
   },
   getImage:function (id) {
@@ -20,6 +23,7 @@ Template.Profile.helpers({
     };
     if (this.status == 'pending' && this.contactNo) {
       var infoId = this._id;
+      console.log(this);
       Meteor.call('verifyNumber', this.contactNo.replace('-', ''), function (error, result) {
         if (error) {
           console.log(error)
@@ -31,7 +35,7 @@ Template.Profile.helpers({
           else{
             Session.set('showVerificationArea', true);
             $('#tier1').addClass('in')
-            Meteor.call('setStatusProcessing', infoId);
+            Meteor.call('setStatusProcessing');
             toastr.success(result.data.message, 'Phone Verification')
           }
         }
@@ -168,6 +172,22 @@ Template.Profile.events({
               }
               else{
                 toastr.success('User details updated');
+                Meteor.call('verifyNumber', contact, function (noError, noResult) {
+                  if (noError) {
+                    console.log(noError)
+                    toastr.error(noError.reason, 'Phone Verification')
+                  } else {
+                    console.log(noResult)
+                    if(!noResult.data.success)
+                      toastr.error(noResult.data.message, 'Phone Verification')
+                    else{
+                      Session.set('showVerificationArea', true);
+                      $('#tier1').addClass('in')
+                      Meteor.call('setStatusProcessing');
+                      toastr.success(noResult.data.message, 'Phone Verification')
+                    }
+                  }
+                })
               }
             })
           }
