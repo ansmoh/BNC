@@ -34,30 +34,30 @@ Accounts.onCreateUser(function(options, user) {
        text: 'Hello Admin,\n\nWelcome the new user '+user.emails[0].address+' signed-up at '+user.createdAt+'.'
      });   
  
-  // * add field to active/inactive account
- AccountStatus.insert({userId: user._id, active: true, email: user.emails[0].address});
- 
  User.insert({ userId: user._id, active: true, email: user.emails[0].address });
 
  return user;
 });
 
 Accounts.validateLoginAttempt(function (attempt) {
-  console.log('validateLoginAttempt');
   if (!attempt.allowed)
     return false;
+  var loginDetials = {}
+  loginDetials.loginAt = Date.now();
 
-  if(AccountStatus.find({userId: attempt.user._id}).count()){
-    var res= AccountStatus.find({userId: attempt.user._id}).map(function (customer) {
+  if(User.find({userId: attempt.user._id}).count()){
+    var res= User.find({userId: attempt.user._id}).map(function (customer) {
       //fixture if not added
       if (undefined == customer.active) {
-        AccountStatus.update({userId: customer.userId}, {$set:{active: true}});
+        loginDetials.status = true;
+        User.update({userId: customer.userId}, {$set:{active: true}, $push: { loginInfo: loginDetials }  });
         return true;
       };
       console.log(customer.active);
       if(customer.active){
          var user_id = attempt.user._id;
-        AccountStatus.upsert({userId: user_id},{$set: {active: true, attempts: 0}})
+         loginDetials.status = true;
+        User.upsert({userId: user_id},{$set: {active: true, attempts: 0}, $push: { loginInfo: loginDetials }  })
       }
       return customer.active;
     });
@@ -65,7 +65,8 @@ Accounts.validateLoginAttempt(function (attempt) {
   }
   else{
     //fixture if user is not in AccountStatus
-    AccountStatus.insert({userId: attempt.user._id, active: true, email: attempt.user.emails[0].address});
+    loginDetials.status = true;
+    User.insert({userId: attempt.user._id, active: true, email: attempt.user.emails[0].address, loginInfo: [ loginDetials ] });
     return true;
   }
   return false;
@@ -76,12 +77,12 @@ Accounts.onLoginFailure(function(details){
   console.log('onLoginFailure');
   if(details && _.has(details, "user")){
     var user_id = details.user._id;
-    AccountStatus.upsert({userId: user_id},{$inc: {attempts: 1}});
-    var account = AccountStatus.findOne({userId: user_id});
+    User.upsert({userId: user_id},{$inc: {attempts: 1}});
+    var account = User.findOne({userId: user_id});
     if(account.attempts >= 5){
-      AccountStatus.update({userId: user_id},{$set: {active: false}});
+      User.update({userId: user_id},{$set: {active: false}});
       Meteor.setTimeout(function () {
-        AccountStatus.update({userId: user_id},{$set: {active: true}});
+        User.update({userId: user_id},{$set: {active: true}});
       }, 5 * 60 * 1000);
     }
   }
@@ -224,7 +225,7 @@ var Utility = {
     if (! Meteor.userId()) {
       throw new Meteor.Error("not-logged-in", "Must be logged in to redeem a voucher.");
     }
-    var user = AccountStatus.findOne({userId: this.userId});
+    var user = User.findOne({userId: this.userId});
     var d = Date.now();
     if(user){
       if(_.has(user, "redeem_info") && user.redeem_info.length >= 10){
@@ -239,17 +240,17 @@ var Utility = {
           }
         }
         else{
-          AccountStatus.update({userId: this.userId}, {$push: {redeem_info: d}});
+          User.update({userId: this.userId}, {$push: {redeem_info: d}});
         }
         
       }
       else{
         
-        AccountStatus.update({userId: this.userId}, {$push: {redeem_info: d}});
+        User.update({userId: this.userId}, {$push: {redeem_info: d}});
       }
     }
     else{
-       AccountStatus.insert({userId: this.userId, redeem_info: [d] });
+       User.insert({userId: this.userId, redeem_info: [d] });
     }
     var t_data = {
         user: Meteor.userId(),
