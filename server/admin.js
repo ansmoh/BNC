@@ -7,7 +7,8 @@ AdminConfig = {
     WithdrawalRequest:{},
     Transactions:{},
     AccountStatus:{},
-    Voucher:{}
+    Voucher:{},
+    User:{}
   },
   userSchema: new SimpleSchema({
     'frstname': {

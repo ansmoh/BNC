@@ -44,7 +44,9 @@ Accounts.validateLoginAttempt(function (attempt) {
     return false;
   var loginDetials = {}
   loginDetials.loginAt = Date.now();
-
+  if( attempt.connection && attempt.connection.clientAddress ){
+    loginDetials.ip = attempt.connection.clientAddress;
+  }
   if(User.find({userId: attempt.user._id}).count()){
     var res= User.find({userId: attempt.user._id}).map(function (customer) {
       //fixture if not added
@@ -79,7 +81,7 @@ Accounts.onLoginFailure(function(details){
     var user_id = details.user._id;
     User.upsert({userId: user_id},{$inc: {attempts: 1}});
     var account = User.findOne({userId: user_id});
-    if(account.attempts >= 5){
+    if(account && account.attempts >= 5){
       User.update({userId: user_id},{$set: {active: false}});
       Meteor.setTimeout(function () {
         User.update({userId: user_id},{$set: {active: true}});
