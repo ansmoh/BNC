@@ -114,7 +114,6 @@ Template.BuyModal.events({
   },
   'click .buy-max':function(e, t){
     if (Session.get('buyOption')) {
-      
       var tb = parseFloat(t.find('#buyModal #t-balance').innerHTML.replace(/,/g, ''));
       var coins = tb / (parseFloat(Session.get('modalRate')) * 1.01);
       var res = parseFloat(Math.round(coins * 100) / 100).toFixed(2);

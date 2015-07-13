@@ -20,18 +20,31 @@ Template.WithdrawModal.events({
       toastr.error("amount should be postive number.");
       return;
     }
-    var url = "https://shapeshift.io/validateAddress/"+wAdd+"/$";
-   /* HTTP.get(url, {}, function(e,r){
-      console.log(e, r);
-    });*/
-    Meteor.call('withdrawCoin', Session.get('modalCurrency'), count, wAdd, function (error, result) {
-      if (error) {
-        alert(error)
-      } else {
-        console.log(result)
+    // 1AenJytuP6en22SKWTXWDEh5BqAfd7gXSb
+    var url = "https://shapeshift.io/validateAddress/"+wAdd+"/"+Session.get('modalCurrency');
+    HTTP.get(url, {}, function(e,r){
+      if(e){
+        toastr.error("Invalid withdraw address, please check the address and try again");
+        return;
+      }else{
+        if( r.statusCode === 200 &&  r.data.isvalid ){
+           Meteor.call('withdrawCoin', Session.get('modalCurrency'), count, wAdd, function (error, result) {
+            if (error) {
+              alert(error)
+            } else {
+              toastr.success("withdraw success.")
+              console.log(result)
+            }
+          })
+         }else{
+            toastr.error("Invalid withdraw address, please check the address and try again");
+            return;
+         }
+         $('#withdrawModal').modal('hide');
       }
-    })
-    $('#withdrawModal').modal('hide');
+    });
+   
+    
   },
   'click .withdrawAll': function(){
     $('#withdrawModal #coinCount').val( Session.get('modelBalance') )

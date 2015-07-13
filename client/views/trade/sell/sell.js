@@ -51,6 +51,7 @@ Template.SellModal.events({
         alert(error)
       } else {
         console.log(result)
+        $("#coins").val('');
         var content = ''+Meteor.user().emails[0].address+',\n\n You have sold '+count+' '+Session.get('modalCurrency')+'. \n\nThanks,\n BuyAnyCoin Team'
         Meteor.call('sendEmail', 'BuyAnyCoin: '+Session.get('modalCurrency')+' Sold', content, function(err, res){
           if (err) {

@@ -39,6 +39,7 @@ AdminConfig = {
       color: "purple",
       omitFields: ['user', 'timestamp'],
       tableColumns:[
+        {label: 'UserId', name: 'user'},
         {label: 'Currency', name: 'currency'},
         {label: 'Amount', name: 'amount'},
         {label: 'Status', name: 'status'},
@@ -76,7 +77,17 @@ AdminConfig = {
         {label: 'Desc', name: 'desc'},
         {label: 'Active', name: 'active'}
       ]
+    },
+    User:{
+      icon: "user",
+      color: 'blue',
+      tableColumns:[
+        {label: 'Userid', name: 'userId'},
+        {label: 'Email', name: 'email'},
+        {label: 'Fname', name: 'firstName'},
+        {label: 'Lname', name: 'lastName'},
+        {label: 'Active', name: 'active'},
+      ]
     }
-  },
-  User:{}
+  }
 };
