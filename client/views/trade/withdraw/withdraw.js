@@ -16,8 +16,8 @@ Template.WithdrawModal.events({
       toastr.error("Destination address is required and should be min 4 characters.");
       return;
     }
-    if( !isPositiveInteger(count)){
-      toastr.error("amount should be postive number.");
+    if( !isPositiveInteger(count) || Session.get("coinsBalance") < count ){
+      toastr.error("Please check the withdraw amount.");
       return;
     }
     // 1AenJytuP6en22SKWTXWDEh5BqAfd7gXSb

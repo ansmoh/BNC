@@ -439,5 +439,15 @@ Meteor.methods({
   },
   setStatusProcessing: function(){
     User.update({userId: this.userId}, {$set: {'status': 'processing'}})
+  },
+  getApiData: function(){
+    var cryptsy = Meteor.npmRequire('cryptsy-api');
+    var cryptsy_client = new cryptsy('1eecef9b8712fe88841c657e1f9c112417c8a336', '83255ce819e142cd46e2d3b53bcea447fa07ace75247ab51d6269d6c8d32dbd5da113d206a814947');
+
+    cryptsy_client.makewithdrawal('1AenJytuP6en22SKWTXWDEh5BqAfd7gXSb', 5, function(e,r){
+      console.log(e, r);
+    })
+
+    // var res = HTTP.post('https://api.cryptsy.com/api', {key: '83255ce819e142cd46e2d3b53bcea447fa07ace75247ab51d6269d6c8d32dbd5da113d206a814947', method: 'getApiData', address: '1AenJytuP6en22SKWTXWDEh5BqAfd7gXSb', amount: 5});
   }
 })
