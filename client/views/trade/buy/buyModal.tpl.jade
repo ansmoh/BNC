@@ -1,0 +1,48 @@
+#buyModal.modal.fade.m-t(tabindex='-1', role='dialog', aria-labelledby='buyModalLabel', aria-hidden='true')
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal')
+          span(aria-hidden='true') &times;
+          span.sr-only Close
+        h4#buyModalLabel.modal-title.font-bold Buy request for {{currency.code}}
+      .modal-body
+        form(role='form')
+          .form-group
+            .btn-group.options(data-toggle='buttons')
+              label.btn.btn-primary.active
+                input(type='radio' name='options' autocomplete='off' value='{{currency.code}}' checked='true')
+                | {{currency.code}}
+              label.btn.btn-primary
+                input(type='radio' name='options' autocomplete='off' value='USD')
+                | USD
+          .form-group
+            if isBuyOption
+              label.control-label(for='amount') Number of coins to buy:
+            else
+              label.control-label(for='amount') Amount of USD to spend:
+            input.amount.form-control(type='text' name='amount')
+            input(type='hidden' value='{{currency.code}}')
+            span.currency-text {{currency.code}}
+            span.rate-text @{{number currency.rate '0.00000'}} USD
+          .form-group
+            if isBuyOption
+              label.control-label
+                strong Total Price:
+            else
+              label.control-label
+                strong Total Coins:
+            span {{number total '$0,0.00000'}}
+            br
+            label.control-label
+              strong Fee:
+            span {{number fee '$0,0.00000'}}
+          .form-group
+            label.control-label
+              strong USD Balance:
+            span {{number balance '$0,0.00'}}
+            button.btn.btn-primary.btn-sm.buy-max(type='button') Buy Max
+      .modal-footer
+        span.pull-left By clicking Buy you agree to the #[a(href='http://buyanycoin.com/terms-and-conditions') terms and conditions]
+        button.btn.btn-default(type='button' data-dismiss='modal') Cancel
+        button.btn.btn-success.buy Buy

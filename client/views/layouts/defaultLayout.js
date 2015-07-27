@@ -11,7 +11,7 @@ Template.defaultLayout.helpers({
     if( res ){
       return res.desc;
     }
-  },
+  }
 });
 
 Template.defaultLayout.onRendered(function () {

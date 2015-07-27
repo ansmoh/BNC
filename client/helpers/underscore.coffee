@@ -1,7 +1,3 @@
 
-UI.registerHelper '_', (args...) ->
-  self = this
-  fn = args[0]
-  args.shift()
-  args.pop()
-  _[fn].apply self, args
+UI.registerHelper '_', (fn, args..., hash) ->
+  _[fn].apply this, args

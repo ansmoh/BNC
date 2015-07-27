@@ -97,7 +97,7 @@ var authyKey = '2a7cc1467513fd1c366de7620bb9361c'
 var blockScoreKey = 'sk_live_fbba96096568198ffa995843f0bc51ca'
 // var blockScoreKey = 'sk_test_b98fde330db2149ab12e09475ef20d3a'
 // Utility Functions
-var Utility = {
+Utility = {
   addTransaction: function (currency, amount, note, txnid) {
     check(currency, String);
     check(amount, Number);
@@ -116,7 +116,7 @@ var Utility = {
         amount: amount,
         note: note,
         status: status,
-        timestamp: Date()
+        timestamp: new Date()
       };
     if( txnid !== undefined ){
       t_data.txnid = txnid;

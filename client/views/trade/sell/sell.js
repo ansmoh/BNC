@@ -1,6 +1,6 @@
 Template.SellModal.rendered = function () {
   $('#sellModal').on('show.bs.modal', function (event) {
-    console.log(3, 'shown');
+    //console.log(3, 'shown');
     // var button = $(event.relatedTarget); // Button that triggered the modal
     // var currency = button.data('currency'); // Extract info from data-* attributes
     var modal = $(this);

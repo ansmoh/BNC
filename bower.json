@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "form2js": "*"
+  },
+  "ignoredDependencies": [
+    "jquery",
+    "bootstrap",
+    "jquery-ui",
+    "moment"
+  ],
+  "overrides": {
+    "form2js": {
+      "main": [
+        "src/form2js.js",
+        "src/jquery.toObject.js",
+        "src/js2form.js"
+      ]
+    }
+  },
+  "name": "bnc",
+  "version": "0.0.1",
+  "private": true
+}

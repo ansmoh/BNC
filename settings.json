@@ -1,3 +1,7 @@
 {
-  
+  "fee": 0.01,
+  "cryptsy": {
+    "publicKey": "e94551a82ea6ca34b1516d3c3a574b14be6ea76d",
+    "secretKey": "23baad8cf48ba905f0fa493449a344505e76f056e575cdbce24ac6793f6feb569406766a0db8d802"
+  }
 }
