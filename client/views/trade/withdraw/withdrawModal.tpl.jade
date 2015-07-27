@@ -1,0 +1,20 @@
+#withdrawModal.modal.fade.m-t(tabindex='-1', role='dialog', aria-labelledby='withdrawModalLabel', aria-hidden='true')
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal')
+          span(aria-hidden='true') &times;
+          span.sr-only Close
+        h4.modal-title.font-bold Withdrawal request for {{currency.code}}
+      .modal-body
+        .form-group
+          label.control-label(for='coinCount') Amount:
+          input.form-control.amount(type='text')
+        .form-group
+          label.control-label(for='wAddress') Wallet Address:
+          input.form-control.address(type='text')
+        .form-group
+          button.btn.btn-primary.btn-sm.withdraw-all(type='button') Withdraw All
+      .modal-footer
+        button.btn.btn-default(type='button' data-dismiss='modal') Cancel
+        button.btn.btn-primary.withdraw(type='button') Withdraw

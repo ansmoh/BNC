@@ -35,3 +35,4 @@ frozeman:template-var
 momentjs:moment
 numeral:numeral
 underscorestring:underscore.string
+raix:handlebar-helpers

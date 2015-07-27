@@ -1,10 +1,10 @@
 Template.WithdrawModal.rendered = function () {
   $('#withdrawModal').on('show.bs.modal', function (event) {
-    console.log(3, 'shown');
-    var button = $(event.relatedTarget); // Button that triggered the modal
-    var currency = Session.get('modalCurrency'); // Extract info from data-* attributes
-    var modal = $(this);
-    modal.find('.modal-title').text('Withdrawal request for ' + currency);
+    //console.log(3, 'shown');
+    //var button = $(event.relatedTarget); // Button that triggered the modal
+    //var currency = Session.get('modalCurrency'); // Extract info from data-* attributes
+    //var modal = $(this);
+    //modal.find('.modal-title').text('Withdrawal request for ' + currency);
   });
 }
 

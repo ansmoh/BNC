@@ -3,12 +3,12 @@ Template.SellModal.rendered = function () {
     //console.log(3, 'shown');
     // var button = $(event.relatedTarget); // Button that triggered the modal
     // var currency = button.data('currency'); // Extract info from data-* attributes
-    var modal = $(this);
-    var coins = parseInt(modal.find('.modal-body #coins').val()) || 0;
-    Session.set('sellCoins', coins); //to set initially
-    modal.find('.modal-title').text('Sell ' + Session.get('modalCurrency'));
-    modal.find('.modal-body #currency').val(Session.get('modalCurrency'))
-    modal.find('.modal-body .rate-text').text('@' + (parseFloat(Session.get('modalRate')) * 0.98).toFixed(5) + ' USD');
+    //var modal = $(this);
+    //var coins = parseInt(modal.find('.modal-body #coins').val()) || 0;
+    //Session.set('sellCoins', coins); //to set initially
+    //modal.find('.modal-title').text('Sell ' + Session.get('modalCurrency'));
+   // modal.find('.modal-body #currency').val(Session.get('modalCurrency'))
+    //modal.find('.modal-body .rate-text').text('@' + (parseFloat(Session.get('modalRate')) * 0.98).toFixed(5) + ' USD');
   });
 }
 

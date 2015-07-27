@@ -1,4 +1,9 @@
 {
+  "public": {
+    "feeSell": 0.03,
+    "feeBuy": 0.01
+  },
+  "feeSell": 0.03,
   "fee": 0.01,
   "cryptsy": {
     "publicKey": "e94551a82ea6ca34b1516d3c3a574b14be6ea76d",

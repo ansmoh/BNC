@@ -1,3 +1,3 @@
 
-Template.registerHelper 'number', (value = 0, format = '', options = {}) ->
+Template.registerHelper 'number', (value = '', format = '', options = {}) ->
   numeral(value).format(format)

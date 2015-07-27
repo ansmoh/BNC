@@ -1,0 +1,32 @@
+#sellModal.modal.fade.m-t(tabindex='-1', role='dialog', aria-labelledby='sellModalLabel', aria-hidden='true')
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal')
+          span(aria-hidden='true') &times;
+          span.sr-only Close
+        h4.modal-title.font-bold Sell request for {{currency.code}}
+      .modal-body
+        form(role='form')
+          .form-group
+            label.control-label(for='coins') Amount(Coins):
+            input.form-control.amount(type='text')
+            span.currency-text {{currency.code}}
+            span.rate-text @{{number rate '0,0.00000'}} USD
+          .form-group
+            label.control-label
+              strong Total Value:
+              span {{number total '$0,0.00000'}}
+            br
+            label.control-label
+              strong Fee:
+              span {{number fee '$0,0.00000'}}
+          .form-group
+            label.control-label
+              strong Coins Balance:
+              span {{number balance '$0,0.00'}}
+            if $gt balance 0
+              button.btn.btn-primary.btn-sm.sell-all(type='button') Sell All
+      .modal-footer
+        button.btn.btn-default(type='button' data-dismiss='modal') Cancel
+        button.btn.btn-primary.sell Sell
