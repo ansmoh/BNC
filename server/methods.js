@@ -36,7 +36,7 @@ Meteor.methods({
     var note = 'Bought ' + volume + ' ' + symbol + ' @ ' + cRate;
 
     var result = {
-      debit: Utility.addTransaction(symbol, amount, note),
+      debit: Utility.addTransaction(symbol, parseFloat(volume), note),
       credit: Utility.addTransaction('USD', (-1) * amount, note),
       fee: Utility.depositFee('USD', totalFee, note + ' and fee is '+ totalFee)
     }

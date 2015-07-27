@@ -12,8 +12,8 @@ Template.BuySellModal.rendered = function () {
     var active = button.data('active'); // Extract info from data-* attributes
     Session.set('isCurrencyActive', active);
     var modal = $(this);
-    modal.find('.modal-title').text(currency +" - "+ name);
-    modal.find('.modal-body .rate').text(parseFloat(Math.round(rate * 100000) / 100000));
+    //modal.find('.modal-title').text(currency +" - "+ name);
+    //modal.find('.modal-body .rate').text(parseFloat(Math.round(rate * 100000) / 100000));
     if (!active) {
       toastr.error('Currency '+ Session.get('modalCurrency') +' is inactive. Please wait until it is activated again or contact support.', 'Currency Inactive');
     };
@@ -100,11 +100,14 @@ Template.BuySellModal.helpers({
     return balance > 0 ? true : false;
   },
   exchangeBalance: function () {
-    return (parseFloat(Session.get('modelBalance'))*parseFloat(Session.get('modalRate'))).toFixed(2);
+    if (this.currency && this.currency.rate) {
+      return (parseFloat(Session.get('modelBalance'))*parseFloat(this.currency.rate)).toFixed(2);
+    }
   },
+  /*
   currency: function () {
     return Session.get('modalCurrency');
-  },
+  },*/
   rate: function () {
     console.log(this.currencyObject);
     return Session.get('modalRate');

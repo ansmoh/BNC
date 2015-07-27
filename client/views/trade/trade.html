@@ -11,8 +11,9 @@
       </div>
     </div>
   </div>
-  {{> BuySellModal currencyObject=selectedCurrency}}
+  {{> BuySellModal currency=selectedCurrency}}
   {{> buyModal currency=selectedCurrency}}
+  {{> sellModal currency=selectedCurrency}}
 </template>
 
 <template name="CoinBlock">
@@ -46,14 +47,13 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>    
-          <h4 class="modal-title font-bold" id="buySellModalLabel">MinCoin(MNC)</h4>
-          <h4>{{currencyObject._id}}</h4>
+          <h4 class="modal-title font-bold" id="buySellModalLabel">{{currency.code}} - {{currency.name}}</h4>
         </div>
         <div class="modal-body">
           <div class="form-group row" style="max-width: 100%;margin-left: 0px;">
             <div class="col-md-2 col-xs-4">
               <div class="thumb-md avatar">
-                <img src="img/{{currency}}.png" class="img-circle w-xs">
+                <img src="img/{{currency.code}}.png" class="img-circle w-xs">
                 <i class="b-white top right {{activeClass}}"></i>
                 <!-- <i class="fa fa-btc fa-5x"></i> -->
               </div>
@@ -61,7 +61,7 @@
             <div class="col-md-2 col-xs-4">
               <div class="row">
                 <span class="h3">Price</span><br>
-                <span><i class="fa fa-usd"></i><b class="rate">32.9</b></span>
+                <span><b class="rate">{{number currency.rate '$0,0.00'}}</b></span>
               </div>
             </div>
             <div class="col-md-2 col-xs-4">
@@ -88,7 +88,7 @@
               <div class="row">
                 <div class="col-xs-12 m-b-xs">
                   <span>Current Balance</span><br>
-                  <span class="h4 text-success">{{currencyBalance}} {{currency}}</span>
+                  <span class="h4 text-success">{{currencyBalance}} {{currency.code}}</span>
                   <span class="h4 {{display}}"> = {{exchangeBalance}} USD</span>
                 </div>
               </div>
@@ -122,7 +122,7 @@
               </tbody>
             </table>
             {{else}}
-            <div class="m">No transaction found for {{currency}}</div>
+            <div class="m">No transaction found for {{currency.code}}</div>
             {{/if}}
           </div>          
         </div>
@@ -135,7 +135,7 @@
 <template name="TransactionDetail">
     <tr>
       <td><i class="fa fa-arrow-right text-{{colorClass}}"></i> {{note}}</td>
-      <td>{{datetime}}</td>
+      <td>{{date timestamp 'MM/DD/YYYY HH:mm:ss'}}</td>
       <td>{{status}}</td>
       <td class="text-{{colorClass}} fw-b">{{amount}}</td>
     </tr>
