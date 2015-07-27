@@ -1,0 +1,4 @@
+
+Template.blankLayout.onRendered(function () {
+
+});

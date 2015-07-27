@@ -1,0 +1,12 @@
+.page-header
+  h2
+    if icon
+      i.fa.fa-fw(class='{{icon}}')
+    | {{title}}
+  if displayBreadcrumbs
+    ol.breadcrumb
+      li: a(href='{{pathFor route=home}}') Home
+      each breadcrumbs
+        li: a(href='{{this.route}}') {{this.title}}
+      li.active
+        strong {{title}}

@@ -62,6 +62,9 @@ Template.BuyModal.helpers({
 
 Template.BuyModal.events({
   'click .buy':function (evt, template) {
+
+    console.log(Template.currentData());
+
     var amount = parseFloat(template.find('#buyModal #amount').value);
     if( !isPositiveInteger(amount) ){
       toastr.error("you cannot buy negative or 0 coins");
@@ -82,6 +85,7 @@ Template.BuyModal.events({
     var currency = template.find('#buyModal #currency').value;
     console.log('inputs', amount, currency);
     //Request to server
+
     Meteor.call('buy', currency, amount, function (error, result) {
       if (error) {
         console.log(error)

@@ -12,6 +12,10 @@
   margin: 3px;
 }
 
+body .navbar-brand {
+  padding-top: 12px;
+}
+
 .navbar-brand img {
 	max-height: 36px !important;
 }

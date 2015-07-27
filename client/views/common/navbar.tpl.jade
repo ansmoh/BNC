@@ -1,0 +1,11 @@
+.app-header.navbar
+  .navbar-header.bg-primary
+    if currentUser
+      button.toggle.pull-left.visible-xs.side-nav(data-target='.app-aside' data-toggle='off-screen')
+        i.fa.fa-align-justify
+    a.navbar-brand.text-lt(href='/'): img(src='/img/logotrans.png')
+  .collapse.navbar-collapse.box-shadow.bg-primary
+    ul.nav.navbar-nav.navbar-right
+      li: a(href='/') Home
+      li: a(href='http://buyanycoin.freshdesk.com') Support
+      +loginButtons

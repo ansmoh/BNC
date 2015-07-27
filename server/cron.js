@@ -55,7 +55,7 @@ SyncedCron.add({
   job: function() {
     // console.log("In rate update");
     Currencies.find().map(function(currency) {
-      // console.log("currency", currency.code);
+      console.log("currency", currency.code);
 
       if(currency.code !== "USD"){
         Meteor.call("getBTCRate", function(error, exchangeRates){
@@ -102,14 +102,17 @@ SyncedCron.add({
                 break;
             }
             Meteor.call("updateCurrencyRate", mktId, function(error, results) {
-              if(undefined == results){
+              if(undefined === results || !results || !results.data || !results.data.success){
                 return;
               }
-              var rate = results.data["return"]["markets"][currency.code]["lasttradeprice"];
+              if (currency.code === 'DASH') {
+                console.log(results);
+              }
+              var rate = parseFloat(results.data["return"]["markets"][currency.code]["lasttradeprice"]);
               // console.log("Rate", rate);
-              var usdRate = rate*btcRate;
+              var usdRate = parseFloat(rate*btcRate);
               Currencies.update({_id: currency._id}, {$set:{rate: usdRate, "btcRate": rate}});
-              CurrencyRateLog.insert({currency: currency.code, rate: usdRate, btcRate: rate, timestamp: Date()})
+              CurrencyRateLog.insert({currency: currency.code, rate: usdRate, btcRate: rate, timestamp: new Date})
             });
           }
         });

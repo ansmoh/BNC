@@ -43,7 +43,7 @@ Accounts.validateLoginAttempt(function (attempt) {
   if (!attempt.allowed)
     return false;
   var loginDetials = {}
-  loginDetials.loginAt = Date.now();
+  loginDetials.loginAt = new Date();
   if( attempt.connection && attempt.connection.clientAddress ){
     loginDetials.ip = attempt.connection.clientAddress;
   }
@@ -377,8 +377,10 @@ Meteor.methods({
   },
   updateCurrencyRate: function (mktID) {
     // HTTP call to cryptsy’s api to get the rate of currency
-    var apiUrl = 'http://pubapi.cryptsy.com/api.php'
-    return HTTP.call("GET", apiUrl+"?method=singlemarketdata&marketid="+mktID);
+    var apiUrl = 'http://pubapi.cryptsy.com/api.php';
+    var result = HTTP.call("GET", apiUrl+"?method=singlemarketdata&marketid="+mktID);
+    //console.log(result);
+    return result;
   },
   getBTCRate: function () {
     // HTTP call to coinbase's api to get the rate of currency
@@ -449,5 +451,23 @@ Meteor.methods({
     })
 
     // var res = HTTP.post('https://api.cryptsy.com/api', {key: '83255ce819e142cd46e2d3b53bcea447fa07ace75247ab51d6269d6c8d32dbd5da113d206a814947', method: 'getApiData', address: '1AenJytuP6en22SKWTXWDEh5BqAfd7gXSb', amount: 5});
+  },
+  createOrder: function(){
+    /*Market: DASH/BTC (ID: 155) Dash
+    Market: DOGE/BTC (ID: 132) Dogecoin
+    Market: NXT/BTC (ID: 159) NXT
+    Market: PTS/BTC (ID: 119) Bitshares
+    Market: PPC/BTC (ID: 28) Peercoin
+    Market: XRP/BTC (ID: 454) Ripple
+    Market: LTC/BTC (ID: 3) Litecoin
+    Market: AUR/BTC (ID: 160) Auroracoin*/
+    var cryptsy = Meteor.npmRequire('cryptsy-api');
+    var cryptsy_client = new cryptsy('e94551a82ea6ca34b1516d3c3a574b14be6ea76d', '23baad8cf48ba905f0fa493449a344505e76f056e575cdbce24ac6793f6feb569406766a0db8d802');
+
+    console.log('calling api');
+    cryptsy_client.orderdata(3, 'sell', 5, 4.54613, function(e,r){
+      console.log(e, r);
+    })
+
   }
 })

@@ -50,8 +50,17 @@ Template.Trade.helpers({
       currs.push(c);
     });
     return currs;
+  },
+  selectedCurrency: function () {
+    return Currencies.findOne(TemplateVar.get('currencyId'));
   }
 });
+
+Template.Trade.events({
+  'click a.panel-heading': function (event, tmpl) {
+    TemplateVar.set(tmpl, 'currencyId', this._id);
+  }
+})
 
 Template.CoinBlock.helpers({
   isNewRow: function () {
@@ -97,6 +106,7 @@ Template.BuySellModal.helpers({
     return Session.get('modalCurrency');
   },
   rate: function () {
+    console.log(this.currencyObject);
     return Session.get('modalRate');
   },
   transactions: function () {

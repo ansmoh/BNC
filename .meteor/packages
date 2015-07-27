@@ -30,3 +30,8 @@ meteorhacks:npm
 
 
 npm-container
+mquandalle:bower
+frozeman:template-var
+momentjs:moment
+numeral:numeral
+underscorestring:underscore.string
