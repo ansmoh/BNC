@@ -6,7 +6,7 @@
   "feeSell": 0.03,
   "fee": 0.01,
   "cryptsy": {
-    "publicKey": "e94551a82ea6ca34b1516d3c3a574b14be6ea76d",
-    "secretKey": "23baad8cf48ba905f0fa493449a344505e76f056e575cdbce24ac6793f6feb569406766a0db8d802"
+    "publicKey": "1eecef9b8712fe88841c657e1f9c112417c8a336",
+    "secretKey": "83255ce819e142cd46e2d3b53bcea447fa07ace75247ab51d6269d6c8d32dbd5da113d206a814947"
   }
 }

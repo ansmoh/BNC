@@ -10,12 +10,14 @@ Meteor.methods({
   'orders/place/buy': function (symbol, volume) {
     //check(symbol, String);
     //check(volume, Number);
-    var user = Meteor.users.findOne(this.userId);
+    var user = Meteor.users.findOne(this.userId),
+        currency = Currencies.findOne({code:symbol}),
+        res;
 
     console.log('symbol', symbol);
     console.log('volume', volume);
 
-    if (!this.userId) {
+    if (!user || !currency || !currency.marketid) {
       throw new Meteor.Error(403, 'Access denied');
     }
 
@@ -39,17 +41,19 @@ Meteor.methods({
       throw new Meteor.Error("insufficient-funds", 'There is not enough USD for this transaction.');
     }
 
-    var note = 'Bought ' + volume + ' ' + symbol + ' @ ' + cRate;
-
-    var result = {
-      debit: Utility.addTransaction(symbol, parseFloat(volume), note),
-      credit: Utility.addTransaction('USD', (-1) * amount, note),
-      fee: Utility.depositFee('USD', totalFee, note + ' and fee is '+ totalFee)
+    if (res = Meteor.call('cryptsy/createorder', currency.marketid, 'Buy', volume, currency.rate)) {
+      console.log(res);
+      var note = 'Bought ' + volume + ' ' + symbol + ' @ ' + cRate;
+      var result = {
+        debit: Utility.addTransaction(symbol, parseFloat(volume), note),
+        credit: Utility.addTransaction('USD', (-1) * amount, note),
+        fee: Utility.depositFee('USD', totalFee, note + ' and fee is '+ totalFee)
+      }
+      Meteor.call('sendEmail', 'BuyAnyCoin: '+symbol+' Purchased', user.emails[0].address+',\n\n You have purchased '+volume+' '+symbol+'. \n\nThanks,\n BuyAnyCoin Team');
+      return result;
     }
 
-    Meteor.call('sendEmail', 'BuyAnyCoin: '+symbol+' Purchased', user.emails[0].address+',\n\n You have purchased '+volume+' '+symbol+'. \n\nThanks,\n BuyAnyCoin Team');
-
-    return result;
+    throw new Meteor.Error(500, 'Faild call api');
   },
 
 /**
@@ -59,9 +63,11 @@ Meteor.methods({
  * @return {[type]}        [description]
  */
   'orders/place/sell': function (symbol, volume) {
-    var user = Meteor.users.findOne(this.userId);
+    var user = Meteor.users.findOne(this.userId),
+        currency = Currencies.findOne({code:symbol}),
+        res;
 
-    if (!user) {
+    if (!user || !currency || !currency.marketid) {
       throw new Meteor.Error(403, 'Access denied');
     }
 
@@ -86,15 +92,15 @@ Meteor.methods({
       throw new Meteor.Error(400, 'There is not enough USD for this transaction.');
     }
 
-    var result = {
-      debit: Utility.addTransaction('USD', amount, note),
-      credit: Utility.addTransaction(symbol, (-1) * volume, note),
-      fee: Utility.depositFee('USD', totalFee, note + ' and fee is '+ totalFee)
+    if (res = Meteor.call('cryptsy/createorder', currency.marketid, 'Sell', volume, currency.rate)) {
+      var result = {
+        debit: Utility.addTransaction('USD', amount, note),
+        credit: Utility.addTransaction(symbol, (-1) * volume, note),
+        fee: Utility.depositFee('USD', totalFee, note + ' and fee is '+ totalFee)
+      }
+      Meteor.call('sendEmail', 'BuyAnyCoin: '+symbol+' Sold', Meteor.user().emails[0].address+',\n\n You have sold '+volume+' '+symbol+'. \n\nThanks,\n BuyAnyCoin Team');
+      return result;
     }
-
-    Meteor.call('sendEmail', 'BuyAnyCoin: '+symbol+' Sold', Meteor.user().emails[0].address+',\n\n You have sold '+volume+' '+symbol+'. \n\nThanks,\n BuyAnyCoin Team');
-
-    return result;
   },
 
   'coins/withdraw': function (symbol, amount, address) {
@@ -102,6 +108,7 @@ Meteor.methods({
     //check(amount, Number);
     //check(address, String);
     var user = Meteor.users.findOne(this.userId),
+        currency = Currencies.findOne({code:symbol}),
         address = s.trim(address);
 
     if (!user) {
@@ -123,8 +130,11 @@ Meteor.methods({
       throw new Meteor.Error(400, 'Invalid withdraw address, please check the address and try again');
     }
 
-    Utility.addTransaction(symbol, (-1) * parseFloat(amount), 'Withdraw -> ' + address);
-    return Utility.addWithdrawRequest(symbol, parseFloat(amount), address);
+    if (res = Meteor.call('cryptsy/makewithdrawal', address, amount)) {
+      Utility.addTransaction(symbol, (-1) * parseFloat(amount), 'Withdraw -> ' + address);
+      return Utility.addWithdrawRequest(symbol, parseFloat(amount), address);
+    }
+
   }
 
 });
