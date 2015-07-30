@@ -1,3 +1,4 @@
+/*
 Template.BuyModal.rendered = function () {
   $('#buyModal').on('show.bs.modal', function (event) {
     // console.log('buyModal', 'shown');
@@ -139,3 +140,4 @@ Template.BuyModal.events({
     Session.set('buyOption', t.find('#buyModal #buyCurrency').checked)
   }
 })
+*/

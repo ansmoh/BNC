@@ -1,3 +1,4 @@
+/*
 Template.SellModal.rendered = function () {
   $('#sellModal').on('show.bs.modal', function (event) {
     //console.log(3, 'shown');
@@ -81,3 +82,4 @@ Template.SellModal.events({
     Session.set('sellCoins', Session.get('coinsBalance'));
   }
 });
+*/

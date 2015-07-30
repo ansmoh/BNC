@@ -1,3 +1,4 @@
+/*
 Template.WithdrawModal.rendered = function () {
   $('#withdrawModal').on('show.bs.modal', function (event) {
     //console.log(3, 'shown');
@@ -49,4 +50,4 @@ Template.WithdrawModal.events({
   'click .withdrawAll': function(){
     $('#withdrawModal #coinCount').val( Session.get('modelBalance') )
   }
-})
+})*/

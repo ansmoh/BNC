@@ -6,16 +6,16 @@
         <div class="wrapper text-center">
           <strong>Sign in below</strong>
         </div>
-        <form class="form form-validation" name="form" id="signin-form" action="action">
+        <form class="form form-validation" name="form" id="signin-form" novalidate>
           <div class="text-danger wrapper text-center">
-              
+
           </div>
           <div class="list-group list-group-sm">
             <div class="list-group-item">
-              <input type="email" required="" class="form-control no-border" id="signin-email" placeholder="Email" style="">
+              <input type="email" required="" name="email" class="form-control no-border" id="signin-email" placeholder="Email" style="">
             </div>
             <div class="list-group-item">
-               <input type="password" required="" class="form-control no-border" id="signin-password" placeholder="Password">
+               <input type="password" required="" name="password" class="form-control no-border" id="signin-password" placeholder="Password">
             </div>
           </div>
           <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
