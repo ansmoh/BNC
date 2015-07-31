@@ -27,7 +27,8 @@ Meteor.methods({
     var cRate = parseFloat(parseFloat(rate * (1 + Meteor.settings.fee)).toFixed(5));
     console.log('cRate', cRate);
 
-    var amount = parseFloat(parseFloat(volume * cRate).toFixed(2));
+    //var amount = parseFloat(parseFloat(volume * cRate).toFixed(2));
+    var amount = volume * cRate;
     console.log('amount', amount);
 
     var totalFee = parseFloat(parseFloat(volume * rate * Meteor.settings.fee).toFixed(5));
@@ -88,7 +89,7 @@ Meteor.methods({
       throw new Meteor.Error(400, 'You cannot buy negative or 0 coins');
     }
 
-    if (Utility.getAvailableBalance('USD') < amount) {
+    if (Utility.getTotalBalance('USD') < amount) {
       throw new Meteor.Error(400, 'There is not enough USD for this transaction.');
     }
 
