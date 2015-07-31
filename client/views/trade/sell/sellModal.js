@@ -40,7 +40,7 @@ Template.sellModal.events({
       } else {
         tmpl.$('.amount').val('');
         $('#sellModal').modal('hide');
-        toastr.success("Purchase successful! Your coins will be available momentarily.");
+        toastr.success("Successful! Your money will be available momentarily.");
       }
     });
   },
