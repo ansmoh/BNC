@@ -36,11 +36,18 @@ Template.buyModal.helpers({
 Template.buyModal.events({
   'click .btn.buy': function (event, tmpl) {
     var amount = TemplateVar.get(tmpl, 'buyCoins'),
-        currency = tmpl.data.currency.code;
+        currency = tmpl.data.currency.code,
+        btn = $(event.target);
+
     if (!TemplateVar.get('buyOption')) {
       amount = amount / tmpl.data.currency.rate;
     }
+
+    btn.closest('.modal-footer').find('button').attr('disabled','disabled');
+    btn.button('loading');
     Meteor.call('orders/place/buy', currency, amount, function (err, result) {
+      btn.closest('.modal-footer').find('button').removeAttr('disabled');
+      btn.button('reset');
       if (err) {
         console.log(err);
         toastr.error(err.reason);

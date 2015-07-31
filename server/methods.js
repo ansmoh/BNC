@@ -33,7 +33,7 @@ Meteor.methods({
     var totalFee = parseFloat(parseFloat(volume * rate * Meteor.settings.fee).toFixed(5));
     console.log('totalFee', totalFee);
 
-    if (!amount || amount < 0.01) {
+    if (!amount || amount <= 0) {
       throw new Meteor.Error(400, 'You cannot buy negative or 0 coins');
     }
 

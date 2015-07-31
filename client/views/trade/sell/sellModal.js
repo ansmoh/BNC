@@ -31,16 +31,21 @@ Template.sellModal.helpers({
 Template.sellModal.events({
   'click .btn.sell': function (event, tmpl) {
     var volume = TemplateVar.get(tmpl, 'sellCoins'),
-        symbol = tmpl.data.currency.code;
+        symbol = tmpl.data.currency.code,
+        btn = $(event.target);
 
+    btn.closest('.modal-footer').find('button').attr('disabled','disabled');
+    btn.button('loading');
     Meteor.call('orders/place/sell', symbol, volume, function (err, result) {
+      btn.closest('.modal-footer').find('button').removeAttr('disabled');
+      btn.button('reset');
       if (err) {
         console.log(err);
         toastr.error(err.reason);
       } else {
         tmpl.$('.amount').val('');
         $('#sellModal').modal('hide');
-        toastr.success("Successful! Your money will be available momentarily.");
+        toastr.success("Purchase successful! Your coins will be available momentarily.");
       }
     });
   },
