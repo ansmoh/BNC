@@ -1,0 +1,77 @@
+#buySellModal.modal.fade.m-t(tabindex='-1' role='dialog' aria-labelledby='buySellModalLabel' aria-hidden='true')
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal')
+          span(aria-hidden='true') &times;
+          span.sr-only Close
+        if $eq currency.code 'USD'
+          h4#buySellModalLabel.modal-title.font-bold USD
+        else
+          h4#buySellModalLabel.modal-title.font-bold {{currency.code}} - {{currency.name}}
+      .modal-body
+        form(role='form')
+          .row
+            .col-md-2.col-xs-4
+              .thumb-md.avatar
+                img.img-circle.w-xs(src='img/{{currency.code}}.png')
+                i.b-white.top.right(class='{{activeClass}}')
+            .col-md-3.col-xs-6
+              .h3 Price
+              if $eq currency.code 'USD'
+                strong.rate {{number currency.rate '$0,0.00000000'}}
+              else if $eq currency.code 'BTC'
+                strong.rate {{number currency.rate '0,0.00000000'}} USD
+              else
+                strong.rate {{number currency.btcRate '0,0.00000000'}} BTC
+                br
+                strong.rate {{number currency.rate '0,0.00000000'}} USD
+            .col-md-2.col-xs-2
+              if $eq currency.code 'USD'
+                a.btn.btn-sm.btn-success.m-b(href='/deposit') Deposit
+              else
+                if haveBalance
+                  a.btn.btn-success.m-b(class='{{isInactive}}' data-toggle='modal' data-target='#buyModal') Buy
+                else
+                  a.btn.btn-success.m-b.no-balance(class='{{isInactive}}') Buy
+                if $gt currency.balance 0
+                  a.btn.btn-danger(class='{{isInactive}}' data-toggle='modal' data-target='#sellModal') Sell
+                else
+                  a.btn.btn-danger.m-b.disabled Sell
+            .col-md-5.col-xs-12
+              .row
+                .col-xs-12.m-b-xs
+                  .h4 Current Balance
+                  if $eq currency.code 'USD'
+                    .h4 #[span.text-success {{number currency.balance '0,0.00'}} {{currency.code}}]
+                  else if $eq currency.code 'BTC'
+                    h4 #[span.text-success {{currency.balance}} {{currency.code}}] = #[span(style="font-size:14px") {{number exchangeBalance '0,0.00000000'}}] USD
+                  else
+                    if $gt currency.balance 0
+                      h4 #[span.text-success {{currency.balance}} {{currency.code}}] = #[span(style="font-size:14px") {{number exchangeBalance '0,0.00000000'}}] BTC
+                    else
+                      h4 #[span.text-success {{currency.balance}} {{currency.code}}]
+              .row
+                .col-md-3
+                  if $eq currency.code 'USD'
+                    a#showToast.btn.btn-primary Withdraw
+                  else
+                    if $gt currency.balance 0
+                      a.btn.btn-primary(class='{{isInactive}}' data-toggle='modal' data-target='#withdrawModal') Withdraw
+                    else
+                      a.btn.btn-primary.disabled Withdraw
+          .row
+            .col-md-12
+              if $gt transactions.length 0
+                table#currencytxns.table.table-striped
+                  thead
+                    tr
+                      th Transaction
+                      th Date
+                      th Status
+                      th Amount
+                  tbody
+                    each transactions
+                      +TransactionDetail
+              else
+                .m No transaction found for {{currency.code}}

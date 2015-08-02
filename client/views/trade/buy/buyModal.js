@@ -1,20 +1,16 @@
 
 Template.buyModal.helpers({
   total: function () {
-    if (this.currency && this.currency.rate && TemplateVar.get('buyCoins')) {
-      if (TemplateVar.get('buyOption')) {
-        return parseFloat(TemplateVar.get('buyCoins') * (this.currency.rate * 1.01));
-      } else {
-        return parseFloat(TemplateVar.get('buyCoins') / (this.currency.rate * 1.01));
-      }
+    if (this.currency && TemplateVar.get('buyCoins')) {
+      return TemplateVar.get('buyOption')?TemplateVar.get('buyCoins') * this.currency.buyPrice():TemplateVar.get('buyCoins') / this.currency.buyPrice();
     }
   },
   fee: function () {
-    if (this.currency && this.currency.rate && TemplateVar.get('buyCoins')) {
+    if (this.currency && TemplateVar.get('buyCoins')) {
       if (TemplateVar.get('buyOption')) {
-        return parseFloat(TemplateVar.get('buyCoins') * this.currency.rate * 0.01);
+        return TemplateVar.get('buyCoins') * this.currency.rate * 0.01;
       } else {
-        return parseFloat(TemplateVar.get('buyCoins') * 0.01);
+        return TemplateVar.get('buyCoins') * 0.01;
       }
     }
   },

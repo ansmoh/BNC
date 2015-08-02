@@ -36,3 +36,4 @@ numeral:numeral
 underscorestring:underscore.string
 raix:handlebar-helpers
 twbs:bootstrap
+dburles:collection-helpers

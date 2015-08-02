@@ -74,7 +74,7 @@ SyncedCron.add({
                 mktId = 3;
                 break;
 
-              case 'DRK' :
+              case 'DASH' :
                 mktId = 155;
                 break;
 
@@ -102,17 +102,17 @@ SyncedCron.add({
                 break;
             }
             Meteor.call("updateCurrencyRate", mktId, function(error, results) {
+              var code = currency.code;
               if(undefined === results || !results || !results.data || !results.data.success){
                 return;
               }
               if (currency.code === 'DASH') {
-                console.log(results);
+                code = 'DRK';
               }
-              var rate = parseFloat(results.data["return"]["markets"][currency.code]["lasttradeprice"]);
-              // console.log("Rate", rate);
-              var usdRate = parseFloat(rate*btcRate);
-              Currencies.update({_id: currency._id}, {$set:{rate: usdRate, "btcRate": rate}});
-              CurrencyRateLog.insert({currency: currency.code, rate: usdRate, btcRate: rate, timestamp: new Date})
+              var priceInBtc = parseFloat(results.data["return"]["markets"][code]["lasttradeprice"]);
+              var priceInUsd = priceInBtc * btcRate;
+              Currencies.update({_id: currency._id}, {$set:{rate: priceInUsd, btcRate: priceInBtc}});
+              CurrencyRateLog.insert({currency: currency.code, rate: priceInUsd, btcRate: priceInBtc, timestamp: new Date()})
             });
           }
         });
