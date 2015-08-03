@@ -45,12 +45,12 @@
                   if $eq currency.code 'USD'
                     .h4 #[span.text-success {{number currency.balance '0,0.00'}} {{currency.code}}]
                   else if $eq currency.code 'BTC'
-                    h4 #[span.text-success {{currency.balance}} {{currency.code}}] = #[span(style="font-size:14px") {{number exchangeBalance '0,0.00000000'}}] USD
+                    h4 #[span.text-success {{number currency.balance '0,0.00000000'}} {{currency.code}}] = #[span(style="font-size:14px") {{number exchangeBalance '0,0.00000000'}}] USD
                   else
                     if $gt currency.balance 0
-                      h4 #[span.text-success {{currency.balance}} {{currency.code}}] = #[span(style="font-size:14px") {{number exchangeBalance '0,0.00000000'}}] BTC
+                      h4 #[span.text-success {{number currency.balance '0,0.00000000'}} {{currency.code}}] = #[span(style="font-size:14px") {{number exchangeBalance '0,0.00000000'}}] BTC
                     else
-                      h4 #[span.text-success {{currency.balance}} {{currency.code}}]
+                      h4 #[span.text-success {{number currency.balance '0,0.00000000'}} {{currency.code}}]
               .row
                 .col-md-3
                   if $eq currency.code 'USD'

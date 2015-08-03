@@ -50,7 +50,7 @@ SyncedCron.add({
   name: 'Update the rates of currencies with api',
   schedule: function(parser) {
     // parser is a later.parse object
-    return parser.text('every 2 minutes');
+    return parser.text('every 30 s');
   },
   job: function() {
     // console.log("In rate update");

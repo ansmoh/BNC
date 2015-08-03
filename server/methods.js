@@ -1,6 +1,64 @@
 
 Meteor.methods({
 
+  'orders/create': function (type, primaryCode, secondaryCode, amount, rate) {
+    var user = Meteor.users.findOne(this.userId),
+        currency = Currencies.findOne({code:primaryCode}),
+        amount = parseFloat(amount),
+        res;
+
+    if (!user || !currency || !currency.marketid) {
+      throw new Meteor.Error(403, 'Access denied');
+    }
+
+    if (secondaryCode === 'USD') {
+      rate = currency.rate;
+    } else {
+      rate = currency.btcRate;
+    }
+
+    if (!amount || amount <= 0) {
+      throw new Meteor.Error(400, 'You cannot buy negative or 0 coins');
+    }
+
+    if (type === 'buy') {
+      price = rate * (1 + currency.buyFee());
+    } else {
+      price = rate * (1 - currency.sellFee());
+    }
+    //console.log(Utility.getTotalBalance(secondaryCode));
+
+    if (Utility.getTotalBalance(secondaryCode) < amount * price) {
+      throw new Meteor.Error(400, 'There is not enough '+secondaryCode+' for this transaction.');
+    }
+
+    if (type === 'buy') {
+      if (res = Meteor.call('cryptsy/createorder', currency.marketid, 'buy', amount, price)) {
+        var note = 'Bought ' + parseFloat(amount).toFixed(8) + ' ' + primaryCode + ' @ ' + parseFloat(price).toFixed(8) + ' ' + secondaryCode;
+        // Debit
+        Utility.addTransaction(primaryCode, amount, note);
+        // Credit
+        Utility.addTransaction(secondaryCode, (-1) * amount * price, note);
+        // Fee
+        Utility.depositFee(secondaryCode, (-1) * amount * rate * currency.buyFee(), note + ' and fee is '+ parseFloat(amount * rate * currency.buyFee()).toFixed(8));
+        return Meteor.call('sendEmail', 'BuyAnyCoin: '+primaryCode+' Purchased', user.emails[0].address+',\n\n You have purchased '+amount+' '+primaryCode+'. \n\nThanks,\n BuyAnyCoin Team');
+      }
+    } else if (type === 'sell') {
+      if (res = Meteor.call('cryptsy/createorder', currency.marketid, 'sell', amount, price)) {
+        var note = 'Sold ' + parseFloat(amount).toFixed(8) + ' ' + primaryCode + ' @ ' + parseFloat(price).toFixed(8) + ' ' + secondaryCode;
+        // Debit
+        Utility.addTransaction(secondaryCode, amount * price, note);
+        // Credit
+        Utility.addTransaction(primaryCode, (-1) * amount, note);
+        // Fee
+        Utility.depositFee(primaryCode, (-1) * amount * currency.buyFee(), note + ' and fee is '+ parseFloat(amount * currency.buyFee()).toFixed(8));
+        return Meteor.call('sendEmail', 'BuyAnyCoin: '+primaryCode+' Sold', user.emails[0].address+',\n\n You have sold '+amount+' '+primaryCode+'. \n\nThanks,\n BuyAnyCoin Team');
+      }
+    } else {
+      throw new Meteor.Error(400, 'Order type invalid');
+    }
+  },
+
 /**
  * [description]
  * @param  {[type]} symbol [description]

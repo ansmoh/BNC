@@ -1,35 +1,88 @@
 
 Template.buyModal.helpers({
-  total: function () {
-    if (this.currency && TemplateVar.get('buyCoins')) {
-      return TemplateVar.get('buyOption')?TemplateVar.get('buyCoins') * this.currency.buyPrice():TemplateVar.get('buyCoins') / this.currency.buyPrice();
-    }
-  },
-  fee: function () {
-    if (this.currency && TemplateVar.get('buyCoins')) {
-      if (TemplateVar.get('buyOption')) {
-        return TemplateVar.get('buyCoins') * this.currency.rate * 0.01;
+  price: function () {
+    if (this.currency) {
+      if (TemplateVar.get('secondaryCode') === 'USD') {
+        return this.currency.rate;
       } else {
-        return TemplateVar.get('buyCoins') * 0.01;
+        return this.currency.btcRate;
       }
     }
   },
-  balance: function () {
+  subTotal: function () {
+    if (this.currency && TemplateVar.get('amount')) {
+      var rate = this.currency.rate;
+      if (TemplateVar.get('secondaryCode') === 'USD') {
+        return TemplateVar.get('amount') * this.currency.rate;
+      } else {
+        return TemplateVar.get('amount') * this.currency.btcRate;
+      }
+    }
+  },
+  total: function () {
+    if (this.currency && TemplateVar.get('amount')) {
+      if (TemplateVar.get('secondaryCode') === 'USD') {
+        return TemplateVar.get('amount') * this.currency.rate * (1 + this.currency.buyFee());
+      } else {
+        return TemplateVar.get('amount') * this.currency.btcRate * (1 + this.currency.buyFee());
+      }
+    }
+  },
+  fee: function () {
+    if (this.currency && TemplateVar.get('amount')) {
+      var rate = this.currency.rate;
+      if (TemplateVar.get('secondaryCode') === 'USD') {
+        return TemplateVar.get('amount') * this.currency.rate * this.currency.buyFee();
+      } else {
+        return TemplateVar.get('amount') * this.currency.btcRate * this.currency.buyFee();
+      }
+    }
+  },
+  balance: function () { // OK
     var totalBalance = 0;
-    Transactions.find({user: Meteor.userId(), currency: 'USD'})
+    Transactions.find({user: Meteor.userId(), currency: TemplateVar.get('secondaryCode')})
       .map(function(transaction) {
         totalBalance += parseFloat(transaction.amount)
       });
-    totalBalance = parseFloat(totalBalance).toFixed(2);
+    //totalBalance = parseFloat(totalBalance).toFixed(2);
     TemplateVar.set('balance', totalBalance);
     return totalBalance;
   },
   isBuyOption: function () {
     return TemplateVar.get('buyOption');
-  }
+  },
+  secondaryCode: function () { // OK
+    return TemplateVar.get('secondaryCode');
+  },
+  /*
+  type: function () {
+    return TemplateVar.get('type');
+  }*/
 });
 
 Template.buyModal.events({
+  'click .btn.buy': function (event, tmpl) {
+    var amount = TemplateVar.get(tmpl, 'amount'),
+        primaryCode = tmpl.data.currency.code,
+        secondaryCode = TemplateVar.get(tmpl, 'secondaryCode'),
+        price = secondaryCode === 'USD'?tmpl.data.currency.rate:tmpl.data.currency.btcRate,
+        btn = $(event.target);
+
+    btn.closest('.modal-footer').find('button').attr('disabled','disabled');
+    btn.button('loading');
+    Meteor.call('orders/create', 'buy', primaryCode, secondaryCode, amount, price, function (err, result) {
+      btn.closest('.modal-footer').find('button').removeAttr('disabled');
+      btn.button('reset');
+      if (err) {
+        toastr.error(err.reason);
+      } else {
+        $('#buyModal').modal('hide');
+        toastr.success("Purchase successful! Your coins will be available momentarily.");
+      }
+    });
+  },
+
+  /*
   'click .btn.buy': function (event, tmpl) {
     var amount = TemplateVar.get(tmpl, 'buyCoins'),
         currency = tmpl.data.currency.code,
@@ -54,6 +107,7 @@ Template.buyModal.events({
       }
     });
   },
+  */
   'click .btn.buy-max': function (event, tmpl) {
     var currency = tmpl.data.currency;
     if (TemplateVar.get('buyOption')) {
@@ -71,24 +125,59 @@ Template.buyModal.events({
     TemplateVar.set(tmpl, 'buyCoins', tmpl.$('.amount').val());
   },
   'propertychange .amount, change .amount, click .amount, keyup .amount, input .amount, paste .amount': function (event, tmpl) {
-    var input = $(event.target);
-    TemplateVar.set(tmpl, 'buyCoins', input.val() > 0?input.val():0);
+    var input = $(event.target),
+        amount = input.val() > 0 ?input.val():0;
+
+    TemplateVar.set(tmpl, 'amount', amount);
+    /*
+    if (TemplateVar.get(tmpl, 'type') === 'USD') {
+      TemplateVar.set(tmpl, 'amount', amount / tmpl.data.currency.rate);
+    } else {
+      TemplateVar.set(tmpl, 'amount', amount);
+    }*/
   },
-  'change .options :radio': function (event, tmpl) {
-    TemplateVar.set(tmpl, 'buyOption', $(event.target).val() === 'USD'?false:true);
-  }
+  /*
+  'click .secondaryCodes > label.btn': function (event, tmpl) {
+    var radio = $(event.target).find(':radio');
+    //TemplateVar.set(tmpl, 'buyOption', radio.val() === 'USD'?false:true);
+    TemplateVar.set(tmpl, 'secondaryCode', radio.val());
+  },
+  'change select.type': function (event, tmpl) {
+    tmpl.$('.amount').val('').focus();
+    TemplateVar.set(tmpl, 'amount', '');
+    TemplateVar.set(tmpl, 'type', $(event.target).val());
+  }*/
 });
 
 Template.buyModal.onRendered(function() {
   var self = this;
+
+  self.autorun(function () {
+    var data = Template.currentData();
+    if (data.currency) {
+      if (data.currency.code === 'BTC') {
+        TemplateVar.set(self, 'secondaryCode', 'USD');
+      } else {
+        TemplateVar.set(self, 'secondaryCode', 'BTC');
+      }
+    }
+  });
 
   self.$('.modal')
     .on('show.bs.modal', function (event) {
       var modal = $(event.target);
 
       modal.find('.amount').val('');
+      //modal.find('.secondaryCodes > label.btn').removeClass('active');
+      //modal.find('.secondaryCodes > label.btn:first').addClass('active');
+      //modal.find('.secondaryCodes > label.btn:first :radio').attr('checked','checked');
+      //modal.find('select.type').val('BTC');
 
-      TemplateVar.set(self, 'buyOption', true);
-      TemplateVar.set(self, 'buyCoins', '');
-    });
+      //TemplateVar.set(self, 'type', 'BTC');
+      TemplateVar.set(self, 'amount', '');
+      //TemplateVar.set(self, 'buyOption', true);
+      //TemplateVar.set(self, 'buyCoins', '');
+    })
+  ;
+
 });
