@@ -1,27 +1,41 @@
 Template.SignUp.events({
-  'submit #register-form' : function(e, t) {
-    e.preventDefault();
-    var email = t.find('#account-email').value
-      , password = t.find('#account-password').value;
+  'submit #register-form' : function(event, t) {
+    var data = form2js(event.target, null, false),
+        email = s.trim(data.email),
+        password = s.trim(data.password),
+        term = data.term;
 
-    // Trim and validate the input
-    var trimInput = function(val) {
-      return val.replace(/^\s*|\s*$/g, "");
+    event.preventDefault();
+
+    var isValidEmail = function (email) {
+      if (email && SimpleSchema.RegEx.Email.test(email)) {
+        return true;
+      } else {
+        toastr.error("Email address is invalid", 'Sign Up error');
+        return false;
+      }
     }
-
-    email = trimInput(email);
 
     var isValidPassword = function(val) {
       if (val.length >= 6) {
         return true;
       } else {
         toastr.error("Password must be at least 6 characters", 'Password Error');
-        return false; 
+        return false;
       }
     }
 
-    if (isValidPassword(password)){
-      Accounts.createUser({email: email, password : password}, function(err){
+    var isValidTerm = function (val) {
+      if (val && val === true) {
+        return true;
+      } else {
+        toastr.error("Please agree to the Terms and Condition and Privacy Policy", 'Sign Up error');
+        return false;
+      }
+    }
+
+    if (isValidEmail(email) && isValidPassword(password) && isValidTerm(term)){
+      Accounts.createUser({email: email, password : password}, function (err) {
         if (err) {
           // Inform the user that account creation failed
           // alert(err);
@@ -39,9 +53,9 @@ Template.SignUp.events({
             }
           })
           toastr.success('You have signed up successfully. Please check your email to confirm the address.', 'Sign Up');
+          Router.go('/not-verified');
         }
       });
     }
-    return false;
   }
 });

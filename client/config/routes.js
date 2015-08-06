@@ -13,5 +13,5 @@ Router.onBeforeAction(function () {
     }
   }
 }, {
-  except: ['home','EmailVerificationInfo','signup','VerifyEmail','forgotpassword','resetPassword']
+  except: ['home','not-verified','signup','VerifyEmail','forgotpassword','resetPassword']
 });

@@ -6,16 +6,24 @@
         <div class="wrapper text-center">
           <strong>Create your account</strong>
         </div>
-        <form class="form form-validation" id="register-form" action="action">
+        <form class="form form-validation" id="register-form" novalidate>
           <div class="text-danger wrapper text-center">
-              
+
           </div>
           <div class="list-group list-group-sm">
             <div class="list-group-item">
-              <input type="email" required="" class="form-control no-border" id="account-email" placeholder="Email" style="">
+              <input type="email" name="email" required="" class="form-control no-border" id="account-email" placeholder="Email" style="">
             </div>
             <div class="list-group-item">
-               <input type="password" required="" class="form-control no-border" id="account-password" placeholder="Password">
+               <input type="password" name="password" required="" class="form-control no-border" id="account-password" placeholder="Password">
+            </div>
+            <div class="list-group-item">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="term" value="true" id='account-term'>
+                  I agree to the <a href='//buyanycoin.com/terms-and-conditions'>Terms and Condition</a> and <a href='//buyanycoin.com/privacy/'>Privacy Policy</a>
+                </label>
+              </div>
             </div>
           </div>
           <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>

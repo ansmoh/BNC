@@ -81,12 +81,12 @@ AdminConfig = {
     User:{
       icon: "user",
       color: 'blue',
-      tableColumns:[
-        {label: 'Userid', name: 'userId'},
+      tableColumns: [
+        {label: 'User ID', name: 'userId'},
         {label: 'Email', name: 'email'},
-        {label: 'Fname', name: 'firstName'},
-        {label: 'Lname', name: 'lastName'},
-        {label: 'Active', name: 'active'},
+        //{label: 'Name', name: 'name'},
+        {label: 'Active', name: 'status'},
+        {label: 'Balance', name: 'balance()'}
       ]
     }
   }

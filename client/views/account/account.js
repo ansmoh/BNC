@@ -38,11 +38,13 @@ Template.Account.helpers({
     return "danger";
   },
   isUpdateNotifChecked: function (){
+    var user = User.findOne({userId: Meteor.userId()});
     Session.set('cID', this._id);
-    return (this.notifUpdate)? 'checked': '';
+    return user.notifUpdate?true:false;
   },
   isPromotionNotifChecked: function (){
-    return (this.notifPromotion)? 'checked': '';
+    var user = User.findOne({userId: Meteor.userId()});
+    return user.notifPromotion?true:false;
   },
   profileCompleted:function(){
     var res = User.findOne({userId: Meteor.userId()});
@@ -67,12 +69,16 @@ Template.Account.helpers({
 });
 
 Template.Account.events({
-  'change #notifUpdate': function (e, t){
-    // CustomerInfo.update({_id: Session.get('cID')}, {$set: {notifUpdate: t.find('#notifUpdate').checked}});
-    $(e.currentTarget).prop('checked', true);
+  'click #notifUpdate': function (event, tmpl) {
+    var state = $(event.target).is(':checked'),
+        user = User.findOne({userId:Meteor.userId()});
+
+    User.update(user._id, {$set: {notifUpdate: state}});
   },
-  'change #notifPromotion': function (e, t){
-    // CustomerInfo.update({_id: Session.get('cID')}, {$set: {notifPromotion: t.find('#notifPromotion').checked}});
-    $(e.currentTarget).prop('checked', true);
+  'click #notifPromotion': function (event, tmpl) {
+    var state = $(event.target).is(':checked'),
+        user = User.findOne({userId:Meteor.userId()});
+
+    User.update(user._id, {$set: {notifPromotion: state}});
   }
 })

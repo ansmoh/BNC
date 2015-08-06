@@ -106,9 +106,9 @@
                     <tr>
                       <td>
                         <div class="checkbox">
-                          <label class="control-label" for="notifUpdate">
+                          <label class="control-label">
                             <!-- <input type="checkbox" class="form-control" id="notifUpdate" {{isUpdateNotifChecked}}> -->
-                            <input type="checkbox" class="form-control" id="notifUpdate" checked="true">
+                            <input type="checkbox" class="form-control" id="notifUpdate" value="true" checked="true">
                             News/Updates
                           </label>
                         </div>
@@ -119,7 +119,7 @@
                         <div class="checkbox">
                           <label class="control-label" for="notifPromotion">
                             <!-- <input type="checkbox" class="form-control" id="notifPromotion" {{isPromotionNotifChecked}}> -->
-                            <input type="checkbox" class="form-control" id="notifPromotion" checked="true">
+                            <input type="checkbox" class="form-control" id="notifPromotion" value="true" checked="true">
                             Promotions
                           </label>
                         </div>
@@ -181,8 +181,8 @@
                     <tr>
                       <td>
                         <div class="checkbox">
-                          <label class="control-label" for="notifUpdate">
-                            <input type="checkbox" class="form-control">
+                          <label class="control-label">
+                            <input type="checkbox" class="form-control" id="notifUpdate" value="true" checked="{{isUpdateNotifChecked}}">
                             News/Updates
                           </label>
                         </div>
@@ -191,8 +191,8 @@
                     <tr>
                       <td>
                         <div class="checkbox">
-                          <label class="control-label" for="notifPromotion">
-                            <input type="checkbox" class="form-control" >
+                          <label class="control-label">
+                            <input type="checkbox" class="form-control" id="notifPromotion" value="true" checked="{{isPromotionNotifChecked}}">
                             Promotions
                           </label>
                         </div>

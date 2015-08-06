@@ -34,8 +34,10 @@ Template.ForgotPassword.events({
     if (isNotEmpty(email) && isEmail(email)) {
       Session.set('loading', true);
       Accounts.forgotPassword({email: email}, function(err){
-        if (err)
+        if (err) {
           toastr.error(err.reason, 'Password Reset Error');
+          Session.set('resetPassword', false);
+        }
         else {
           toastr.success('Please check your email for your password reset link', 'Password Reset');
         }
@@ -53,7 +55,7 @@ Template.ForgotPassword.events({
         if (err)
           toastr.error(err.reason, 'Password Reset Error');
         else {
-          Session.set('resetPassword', null);
+          Session.set('resetPassword', false);
           toastr.success("Password changed successfully", 'Password Reset');
         }
         Session.set('loading', false);

@@ -1,7 +1,7 @@
 //if (Currencies.find().count() === 0) {
   Currencies.remove({});
   Currencies.insert({code: 'USD', name: 'Dollars', rate: 1, sortOrder: 1})
-  Currencies.insert({code: 'BTC', name: 'Bitcoin' , rate: 1, sortOrder: 2})
+  Currencies.insert({code: 'BTC', name: 'Bitcoin' , rate: 1, marketid: 2, sortOrder: 2})
   Currencies.insert({code: 'LTC', name: 'Litecoin', rate: 1, marketid: 3, sortOrder: 3})
   Currencies.insert({code: 'DASH', name: 'Dash', rate: 1, marketid: 155, sortOrder: 4})
   Currencies.insert({code: 'DOGE', name: 'Dogecoin', rate: 1, marketid: 132, sortOrder: 5})

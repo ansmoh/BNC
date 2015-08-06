@@ -8,6 +8,6 @@ AdminConfig = {
     Transactions:{},
     AccountStatus:{},
     Voucher:{},
-    User:{}
+    User: {}
   }
-};
+}
