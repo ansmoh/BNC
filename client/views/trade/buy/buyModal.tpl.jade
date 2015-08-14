@@ -30,7 +30,7 @@
             label.col-sm-3.control-label #[b {{secondaryCode}} Available]
             .col-sm-9
               .form-control-static
-                a.text-info.available(href='') {{number balance '0,0.00000000'}}
+                a.text-info.available(href='') {{number balance '0,0.00000000'}} #[a.btn.btn-primary.buy-max(style='margin-left:10px') Buy Max]
 
         //form(role='form')
           .form-group
@@ -60,6 +60,5 @@
             span {{number balance '$0,0.00'}}
             button.btn.btn-primary.btn-sm.buy-max(type='button') Buy Max
       .modal-footer
-        span.pull-left By clicking Buy you agree to the #[a(href='http://buyanycoin.com/terms-and-conditions') terms and conditions]
         button.btn.btn-default(type='button' data-dismiss='modal') Cancel
         button.btn.btn-success.buy(data-loading-text="Processing..." autocomplete="off") Buy

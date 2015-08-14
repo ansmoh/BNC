@@ -32,3 +32,9 @@ totalDepositFn = function(){
     };
     return totalDeposit;
 }
+
+totalDepositInUSD = function () {
+  var total = 0;
+  //Transactions.find({user: Meteor.userId()});
+  return total;
+}

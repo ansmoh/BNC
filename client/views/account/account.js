@@ -1,12 +1,13 @@
 Template.Account.helpers({
   customerInfo:function () {
-    var res = User.findOne({userId: Meteor.userId()});
-    if( res && res.firstName ){
-      return res;
+    if (Meteor.user() && (user = User.findOne({userId: Meteor.userId()}))) {
+      return user;
     }
   },
   emailAddress:function () {
-    return Meteor.user().emails[0].address;
+    if (Meteor.user()) {
+      return Meteor.user().emails[0].address;
+    }
   },
   tier1Class: function () {
     if (this.status == 'complete' && this.nickName != "" && Meteor.user().emails[0].verified) {
@@ -37,23 +38,39 @@ Template.Account.helpers({
     };
     return "danger";
   },
-  isUpdateNotifChecked: function (){
-    var user = User.findOne({userId: Meteor.userId()});
-    Session.set('cID', this._id);
-    return user.notifUpdate?true:false;
+  isUpdateNotifChecked: function () {
+    if (Meteor.user() && (user = User.findOne({userId: Meteor.userId()}))) {
+      return user.notifUpdate?true:false;
+    }
   },
   isPromotionNotifChecked: function (){
-    var user = User.findOne({userId: Meteor.userId()});
-    return user.notifPromotion?true:false;
+    if (Meteor.user() && (user = User.findOne({userId: Meteor.userId()}))) {
+      return user.notifPromotion?true:false;
+    }
   },
-  profileCompleted:function(){
+  profileCompleted: function () {
+    var percent = 0;
+    if (Meteor.user() && (user = User.findOne({userId: Meteor.userId()}))) {
+      var deposit = totalDepositFn(),
+          diffDays = moment().diff(Session.get('lastTimeStamp') || new Date,'days');
+
+      if (user && _.has(user, 'blockscore') && deposit >= 5000 && diffDays > 0) {
+        precent = 100;
+      } else if (user && _.has(user, 'blockscore')) {
+        percent = 80;
+      } else if (user) {
+        percent = 30;
+      }
+    }
+    return percent;
+    /*
     var res = User.findOne({userId: Meteor.userId()});
     // var res = user_info.customerInfo;
     var deposit = totalDepositFn();
     var dt = Session.get('lastTimeStamp') || new Date();
     var timeDiff = Math.abs(new Date().getTime() - dt.getTime());
     var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
-    if( res && _.has(res, "blockscore")&& deposit >= 5000 & diffDays > 30){
+    if( res && _.has(res, "blockscore")&& deposit >= 5000 && diffDays > 30){
       return 100;
     }
     else if( res && _.has(res, "blockscore")){
@@ -64,21 +81,25 @@ Template.Account.helpers({
     }
     else{
       return 0;
-    }
+    }*/
   }
 });
 
 Template.Account.events({
   'click #notifUpdate': function (event, tmpl) {
     var state = $(event.target).is(':checked'),
-        user = User.findOne({userId:Meteor.userId()});
+        user = User.findOne({userId:Meteor.userId()}),
+        customerInfo = CustomerInfo.findOne({userId: Meteor.userId()});
 
-    User.update(user._id, {$set: {notifUpdate: state}});
+    user && User.update(user._id, {$set: {notifUpdate: state}});
+    customerInfo && CustomerInfo.update(customerInfo._id, {$set: {notifPromotion: state}});
   },
   'click #notifPromotion': function (event, tmpl) {
     var state = $(event.target).is(':checked'),
-        user = User.findOne({userId:Meteor.userId()});
+        user = User.findOne({userId: Meteor.userId()}),
+        customerInfo = CustomerInfo.findOne({userId: Meteor.userId()});
 
-    User.update(user._id, {$set: {notifPromotion: state}});
+    user && User.update(user._id, {$set: {notifPromotion: state}});
+    customerInfo && CustomerInfo.update(customerInfo._id, {$set: {notifPromotion: state}});
   }
 })

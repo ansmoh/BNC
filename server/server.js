@@ -196,7 +196,7 @@ Utility = {
       currency: currency,
       amount: amount,
       note: note,
-      timestamp: Date()
+      timestamp: new Date()
     };
     return CompanyLedger.insert( txn );
   },

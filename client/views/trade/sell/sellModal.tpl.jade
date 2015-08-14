@@ -24,7 +24,7 @@
           .form-group
             label.control-label
               strong Coins Balance:
-              span {{number balance '0,0'}}
+              span {{number balance '0,0.00000000'}}
             if $gt balance 0
               button.btn.btn-primary.btn-sm.sell-all(type='button') Sell All
       .modal-footer

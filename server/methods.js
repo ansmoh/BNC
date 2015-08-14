@@ -26,7 +26,14 @@ Meteor.methods({
     } else {
       price = rate * (1 - currency.sellFee());
     }
+
+    //console.log(currency);
+    //console.log(price); // Price
+    //console.log(amount * rate) // Sub Total
+    //console.log(amount * rate * 0.01) // Fee
+    //console.log(amount * rate * 1.01) // Net Total
     //console.log(Utility.getTotalBalance(secondaryCode));
+    //throw new Meteor.Error(400, 'You cannot buy negative or 0 coins');
 
     if (Utility.getTotalBalance(secondaryCode) < amount * price) {
       throw new Meteor.Error(400, 'There is not enough '+secondaryCode+' for this transaction.');
@@ -36,9 +43,25 @@ Meteor.methods({
       if (res = Meteor.call('cryptsy/createorder', currency.marketid, 'buy', amount, price)) {
         var note = 'Bought ' + parseFloat(amount).toFixed(8) + ' ' + primaryCode + ' @ ' + parseFloat(price).toFixed(8) + ' ' + secondaryCode;
         // Debit
-        Utility.addTransaction(primaryCode, amount, note);
+        Transactions.insert({
+          orderId: res.orderid,
+          user: this.userId,
+          currency: primaryCode,
+          amount: amount,
+          note: note,
+          status: 'complete',
+          timestamp: new Date()
+        })
         // Credit
-        Utility.addTransaction(secondaryCode, (-1) * amount * price, note);
+        Transactions.insert({
+          orderId: res.orderid,
+          user: this.userId,
+          currency: secondaryCode,
+          amount: (-1) * amount * price,
+          note: note,
+          status: 'complete',
+          timestamp: new Date()
+        })
         // Fee
         Utility.depositFee(secondaryCode, (-1) * amount * rate * currency.buyFee(), note + ' and fee is '+ parseFloat(amount * rate * currency.buyFee()).toFixed(8));
         return Meteor.call('sendEmail', 'BuyAnyCoin: '+primaryCode+' Purchased', user.emails[0].address+',\n\n You have purchased '+amount+' '+primaryCode+'. \n\nThanks,\n BuyAnyCoin Team');
@@ -47,9 +70,25 @@ Meteor.methods({
       if (res = Meteor.call('cryptsy/createorder', currency.marketid, 'sell', amount, price)) {
         var note = 'Sold ' + parseFloat(amount).toFixed(8) + ' ' + primaryCode + ' @ ' + parseFloat(price).toFixed(8) + ' ' + secondaryCode;
         // Debit
-        Utility.addTransaction(secondaryCode, amount * price, note);
+        Transactions.insert({
+          orderId: res.orderid,
+          user: this.userId,
+          currency: secondaryCode,
+          amount: amount * price,
+          note: note,
+          status: 'complete',
+          timestamp: new Date()
+        })
         // Credit
-        Utility.addTransaction(primaryCode, (-1) * amount, note);
+        Transactions.insert({
+          orderId: res.orderid,
+          user: this.userId,
+          currency: primaryCode,
+          amount: (-1) * amount,
+          note: note,
+          status: 'complete',
+          timestamp: new Date()
+        })
         // Fee
         Utility.depositFee(primaryCode, (-1) * amount * currency.buyFee(), note + ' and fee is '+ parseFloat(amount * currency.buyFee()).toFixed(8));
         return Meteor.call('sendEmail', 'BuyAnyCoin: '+primaryCode+' Sold', user.emails[0].address+',\n\n You have sold '+amount+' '+primaryCode+'. \n\nThanks,\n BuyAnyCoin Team');
@@ -121,44 +160,76 @@ Meteor.methods({
  * @param  {[type]} volume [description]
  * @return {[type]}        [description]
  */
-  'orders/place/sell': function (symbol, volume) {
+  'orders/place/sell': function (primaryCode, volume) {
     var user = Meteor.users.findOne(this.userId),
-        currency = Currencies.findOne({code:symbol}),
+        currency = Currencies.findOne({code:primaryCode}),
+        secondaryCode = 'BTC',
+        amount = volume,
+        price,
         res;
 
     if (!user || !currency || !currency.marketid) {
       throw new Meteor.Error(403, 'Access denied');
     }
 
-    var rate = parseFloat(parseFloat(Utility.getRate('USD', symbol)).toFixed(5));
-    rate = rate * 0.98;// 2% down for selling
-    console.log('rate', rate);
-    var unitFee = rate * Meteor.settings.fee; //fee for transaction
-    console.log('unitFee', unitFee);
-    var cRate = parseFloat(parseFloat(parseFloat(rate) - parseFloat(unitFee)).toFixed(5));
-    console.log('cRate', cRate);
-    var amount = parseFloat(parseFloat(volume * cRate).toFixed(2));
-    console.log('amount', amount);
-    var totalFee = parseFloat(volume * unitFee);
-    console.log('totalFee', totalFee);
-    var note = 'Sell: Sold ' + volume + ' ' + symbol + ' for ' + amount + ' USD @ ' + cRate;
+    if (primaryCode === 'BTC') {
+      price = currency.rate;
+      secondaryCode = 'USD';
+    } else {
+      price = currency.btcRate;
+      secondaryCode = 'BTC';
+    }
 
-    if (!volume || volume <= 0) {
+    //console.log(currency);
+    //console.log(price); // Price
+    //console.log(amount * price) // Sub Total
+    //console.log(amount * price * 0.03) // Fee
+    //console.log(amount * price * 0.97) // Net Total
+    //console.log(Utility.getTotalBalance(primaryCode));
+    //
+    //throw new Meteor.Error(403, 'Access denied');
+
+    if (!amount || amount <= 0) {
       throw new Meteor.Error(400, 'You cannot buy negative or 0 coins');
     }
 
-    if (Utility.getTotalBalance('USD') < amount) {
-      throw new Meteor.Error(400, 'There is not enough USD for this transaction.');
+    if (Utility.getTotalBalance(primaryCode) < amount) {
+      throw new Meteor.Error(400, 'There is not enough '+primaryCode+' for this transaction.');
     }
 
-    if (res = Meteor.call('cryptsy/createorder', currency.marketid, 'Sell', volume, currency.rate)) {
+    if (res = Meteor.call('cryptsy/createorder', currency.marketid, 'sell', amount, price * 0.97)) {
+
+      var note = 'Sold ' + parseFloat(amount).toFixed(8) + ' ' + primaryCode + ' @ ' + parseFloat(price * 0.97).toFixed(8) + ' ' + secondaryCode;
+      // Debit
+      Transactions.insert({
+        orderId: res.orderid,
+        user: this.userId,
+        currency: secondaryCode,
+        amount: amount * price * 0.97,
+        note: note,
+        status: 'complete',
+        timestamp: new Date()
+      })
+      // Credit
+      Transactions.insert({
+        orderId: res.orderid,
+        user: this.userId,
+        currency: primaryCode,
+        amount: (-1) * amount,
+        note: note,
+        status: 'complete',
+        timestamp: new Date()
+      })
+      // Fee
+      Utility.depositFee(primaryCode, amount * currency.rate * 0.03, note + ' and fee is '+ parseFloat(amount * currency.rate * 0.03).toFixed(8));
+      /*
       var result = {
         debit: Utility.addTransaction('USD', amount, note),
         credit: Utility.addTransaction(symbol, (-1) * volume, note),
         fee: Utility.depositFee('USD', totalFee, note + ' and fee is '+ totalFee)
-      }
-      Meteor.call('sendEmail', 'BuyAnyCoin: '+symbol+' Sold', Meteor.user().emails[0].address+',\n\n You have sold '+volume+' '+symbol+'. \n\nThanks,\n BuyAnyCoin Team');
-      return result;
+      }*/
+      return Meteor.call('sendEmail', 'BuyAnyCoin: '+primaryCode+' Sold', Meteor.user().emails[0].address+',\n\n You have sold '+amount+' '+primaryCode+'. \n\nThanks,\n BuyAnyCoin Team');
+      //return result;
     }
   },
 

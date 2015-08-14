@@ -108,7 +108,25 @@ Template.buyModal.events({
     });
   },
   */
-  'click .btn.buy-max': function (event, tmpl) {
+ 
+ /**
+  * fee = 0.01
+  * x * price + x * price * fee = balance
+  * x * price * (1 + fee) = balance
+  * x = balance / price * (1 + fee)
+  */
+  'click .available, click .btn.buy-max': function (event, tmpl) {
+    var secondaryCode = TemplateVar.get(tmpl, 'secondaryCode'),
+        price = secondaryCode === 'USD'?tmpl.data.currency.rate:tmpl.data.currency.btcRate,
+        balance = TemplateVar.get(tmpl, 'balance'),
+        fee = tmpl.data.currency.buyFee(),
+        //fee = 0.01,
+        amount = Math.floor((balance / (price * (1 + fee)))*100000000)/100000000;
+
+    tmpl.$('.amount').val(amount);
+    TemplateVar.set(tmpl, 'amount', amount);
+
+    /*
     var currency = tmpl.data.currency;
     if (TemplateVar.get('buyOption')) {
       var coins = TemplateVar.get(tmpl, 'balance') / (currency.rate * 1.01);
@@ -123,7 +141,9 @@ Template.buyModal.events({
       tmpl.$('.amount').val(TemplateVar.get(tmpl, 'balance'));
     }
     TemplateVar.set(tmpl, 'buyCoins', tmpl.$('.amount').val());
+    */
   },
+
   'propertychange .amount, change .amount, click .amount, keyup .amount, input .amount, paste .amount': function (event, tmpl) {
     var input = $(event.target),
         amount = input.val() > 0 ?input.val():0;
