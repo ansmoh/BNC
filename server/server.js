@@ -2,7 +2,7 @@ Meteor.startup(function () {
   // code to run on server at startup.
   // to send mails
   process.env.MAIL_URL = "smtp://donotreply%40buyanycoin.com:njiokmNJIOKM@smtp.gmail.com:587/";
-  // process.env.SIKKA_BLOCK_IP_FOR_MILLIS = 1140000;
+ 
   Accounts.emailTemplates.siteName = "BuyAnyCoin";
   Accounts.emailTemplates.from = "BuyAnyCoin <donotreply@buyanycoin.com>";
     Accounts.emailTemplates.resetPassword.subject = function(user) {
@@ -39,6 +39,7 @@ Accounts.onCreateUser(function(options, user) {
  return user;
 });
 
+//Function ensures user is logged prior to performing any account related activities or transactions
 Accounts.validateLoginAttempt(function (attempt) {
   if (!attempt.allowed)
     return false;
