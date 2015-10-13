@@ -1,4 +1,3 @@
-// boot meteor app using this file as "meteor --settings=settings.json" 
 {
   "public": {
     "feeSell": 0.03,

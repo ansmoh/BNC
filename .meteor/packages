@@ -3,37 +3,88 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-platform
+# Languages
+coffeescript
 less
-accounts-password
-accounts-base
-iron:router
 mquandalle:jade
+mquandalle:bower
+
+# Meteor
+meteor-base
+standard-minifiers
+mobile-experience
+mongo
+blaze-html-templates
+session
+jquery
+tracker
+logging
+reload
+random
+ejson
+spacebars
+check
+email
 http
-percolatestudio:synced-cron
-aldeed:autoform
-aldeed:simple-schema
-aldeed:collection2
-yogiben:autoform-file
+
+
+# Libs
+fortawesome:fontawesome
+underscorestring:underscore.string
+numeral:numeral
+momentjs:moment
+mrt:moment-timezone
+twbs:bootstrap
+chrismbeckett:toastr
+
+# FS
 cfs:standard-packages
 cfs:gridfs
+
+# Accounts
+alanning:roles
+service-configuration
+accounts-password
+useraccounts:bootstrap
+accounts-ui
+utilities:avatar
+#ian:accounts-ui-bootstrap-3
+
+# Router
+iron:router
+useraccounts:iron-routing
+zimme:active-route
+
+# Collection
+aldeed:simple-schema
+aldeed:collection2
+dburles:collection-helpers
+matb33:collection-hooks
+zimme:collection-behaviours
+reywood:publish-composite
+
+# Templates
+aldeed:autoform
+cfs:autoform
+yogiben:autoform-file
+aldeed:autoform-bs-datetimepicker
+aldeed:autoform-select2
+hausor:autoform-bs-minicolors
+elevatedevdesign:autoform-nouislider
+raix:handlebar-helpers
+frozeman:template-var
+lbee:moment-helpers
+
+#
+yogiben:admin
+edgee:slingshot
+anti:fake
+#wylio:mandrill
+percolate:synced-cron
 jparker:crypto-hmac
 jparker:crypto-sha256
 bankfacil:vanilla-masker
-chrismbeckett:toastr
-yogiben:admin
-coffeescript
-email
-ian:accounts-ui-bootstrap-3
 meteorhacks:npm
-
+meteorhacks:aggregate
 
 npm-container
-mquandalle:bower
-frozeman:template-var
-momentjs:moment
-numeral:numeral
-underscorestring:underscore.string
-raix:handlebar-helpers
-twbs:bootstrap
-dburles:collection-helpers

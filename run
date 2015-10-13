@@ -1,7 +1,8 @@
 #!/bin/bash
 
-#export ROOT_URL=http://10.10.4.15:3000
-#export MONGO_URL="mongodb://127.0.0.1:27017/mp-float"
-#meteor --settings=settings.json
+export ROOT_URL="http://10.10.4.15:3000"
+export MONGO_URL="mongodb://127.0.0.1:27017/mp-float"
+export MAIL_URL="smtp://donotreply%40buyanycoin.com:njiokmNJIOKM@smtp.gmail.com:587"
+meteor --settings=settings.json
 
-ROOT_URL=http://10.10.4.15:3000 MONGO_URL="mongodb://127.0.0.1:27017/bnc" meteor run --settings=settings.json
+#ROOT_URL=http://10.10.4.15:3000 MONGO_URL="mongodb://127.0.0.1:27017/bnc" meteor run --settings=settings.json

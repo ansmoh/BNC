@@ -2,24 +2,7 @@ Meteor.startup(function () {
   // code to run on server at startup.
   // to send mails
   process.env.MAIL_URL = "smtp://donotreply%40buyanycoin.com:njiokmNJIOKM@smtp.gmail.com:587/";
- 
-  Accounts.emailTemplates.siteName = "BuyAnyCoin";
-  Accounts.emailTemplates.from = "BuyAnyCoin <donotreply@buyanycoin.com>";
-    Accounts.emailTemplates.resetPassword.subject = function(user) {
-    return "Password Reset - BuyAnyCoin";
-  }
-  Accounts.emailTemplates.resetPassword.text = function(user, url) {
-    url = url.replace('#/', '');
-    return "Looks like you forgot your password, no worries. Just click the link below to setup a new one. \n\n"+url+" \n\nThank you,\n\n BuyAnyCoin Team";
-  }
-  Accounts.emailTemplates.verifyEmail.subject = function(user) {
-    return "Please verify your email";
-  }
-  Accounts.emailTemplates.verifyEmail.text = function(user, url) {
-    url = url.replace('#/', '');
-    return "Hello,\n\nTo verify your account email, simply click the link below. \n\n"+url+" \n\n - BuyAnyCoin Team";
-  }
-
+  // process.env.SIKKA_BLOCK_IP_FOR_MILLIS = 1140000;
   if( !Settings.findOne() ){
     Settings.insert({ active: false, desc: "Customize text" });
   }
@@ -39,7 +22,6 @@ Accounts.onCreateUser(function(options, user) {
  return user;
 });
 
-//Function ensures user is logged prior to performing any account related activities or transactions
 Accounts.validateLoginAttempt(function (attempt) {
   if (!attempt.allowed)
     return false;

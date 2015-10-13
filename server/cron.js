@@ -3,6 +3,25 @@ Meteor.startup(function () {
   SyncedCron.start();
 });
 
+// Cryptsy Ticker, every 30 secs
+SyncedCron.add({
+  name: 'Cryptsy Ticker',
+  schedule: function (parser) {
+    return parser.text('every 30 s');
+  },
+  job: function () {
+    Coins.find().map(function (currency) {
+      _.each(_.pluck(currency.markets, '_id'), function (marketId) {
+        var ticker = Meteor.call('cryptsy/ticker', marketId);
+        Coins.update(
+          {_id: currency._id, 'markets._id': marketId},
+          {$set: {'markets.$.ask': ticker.ask,'markets.$.bid': ticker.bid}}
+        )
+      })
+    })
+  }
+})
+
 // Cron Job to check the Transaction collection every minute,
 // get the knox transaction details according to transaction id and update the status accordingly
 SyncedCron.add({

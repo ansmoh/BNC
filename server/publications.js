@@ -1,3 +1,8 @@
+
+Meteor.publish('coins', function () {
+  return Coins.find();
+});
+
 Meteor.publish('currencies', function() {
   return Currencies.find();
 });
