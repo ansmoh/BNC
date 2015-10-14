@@ -1,3 +1,5 @@
+// Changes the viewable colletions in the webapp at app.buyanycoin.com/admin
+
 AdminConfig = {
   name: "BuyAnyCoin",
   nonAdminRedirectRoute: "/",

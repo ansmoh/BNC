@@ -1,4 +1,20 @@
 
+Accounts.onCreateUser (options, user) ->
+  # We still want the default hook's 'profile' behavior.
+  if options.profile
+    user.profile = options.profile
+  # Send welcome
+  Email.send
+    from: 'support@buyanycoin.com',
+    to: 'admin@buyanycoin.com',
+    subject: 'BuyAnyCoin: New account created',
+    text: "Hello Admin,\n\n Welcome the new user #{user.emails[0].address} signed-up at #{user.createdAt}"
+  user
+
+Accounts.onLogin (attempt) ->
+  if attempt.user
+    user = attempt.user
+
 ###
 # emailTemplates
 ###

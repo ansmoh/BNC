@@ -27,14 +27,6 @@ Meteor.methods({
       price = rate * (1 - currency.sellFee());
     }
 
-    //console.log(currency);
-    //console.log(price); // Price
-    //console.log(amount * rate) // Sub Total
-    //console.log(amount * rate * 0.01) // Fee
-    //console.log(amount * rate * 1.01) // Net Total
-    //console.log(Utility.getTotalBalance(secondaryCode));
-    //throw new Meteor.Error(400, 'You cannot buy negative or 0 coins');
-
     if (Utility.getTotalBalance(secondaryCode) < amount * price) {
       throw new Meteor.Error(400, 'There is not enough '+secondaryCode+' for this transaction.');
     }
