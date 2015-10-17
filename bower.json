@@ -1,6 +1,12 @@
 {
   "dependencies": {
-    "form2js": "*"
+    "jasny-bootstrap": "~3.1",
+    "bootstrap-datepicker": "~1.4",
+    "eonasdan-bootstrap-datetimepicker": "~3",
+    "mjolnic-bootstrap-colorpicker": "~2.3",
+    "select2": "~4",
+    "toastr": "~2.1",
+    "nouislider": "~8.0"
   },
   "ignoredDependencies": [
     "jquery",

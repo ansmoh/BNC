@@ -1,8 +1,10 @@
+/*
 Meteor.users.deny({
   update: function() {
     return true;
   }
 });
+*/
 
 Settings.deny({
 	insert: function (userId, doc) {

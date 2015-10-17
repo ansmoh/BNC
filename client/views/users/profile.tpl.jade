@@ -1,0 +1,37 @@
+.app-content-body.fade-in-up
+  .bg-light.lter.b-b.wrapper-md
+    h1.m-n.font-thin.h3 Identity and Information Verification
+  .wrapper-md: .row
+    .col-md-4
+      .panel.panel-danger
+        .panel-heading.no-padding
+          .m-sm(data-toggle="collapse" data-target="#tier1" style='cursor:pointer')
+            h4
+              span Tier 1
+              .pull-right
+                i.fa.fa-toggle-down
+              .pull-right.m-r-sm(data-toggle="tooltip" data-placement="top" title="Tier 1 requires a valid phone number and a full name to be verified. Once you have confirmed these two requirements you will have access to transact $800 a day." style='cursor:pointer')
+                i.fa.fa-question-circle
+        .panel-body.collapse(id="tier1")
+          if $eq currentUser.statusTierOne 'complete'
+            p Complete
+          else if $eq currentUser.statusTierOne 'processing'
+            .text-center
+              h3 {{currentUser.profile.name}}
+              h3 #[i.fa.fa-phone] {{currentUser.profile.phoneNumber}}
+              .status.space-20
+                span.label.label-warning processing
+                button.btn.btn-info.resend-token Resend
+              +autoForm id="verifyPhone" schema=currentUser.verifyPhoneSchema type="method" meteormethod="verifyPhone"
+                +afQuickField name="token" label="Enter token sent to your phone number"
+                button.btn.btn-primary Submit
+          else
+            +autoForm id="tierOne" collection="Meteor.users" doc=currentUser type="update"
+              +afQuickField name="profile.firstName"
+              +afQuickField name="profile.lastName"
+              +afQuickField name="profile.phoneNumber"
+              button.btn.btn-primary Save
+    .col-md-4
+      .panel.no-border
+    .col-md-4
+      .panel.no-border

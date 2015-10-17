@@ -3529,6 +3529,24 @@ a.text-black:hover {
 .m-b-n-xxl {
   margin-bottom: -50px;
 }
+.space-5 {
+  margin: 5px 0;
+}
+.space-10 {
+  margin: 10px 0;
+}
+.space-15 {
+  margin: 15px 0;
+}
+.space-20 {
+  margin: 20px 0;
+}
+.space-25 {
+  margin: 25px 0;
+}
+.space-30 {
+  margin: 30px 0;
+}
 .avatar {
   position: relative;
   display: block;

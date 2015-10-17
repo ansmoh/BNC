@@ -3,6 +3,10 @@ Router.configure
   layoutTemplate: 'defaultLayout'
   loadingTemplate: 'loading'
   notFoundTemplate: 'notFound'
+  waitOn: ->
+    [
+      Meteor.subscribe 'currentUser'
+    ]
 
 AccountsTemplates.configure
   defaultLayout: 'defaultLayout'
@@ -21,8 +25,12 @@ Router.route '/deposit',
   template: 'Pay'
 
 Router.route '/verification',
-  name: 'profile'
+  name: 'Profile'
   template: 'Profile'
+
+Router.route '/profile',
+  name: 'profile'
+  template: 'profile'
 
 Router.route '/account',
   name: 'account'

@@ -3,6 +3,17 @@ Schemas.UserProfile = new SimpleSchema
   name:
     type: String
     optional: true
+    autoValue: ->
+      firstName = @field 'profile.firstName'
+      lastName = @field 'profile.lastName'
+      if !@value and firstName.value and lastName.value
+        "#{firstName.value} #{lastName.value}"
+  firstName:
+    type: String
+    optional: true
+  lastName:
+    type: String
+    optional: true
   summary:
     type: String
     optional: true
@@ -14,6 +25,9 @@ Schemas.UserProfile = new SimpleSchema
     optional: true
   dob:
     type: Date
+    optional: true
+  phoneNumber:
+    type: String
     optional: true
   currency:
     type: String
@@ -43,9 +57,15 @@ Schemas.User = new SimpleSchema [
           doc = Meteor.users.findOne @userId
           if doc?.emails?.length
             Avatar.hash doc.emails[0].address
+    phone:
+      type: Object
+      optional: true
+    'phone.verifiedAt':
+      type: Date
+    'phone.verified':
+      type: Boolean
     emails:
       type: [Object]
-      optional: true
     "emails.$.address":
       type: String
       regEx: SimpleSchema.RegEx.Email
@@ -70,6 +90,7 @@ Schemas.User = new SimpleSchema [
 Meteor.users.attachSchema(Schemas.User)
 
 Meteor.users.helpers
+
   totalBalanceInUSD: ->
     total = 0
     if Meteor.user()
@@ -82,3 +103,28 @@ Meteor.users.helpers
             else
               total += amount * Currencies.findOne(code: trn.currency).rate
     total
+
+  statusTierOne: ->
+    if @profile?.firstName and @profile?.lastName and @profile?.phoneNumber
+      if @phone?.verified
+        'complete'
+      else
+        'processing'
+    else
+      'pending'
+  ###
+  isCompleteTier: (name) ->
+    switch name
+      when 'one'
+        @profile?.firstName and @profile?.lastName and @profile?.phoneNumber
+      when 'two'
+        false
+      when 'three'
+        false
+  ###
+
+  verifyPhoneSchema: ->
+    new SimpleSchema
+      token:
+        type: String
+        min: 4
