@@ -4,6 +4,7 @@ accounts-ui@1.1.6
 accounts-ui-unstyled@1.1.8
 alanning:roles@1.2.14
 aldeed:autoform@5.7.1
+aldeed:autoform-bs-datepicker@1.1.1
 aldeed:autoform-bs-datetimepicker@1.0.6
 aldeed:autoform-select2@2.0.2
 aldeed:collection2@2.5.0
@@ -109,6 +110,7 @@ momentjs:moment@2.10.6
 mongo@1.1.2
 mongo-id@1.0.1
 mongo-livedata@1.0.9
+mpowaga:string-template@0.1.0
 mquandalle:bower@1.5.2_1
 mquandalle:jade@0.4.4
 mquandalle:jade-compiler@0.4.4
@@ -158,5 +160,6 @@ webapp@1.2.2
 webapp-hashing@1.0.5
 yogiben:admin@1.2.3
 yogiben:autoform-file@0.3.0
+yogiben:autoform-modals@0.3.8
 zimme:active-route@2.3.2
 zimme:collection-behaviours@1.1.3

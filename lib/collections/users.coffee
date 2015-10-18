@@ -1,4 +1,6 @@
 
+@BlockScore = new Mongo.Collection null
+
 Schemas.UserProfile = new SimpleSchema
   name:
     type: String
@@ -39,6 +41,44 @@ Schemas.UserProfile = new SimpleSchema
         gbp: '£ (GBP)'
         jpy: '¥ (Yen)'
 
+Schemas.BlockScore = new SimpleSchema
+  firstName:
+    type: String
+  lastName:
+    type: String
+  dob:
+    type: String
+    autoform:
+      type: 'bootstrap-datepicker'
+  documentType:
+    type: String
+    allowedValues: ['ssn']
+    autoform:
+      options:
+        ssn: "SSN"
+  documentValue:
+    type: String
+  address:
+    type: Object
+  'address.line':
+    type: String
+  'address.city':
+    type: String
+  'address.state':
+    type: String
+    autoform:
+      options: ->
+        States.find({}, sort: name: 1).map (state) ->
+          label: state.name, value: state._id
+  'address.zip':
+    type: String
+  'address.country':
+    type: String
+    autoform:
+      options: ->
+        Countries.find({}, sort: name: 1).map (country) ->
+          label: country.name, value: country._id
+
 Schemas.User = new SimpleSchema [
 
   Schemas.Timestampable,
@@ -77,6 +117,9 @@ Schemas.User = new SimpleSchema [
     profile:
       type: Schemas.UserProfile
       optional: true
+    account:
+      type: Object
+      optional: true
     services:
       type: Object
       optional: true
@@ -87,7 +130,9 @@ Schemas.User = new SimpleSchema [
       blackbox: true
 ]
 
-Meteor.users.attachSchema(Schemas.User)
+Meteor.users.attachSchema Schemas.User
+
+BlockScore.attachSchema Schemas.BlockScore
 
 Meteor.users.helpers
 
@@ -122,6 +167,22 @@ Meteor.users.helpers
       when 'three'
         false
   ###
+
+  oneTierSchema: ->
+    new SimpleSchema
+      profile:
+        type: Object
+      'profile.firstName':
+        type: String
+      'profile.lastName':
+        type: String
+      'profile.phoneNumber':
+        type: String
+      'profile.name':
+        type: String
+        optional: true
+        autoValue: ->
+          "#{@siblingField('firstName').value} #{@siblingField('lastName').value}"
 
   verifyPhoneSchema: ->
     new SimpleSchema

@@ -3,7 +3,7 @@
     h1.m-n.font-thin.h3 Identity and Information Verification
   .wrapper-md: .row
     .col-md-4
-      .panel.panel-danger
+      .panel.panel-tier(class="{{#if $eq currentUser.statusTierOne 'complete'}}panel-success{{/if}}{{#if $eq currentUser.statusTierOne 'processing'}}panel-warning{{/if}}{{#if $eq currentUser.statusTierOne 'pending'}}panel-danger{{/if}}")
         .panel-heading.no-padding
           .m-sm(data-toggle="collapse" data-target="#tier1" style='cursor:pointer')
             h4
@@ -26,12 +26,42 @@
                 +afQuickField name="token" label="Enter token sent to your phone number"
                 button.btn.btn-primary Submit
           else
-            +autoForm id="tierOne" collection="Meteor.users" doc=currentUser type="update"
+            +autoForm id="tierOne" schema=currentUser.oneTierSchema collection="Meteor.users" doc=currentUser type="update"
               +afQuickField name="profile.firstName"
               +afQuickField name="profile.lastName"
-              +afQuickField name="profile.phoneNumber"
+              +afQuickField name="profile.phoneNumber" data-mask="999-999-9999" data-placeholder=" " placeholder="555-555-1234"
               button.btn.btn-primary Save
     .col-md-4
-      .panel.no-border
+      .panel.panel-tier.panel-danger
+        .panel-heading.no-padding
+          .m-sm(data-toggle="collapse" data-target="#tier2" style='cursor:pointer')
+            h4
+              span Tier 2
+              .pull-right
+                i.fa.fa-toggle-down
+              .pull-right.m-r-sm(data-toggle="tooltip" data-placement="top" title="Tier 2 requires a full identity verification to include your address, tax ID number, birth date, etc. Once verified you will be allowed to transact up to $10,000 a day." style='cursor:pointer')
+                i.fa.fa-question-circle
+        .panel-body.collapse.text-center(id="tier2")
+          +afModal(
+            formId="verifyBlockScore"
+            collection="BlockScore"
+            operation="method"
+            meteormethod="verifyBlockScore"
+            //fields="account,account.blockscore"
+            title="You're human? We will find out!"
+            buttonContent="Verify"
+            class="btn btn-primary"
+            doc=currentUser
+          )
+            | Add details
     .col-md-4
-      .panel.no-border
+      .panel.panel-tier.panel-danger
+        .panel-heading.no-padding
+          .m-sm(data-toggle="collapse" data-target="#tier3" style='cursor:pointer')
+            h4
+              span Tier 3
+              .pull-right
+                i.fa.fa-toggle-down
+              .pull-right.m-r-sm(data-toggle="tooltip" data-placement="top" title="Tier 3 requires $5,000 in confirmed deposits and a one month wait time from your first deposit. Once you have fulfilled this requirement you will be able to transact up to $50,000 per day." style='cursor:pointer')
+                i.fa.fa-question-circle
+        .panel-body.collapse(id="tier3")

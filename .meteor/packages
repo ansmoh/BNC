@@ -67,10 +67,12 @@ reywood:publish-composite
 aldeed:autoform
 cfs:autoform
 yogiben:autoform-file
+aldeed:autoform-bs-datepicker
 aldeed:autoform-bs-datetimepicker
 aldeed:autoform-select2
 hausor:autoform-bs-minicolors
 elevatedevdesign:autoform-nouislider
+yogiben:autoform-modals
 raix:handlebar-helpers
 frozeman:template-var
 lbee:moment-helpers
