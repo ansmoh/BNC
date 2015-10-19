@@ -24,13 +24,15 @@ Router.route '/deposit',
   name: 'deposit'
   template: 'Pay'
 
+###
 Router.route '/verification',
   name: 'Profile'
   template: 'Profile'
+###
 
-Router.route '/profile',
-  name: 'profile'
-  template: 'profile'
+Router.route '/verify',
+  name: 'verification'
+  template: 'verification'
 
 Router.route '/account',
   name: 'account'

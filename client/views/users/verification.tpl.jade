@@ -12,9 +12,13 @@
                 i.fa.fa-toggle-down
               .pull-right.m-r-sm(data-toggle="tooltip" data-placement="top" title="Tier 1 requires a valid phone number and a full name to be verified. Once you have confirmed these two requirements you will have access to transact $800 a day." style='cursor:pointer')
                 i.fa.fa-question-circle
-        .panel-body.collapse(id="tier1")
+        .panel-body.collapse.in(id="tier1")
           if $eq currentUser.statusTierOne 'complete'
-            p Complete
+            .text-center
+              h3 {{currentUser.profile.name}}
+              h3 #[i.fa.fa-phone] {{currentUser.profile.phoneNumber}}
+              .status.space-20
+                span.label.label-success Authorized
           else if $eq currentUser.statusTierOne 'processing'
             .text-center
               h3 {{currentUser.profile.name}}
@@ -32,7 +36,7 @@
               +afQuickField name="profile.phoneNumber" data-mask="999-999-9999" data-placeholder=" " placeholder="555-555-1234"
               button.btn.btn-primary Save
     .col-md-4
-      .panel.panel-tier.panel-danger
+      .panel.panel-tier(class="{{#if $eq currentUser.statusTierTwo 'complete'}}panel-success{{/if}}{{#if $eq currentUser.statusTierTwo 'pending'}}panel-danger{{/if}}")
         .panel-heading.no-padding
           .m-sm(data-toggle="collapse" data-target="#tier2" style='cursor:pointer')
             h4
@@ -41,21 +45,36 @@
                 i.fa.fa-toggle-down
               .pull-right.m-r-sm(data-toggle="tooltip" data-placement="top" title="Tier 2 requires a full identity verification to include your address, tax ID number, birth date, etc. Once verified you will be allowed to transact up to $10,000 a day." style='cursor:pointer')
                 i.fa.fa-question-circle
-        .panel-body.collapse.text-center(id="tier2")
-          +afModal(
-            formId="verifyBlockScore"
-            collection="BlockScore"
-            operation="method"
-            meteormethod="verifyBlockScore"
-            //fields="account,account.blockscore"
-            title="You're human? We will find out!"
-            buttonContent="Verify"
-            class="btn btn-primary"
-            doc=currentUser
-          )
-            | Add details
+        .panel-body.collapse.text-center.in(id="tier2")
+          if $eq currentUser.statusTierTwo 'complete'
+            with currentUser.account.blockscore
+              address
+                strong {{name_first}} {{name_last}}
+                br
+                | {{address_street1}}
+                br
+                | {{address_city}}, {{address_subdivision}} {{address_postal_code}} {{address_country_code}}
+                br
+              .status.space-20
+                span.label.label-success Verified
+          else
+            if $neq currentUser.statusTierOne 'complete'
+              a.btn.btn-primary.disabled Add details
+              .alert.alert-warning.space-10 Please complete previous tier first.
+            else
+              +afModal(
+                formId="verifyBlockScore"
+                collection="BlockScore"
+                operation="method"
+                meteormethod="verifyBlockScore"
+                title="You're human? We will find out!"
+                buttonContent="Verify"
+                class="btn btn-primary"
+                doc=currentUser
+              )
+                | Add details
     .col-md-4
-      .panel.panel-tier.panel-danger
+      .panel.panel-tier(class="{{#if $eq currentUser.statusTierThree 'complete'}}panel-success{{/if}}{{#if $eq currentUser.statusTierThree 'pending'}}panel-danger{{/if}}")
         .panel-heading.no-padding
           .m-sm(data-toggle="collapse" data-target="#tier3" style='cursor:pointer')
             h4
@@ -64,4 +83,6 @@
                 i.fa.fa-toggle-down
               .pull-right.m-r-sm(data-toggle="tooltip" data-placement="top" title="Tier 3 requires $5,000 in confirmed deposits and a one month wait time from your first deposit. Once you have fulfilled this requirement you will be able to transact up to $50,000 per day." style='cursor:pointer')
                 i.fa.fa-question-circle
-        .panel-body.collapse(id="tier3")
+        .panel-body.collapse.text-center.in(id="tier3")
+          p You have deposited total #[strong {{number 10 '$0,0[.]00'}} USD] till now.
+          p First deposit : #[strong {{depositTimestamp}}]

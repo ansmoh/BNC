@@ -1,6 +1,4 @@
 
-@BlockScore = new Mongo.Collection null
-
 Schemas.UserProfile = new SimpleSchema
   name:
     type: String
@@ -120,6 +118,13 @@ Schemas.User = new SimpleSchema [
     account:
       type: Object
       optional: true
+    'account.blockscore':
+      type: Object
+      optional: true
+      blackbox: true
+    'account.lastDepositAt':
+      type: Date
+      optional: true
     services:
       type: Object
       optional: true
@@ -132,9 +137,20 @@ Schemas.User = new SimpleSchema [
 
 Meteor.users.attachSchema Schemas.User
 
-BlockScore.attachSchema Schemas.BlockScore
-
 Meteor.users.helpers
+
+  displayName: ->
+    if @profile?.name
+      @profile.name
+    else if @username
+      @username
+    else if @emails?.length
+      @emails[0].address
+    else
+      'User'
+
+  emailAddress: ->
+    @emails?[0].address
 
   totalBalanceInUSD: ->
     total = 0
@@ -157,6 +173,13 @@ Meteor.users.helpers
         'processing'
     else
       'pending'
+
+  statusTierTwo: ->
+    if @account?.blockscore?.id then 'complete' else 'pending'
+
+  statusTierThree: ->
+    if @account?.lastDepositAt and @account.lastDepositAt < moment().subtract(30, 'days') then 'complete' else 'pending'
+
   ###
   isCompleteTier: (name) ->
     switch name
@@ -189,3 +212,8 @@ Meteor.users.helpers
       token:
         type: String
         min: 4
+
+
+@BlockScore = new Mongo.Collection null
+
+BlockScore.attachSchema Schemas.BlockScore

@@ -31,7 +31,7 @@ Meteor.methods
         $set:
           'phone.verified': true
           'phone.verifiedAt': new Date
-      result.data
+      AppEmail.verifyPhone @userId
     catch e
       throw new Meteor.Error 404, e.message
 
@@ -56,7 +56,9 @@ Meteor.methods
         auth: "sk_test_b98fde330db2149ab12e09475ef20d3a:"
         headers:
           Accept: 'application/vnd.blockscore+json;version=4'
-      console.log result.data
-      result.data
+      Meteor.users.update @userId,
+        $set:
+          'account.blockscore': result.data
+      AppEmail.verifyBlockScore @userId
     catch e
       throw new Meteor.Error 404, e.message

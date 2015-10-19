@@ -28,7 +28,7 @@ AutoForm.addHooks 'verifyBlockScore',
       console.log doc
       doc
   onSuccess: (type, result) ->
-    toastr.success result.message
+    toastr.success 'Verification successful.', 'Verification'
   onError: (type, err) ->
     toastr.error err
     console.log err

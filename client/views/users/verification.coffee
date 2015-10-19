@@ -1,9 +1,9 @@
 
-Template.profile.onCreated ->
+Template.verification.onCreated ->
 
-Template.profile.helpers
+Template.verification.helpers
 
-Template.profile.events
+Template.verification.events
   'click .resend-token': (event, tmpl) ->
     Meteor.call "sendTokenPhone", (err, result) ->
       console.log err, result
@@ -12,6 +12,6 @@ Template.profile.events
       else
         toastr.err err
 
-Template.profile.onRendered ->
+Template.verification.onRendered ->
   # For performance reasons, the Tooltip and Popover data-apis are opt-in, meaning you must initialize them yourself.
   $('[data-toggle="tooltip"]').tooltip()
