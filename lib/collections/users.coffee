@@ -85,9 +85,20 @@ Schemas.BlockScore = new SimpleSchema
         Countries.find({}, sort: name: 1).map (country) ->
           label: country.name, value: country._id
 
+Schemas.LoginAttempt = new SimpleSchema
+  loginAttempt:
+    type: Object
+    optional: true
+  'loginAttempt.failureLoginAt':
+    type: Date
+    optional: true
+  'loginAttempt.attempts':
+    type: Number
+    optional: true
+
 Schemas.User = new SimpleSchema [
 
-  Schemas.Timestampable,
+  Schemas.Timestampable, Schemas.LoginAttempt,
 
     username:
       type: String
@@ -173,8 +184,19 @@ Meteor.users.helpers
               total += amount * Currencies.findOne(code: trn.currency).rate
     total
 
+  # Should calculate on after.insert hook transactions
+  totalDeposit: ->
+    total = 0
+    Transactions.find user: @_id, currency: "USD", status: 'complete'
+      .forEach (trn) ->
+        total += trn.amount * 1
+    total
+
+  lastDepositAt: ->
+    @account?.lastDepositAt
+
   statusTierOne: ->
-    if @profile?.firstName and @profile?.lastName and @profile?.phoneNumber
+    if @profile?.firstName and @profile?.lastName and @profile?.phoneNumber and @emails?[0].verified
       if @phone?.verified
         'complete'
       else
@@ -183,10 +205,13 @@ Meteor.users.helpers
       'pending'
 
   statusTierTwo: ->
-    if @account?.blockscore?.id then 'complete' else 'pending'
+    if @account?.blockscore?.status == 'valid' then 'complete' else 'pending'
 
   statusTierThree: ->
-    if @account?.lastDepositAt and @account.lastDepositAt < moment().subtract(30, 'days') then 'complete' else 'pending'
+    if @lastDepositAt() > moment().subtract(30, 'days') and @totalDeposit >= 5000
+      'complete'
+    else
+      'pending'
 
   profileCompletedPercent: ->
     percent = 30

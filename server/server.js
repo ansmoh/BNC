@@ -3,94 +3,8 @@ Meteor.startup(function () {
   // to send mails
   process.env.MAIL_URL = "smtp://donotreply%40buyanycoin.com:njiokmNJIOKM@smtp.gmail.com:587/";
   // process.env.SIKKA_BLOCK_IP_FOR_MILLIS = 1140000;
-/*
-  Accounts.emailTemplates.siteName = "BuyAnyCoin";
-  Accounts.emailTemplates.from = "BuyAnyCoin <donotreply@buyanycoin.com>";
-    Accounts.emailTemplates.resetPassword.subject = function(user) {
-    return "Password Reset - BuyAnyCoin";
-  }
-  Accounts.emailTemplates.resetPassword.text = function(user, url) {
-    url = url.replace('#/', '');
-    return "Looks like you forgot your password, no worries. Just click the link below to setup a new one. \n\n"+url+" \n\nThank you,\n\n BuyAnyCoin Team";
-  }
-  Accounts.emailTemplates.verifyEmail.subject = function(user) {
-    return "Please verify your email";
-  }
-  Accounts.emailTemplates.verifyEmail.text = function(user, url) {
-    url = url.replace('#/', '');
-    return "Hello,\n\nTo verify your account email, simply click the link below. \n\n"+url+" \n\n - BuyAnyCoin Team";
-  }
-*/
-  if( !Settings.findOne() ){
-    Settings.insert({ active: false, desc: "Customize text" });
-  }
-});
-/*
-Accounts.onCreateUser(function(options, user) {
-  // *send mail to admin for new account
-      Email.send({
-       from: 'support@buyanycoin.com',
-       to: 'admin@buyanycoin.com',
-       subject: 'BuyAnyCoin: New account created',
-       text: 'Hello Admin,\n\nWelcome the new user '+user.emails[0].address+' signed-up at '+user.createdAt+'.'
-     });   
- 
- User.insert({ userId: user._id, active: true, email: user.emails[0].address });
-
- return user;
-});*/
-
-//Function ensures user is logged prior to performing any account related activities or transactions
-Accounts.validateLoginAttempt(function (attempt) {
-  if (!attempt.allowed)
-    return false;
-  var loginDetials = {}
-  loginDetials.loginAt = new Date();
-  if( attempt.connection && attempt.connection.clientAddress ){
-    loginDetials.ip = attempt.connection.clientAddress;
-  }
-  if(User.find({userId: attempt.user._id}).count()){
-    var res= User.find({userId: attempt.user._id}).map(function (customer) {
-      //fixture if not added
-      if (undefined == customer.active) {
-        loginDetials.status = true;
-        User.update({userId: customer.userId}, {$set:{active: true}, $push: { loginInfo: loginDetials }  });
-        return true;
-      };
-      console.log(customer.active);
-      if(customer.active){
-         var user_id = attempt.user._id;
-         loginDetials.status = true;
-        User.upsert({userId: user_id},{$set: {active: true, attempts: 0}, $push: { loginInfo: loginDetials }  })
-      }
-      return customer.active;
-    });
-    return res[0];
-  }
-  else{
-    //fixture if user is not in AccountStatus
-    loginDetials.status = true;
-    User.insert({userId: attempt.user._id, active: true, email: attempt.user.emails[0].address, loginInfo: [ loginDetials ] });
-    return true;
-  }
-  return false;
 });
 
-//on login failure setting incrementing attempts by 1 and if attempts greater than 5 setting account as inactive for 5 minutes
-Accounts.onLoginFailure(function(details){
-  console.log('onLoginFailure');
-  if(details && _.has(details, "user")){
-    var user_id = details.user._id;
-    User.upsert({userId: user_id},{$inc: {attempts: 1}});
-    var account = User.findOne({userId: user_id});
-    if(account && account.attempts >= 5){
-      User.update({userId: user_id},{$set: {active: false}});
-      Meteor.setTimeout(function () {
-        User.update({userId: user_id},{$set: {active: true}});
-      }, 5 * 60 * 1000);
-    }
-  }
-});
 
 
 var knoxKey = '8aa796419a91eb780d954179aa21d696b204787a'
@@ -399,23 +313,6 @@ Meteor.methods({
   sendVerificationEmail: function () {
     return Accounts.sendVerificationEmail(Meteor.userId());
   },
-  verifyNumber: function (phone_number) {
-    // HTTP call to authy api to get token for new number verification
-    var apiUrl = 'https://api.authy.com/protected/json/phones/verification/start?api_key='+authyKey
-    return HTTP.call("POST", apiUrl, {data:{via: 'sms', phone_number: phone_number, country_code: 1}});
-  },
-  verifyToken: function (phone_number, token) {
-    // HTTP call to authy api to get token verified
-    var apiUrl = 'https://api.authy.com/protected/json/phones/verification/check?api_key='+authyKey
-    return HTTP.call("GET", apiUrl+'&phone_number='+phone_number+'&country_code=1&verification_code='+token);
-  },
-  authrizeNumber: function () {
-    return User.update({userId: Meteor.userId()}, { $set: {'status': 'complete'}})
-  },
-  verifyBlockScoreUser: function(userData){
-    var apiURL = 'https://api.blockscore.com/people';
-    return HTTP.call("POST", apiURL, {data:userData, auth:blockScoreKey+":", headers:{'Accept': 'application/vnd.blockscore+json;version=4'}})   // return blockScore.people.create(userData)
-  },
   saveUserInfo: function(userData, blockScoreData){
     return Utility.saveUserInfo(userData, blockScoreData);  
   },
@@ -440,9 +337,6 @@ Meteor.methods({
   addCustomerInfo:function(fname, lname, cont){
     var data = {"firstName": fname, "lastName": lname, "contactNo": cont};
     return User.update({ userId: this.userId }, { $set:  data } );
-  },
-  setStatusProcessing: function(){
-    User.update({userId: this.userId}, {$set: {'status': 'processing'}})
   },
   getApiData: function(){
     var cryptsy = Meteor.npmRequire('cryptsy-api');

@@ -15,6 +15,26 @@ Accounts.onLogin (attempt) ->
   if attempt.user
     user = attempt.user
 
+Accounts.validateLoginAttempt (attempt) ->
+  unless attempt.allowed
+    return false
+  user = attempt.user
+  if user.loginAttempt?.attempts >= 5 and user.loginAttempt?.failureLoginAt > moment().subtract(5 , 'minutes')
+    throw new Meteor.Error 403, "You have reached five attempts. You have to wait a little..."
+  else
+    Meteor.users.update user._id,
+      $unset:
+        'loginAttempt': 1
+
+Accounts.onLoginFailure (attempt) ->
+  if attempt.user
+    console.log attempt.user._id
+    Meteor.users.update attempt.user._id,
+      $inc:
+        'loginAttempt.attempts': 1
+      $set:
+        'loginAttempt.failureLoginAt': new Date
+
 ###
 # emailTemplates
 ###
