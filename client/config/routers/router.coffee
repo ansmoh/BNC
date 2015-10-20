@@ -16,6 +16,14 @@ Router.route '/',
   template: 'login'
   layoutTemplate: 'blankLayout'
 
+Router.route '/verify',
+  name: 'verification'
+  template: 'verification'
+
+Router.route '/account',
+  name: 'account'
+  template: 'account'
+
 Router.route '/trade',
   name: 'trade'
   template: 'Trade'
@@ -23,20 +31,6 @@ Router.route '/trade',
 Router.route '/deposit',
   name: 'deposit'
   template: 'Pay'
-
-###
-Router.route '/verification',
-  name: 'Profile'
-  template: 'Profile'
-###
-
-Router.route '/verify',
-  name: 'verification'
-  template: 'verification'
-
-Router.route '/account',
-  name: 'account'
-  template: 'Account'
 
 Router.route '/coins',
   name: 'coins'

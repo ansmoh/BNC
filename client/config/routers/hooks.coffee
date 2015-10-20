@@ -6,8 +6,24 @@
 ###
 
 checkUserLoggedIn = ->
-  if !Meteor.loggingIn() and !Meteor.user()
-    Router.go 'home'
+  unless Meteor.loggingIn()
+    unless Meteor.user()
+      Router.go 'home'
+    else
+      @next()
+  else
+    @next()
+
+###
+# Tier 1 should be part of the initial sign up process right after email verification,
+# if they don't complete this portion they should not have access to the webapp
+###
+checkUserVerification = ->
+  unless Meteor.loggingIn()
+    if Meteor.user().statusTierOne() isnt 'complete'
+      Router.go 'verification'
+    else
+      @next()
   else
     @next()
 
@@ -25,6 +41,11 @@ userAuthenticated = ->
 
 Router.onBeforeAction checkUserLoggedIn, except: [
   'home'
+]
+
+Router.onBeforeAction checkUserVerification, except: [
+  'home'
+  'verification'
 ]
 
 Router.onBeforeAction userAuthenticated, only: [

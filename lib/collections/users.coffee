@@ -29,6 +29,14 @@ Schemas.UserProfile = new SimpleSchema
   phoneNumber:
     type: String
     optional: true
+  onNews:
+    type: Boolean
+    optional: true
+    defaultValue: false
+  onPromotions:
+    type: Boolean
+    optional: true
+    defaultValue: false
   currency:
     type: String
     defaultValue: 'usd'
@@ -180,6 +188,14 @@ Meteor.users.helpers
   statusTierThree: ->
     if @account?.lastDepositAt and @account.lastDepositAt < moment().subtract(30, 'days') then 'complete' else 'pending'
 
+  profileCompletedPercent: ->
+    percent = 30
+    if @statusTierTwo() == 'complete'
+      percent += 50
+    if @statusTierThree() == 'complete'
+      percent += 20
+    percent
+
   ###
   isCompleteTier: (name) ->
     switch name
@@ -212,6 +228,17 @@ Meteor.users.helpers
       token:
         type: String
         min: 4
+
+  notificationsUpdatesSchema: ->
+    new SimpleSchema
+      profile:
+        type: Object
+      'profile.onNews':
+        type: Boolean
+        label: 'News/Updates'
+      'profile.onPromotions':
+        type: Boolean
+        label: 'Promotions'
 
 
 @BlockScore = new Mongo.Collection null

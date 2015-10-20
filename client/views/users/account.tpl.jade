@@ -1,0 +1,57 @@
+.app-content-body
+  .hbox.hbox-auto-xs.hbox-auto-sm
+    .landing-account(style="background:url(img/c0.jpg) center center; background-size:cover")
+      .wrapper-lg.bg-white-opacity
+        .row.m-t
+          .col-sm-7
+            a.thumb-lg.pull-left.m-r
+              img.img-circle(src="img/b17.jpg")
+            .clear.m-b
+              .m-b.m-t-sm
+                span.h3.text-black {{currentUser.displayName}}
+                small.m-l {{currentUser.emailAddress}}
+          .col-sm-5
+            .pull-right.pull-none-xs.text-center
+              a.btn.btn-sm.btn-bg.btn-rounded.btn-icon.l-h-2x.font-bold(href="{{pathFor 'verification'}}" class="{{#if $eq currentUser.statusTierOne 'complete'}}btn-success{{/if}}{{#if $eq currentUser.statusTierOne 'processing'}}btn-warning{{/if}}{{#if $eq currentUser.statusTierOne 'pending'}}btn-danger{{/if}}") 1
+              a.btn.btn-sm.btn-bg.btn-rounded.btn-icon.l-h-2x.font-bold(href="{{pathFor 'verification'}}" class="{{#if $eq currentUser.statusTierTwo 'complete'}}btn-success{{/if}}{{#if $eq currentUser.statusTierTwo 'pending'}}btn-danger{{/if}}") 2
+              a.btn.btn-sm.btn-bg.btn-rounded.btn-icon.l-h-2x.font-bold(href="{{pathFor 'verification'}}" class="{{#if $eq currentUser.statusTierThree 'complete'}}btn-success{{/if}}{{#if $eq currentUser.statusTierThree 'pending'}}btn-danger{{/if}}") 3
+    .wrapper.bg-white.b-b
+      .row.m-n
+        .progress
+          .progress-bar.progress-bar-success.progress-bar-striped.active(role='progressbar' aria-valuenow='{{currentUser.profileCompletedPercent}}' aria-valuemin='0' aria-valuemax='100' style='width: {{currentUser.profileCompletedPercent}}%')
+            span {{currentUser.profileCompletedPercent}}% Account Setup Progress
+      .row
+        .col-sm-6
+          .panel.panel-info
+            .panel-heading
+              h3.m-n Address
+            .panel-body
+              if $eq currentUser.statusTierTwo 'complete'
+                with currentUser.account.blockscore
+                  table.table.table-striped
+                    tbody
+                      tr
+                        td Street
+                        td {{address_street1}}
+                      tr
+                        td City
+                        td {{address_city}}
+                      tr
+                        td State
+                        td {{address_subdivision}}
+                      tr
+                        td Country
+                        td {{address_country_code}}
+                      tr
+                        td Zip/Postal code
+                        td {{address_postal_code}}
+              else
+                .text-center No Address
+        .col-sm-6
+          .panel.panel-success
+            .panel-heading
+              h3.m-n Notifications/Alerts
+            .panel-body
+              +autoForm id="notificationsUpdates" schema=currentUser.notificationsUpdatesSchema collection="Meteor.users" doc=currentUser type="update" autosave=true
+                +afQuickField name="profile.onNews"
+                +afQuickField name="profile.onPromotions"

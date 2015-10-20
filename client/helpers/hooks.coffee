@@ -32,3 +32,14 @@ AutoForm.addHooks 'verifyBlockScore',
   onError: (type, err) ->
     toastr.error err
     console.log err
+
+AutoForm.addHooks 'notificationsUpdates',
+  before:
+    update: (doc) ->
+      console.log doc
+      doc
+  onSuccess: (type, result) ->
+    toastr.success 'Changes saved', 'Profile'
+  onError: (type, err) ->
+    toastr.error err
+    console.log err
