@@ -144,6 +144,13 @@ Schemas.User = new SimpleSchema [
     'account.lastDepositAt':
       type: Date
       optional: true
+    coupons:
+      type: [Object]
+      optional: true
+    'coupons.$.id':
+      type: String
+    'coupons.$.when':
+      type: Date
     services:
       type: Object
       optional: true
@@ -266,6 +273,13 @@ Meteor.users.helpers
         label: 'Promotions'
 
 
+###
+# Fallback afModal doesnt support schema key
+###
 @BlockScore = new Mongo.Collection null
-
 BlockScore.attachSchema Schemas.BlockScore
+
+@UserCoupons = new Mongo.Collection null
+UserCoupons.attachSchema new SimpleSchema
+  coupon:
+    type: String

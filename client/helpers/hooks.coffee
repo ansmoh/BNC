@@ -43,3 +43,14 @@ AutoForm.addHooks 'notificationsUpdates',
   onError: (type, err) ->
     toastr.error err
     console.log err
+
+AutoForm.addHooks 'redeemCoupon',
+  before:
+    update: (doc) ->
+      console.log doc
+      doc
+  onSuccess: (type, result) ->
+    toastr.success 'Coupon has redeemed successful', 'Coupon'
+  onError: (type, err) ->
+    toastr.error err
+    console.log err

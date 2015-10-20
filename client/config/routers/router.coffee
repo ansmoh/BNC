@@ -30,7 +30,10 @@ Router.route '/trade',
 
 Router.route '/deposit',
   name: 'deposit'
-  template: 'Pay'
+  template: 'deposit'
+  onAfterAction: ->
+    # Here could be process knox deposit
+    console.log @params.query
 
 Router.route '/coins',
   name: 'coins'

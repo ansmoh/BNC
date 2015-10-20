@@ -1,0 +1,32 @@
+.app-content-body.fade-in-up
+  .bg-light.lter.b-b.wrapper-md
+    h1.m-n.font-thin.h3 Payment Options
+  .wrapper-md.deposit
+    .row
+      .col-md-4
+        .panel.panel-primary
+          .panel-heading Deposit funds
+          .panel-body.text-center
+            if postPayment
+              p {{status}}
+              a.btn.btn-success(href='/') Return
+            else
+              .knox-payments-div(data-amount='custom')
+              br
+      .col-md-4
+        .panel.panel-primary
+          .panel-heading Voucher Redemption
+          .panel-body.text-center
+            p Want to redeem a voucher?
+            +afModal(
+              formId="redeemCoupon"
+              collection="UserCoupons"
+              operation="method"
+              meteormethod="redeemCoupon"
+              title="Voucher Redemption<br><small>Please enter your voucher code to redeem!</small>"
+              buttonContent="Redeem"
+              class="btn btn-primary"
+              doc=currentUser
+            )
+              | Redeem Voucher
+            //button.btn.btn-success(data-toggle='modal' data-target='#voucherModal') Redeem Voucher

@@ -86,7 +86,9 @@ percolate:synced-cron
 jparker:crypto-hmac
 jparker:crypto-sha256
 bankfacil:vanilla-masker
-meteorhacks:npm
 meteorhacks:aggregate
+
+meteorhacks:npm
+
 
 npm-container

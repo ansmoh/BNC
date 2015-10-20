@@ -7,6 +7,9 @@
   collections:
     Coins:
       icon: 'usd'
+    Coupons:
+      icon: 'credit-card'
+      color: 'orange'
     Currencies:
       icon: 'usd'
       tableColumns: [

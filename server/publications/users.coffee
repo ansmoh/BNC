@@ -7,6 +7,7 @@ Meteor.publish 'currentUser', ->
         hashEmail: 1
         'phone.verified': 1
         account: 1
+        coupons: 1
         createdAt: 1
   else
     @ready()

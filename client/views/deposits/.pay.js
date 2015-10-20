@@ -1,5 +1,6 @@
 Template.Pay.created = function () {
   //function to load a given js file
+  /*
   var fileRef;
   fileRef = document.createElement('script');
   fileRef.setAttribute('id', "knox_payments_script");
@@ -13,7 +14,7 @@ Template.Pay.created = function () {
 
   if (typeof fileRef !== "undefined") {
     document.getElementsByTagName("head")[0].appendChild(fileRef);
-  }
+  }*/
 }
 
 var Utils = {

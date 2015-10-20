@@ -77,3 +77,10 @@
       States.insert
         _id: key
         name: s.humanize(value)
+
+  ###
+  # Coupons
+  ###
+  if Coupons.find().count() == 0
+    Coupons.insert code: '12345', amount: 100, duration: 'forever'
+    Coupons.insert code: 'abc', amount: 1000, duration: 'forever'
