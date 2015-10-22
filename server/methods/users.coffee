@@ -8,7 +8,7 @@ Meteor.methods
       result = HTTP.call "POST", "https://sandbox-api.authy.com/protected/json/phones/verification/start",
         data:
           #api_key: '2a7cc1467513fd1c366de7620bb9361c'
-          api_key: "d57d919d11e6b221c9bf6f7c882028f9"
+          api_key: "IWdlZFJOakroBRRoBL5CzPI9jxeKuBCJ"
           via: 'sms'
           phone_number: user.profile.phoneNumber
           country_code: 1
@@ -23,7 +23,7 @@ Meteor.methods
       result = HTTP.call "GET", "https://sandbox-api.authy.com/protected/json/phones/verification/check",
         params:
           #api_key: '2a7cc1467513fd1c366de7620bb9361c'
-          api_key: "d57d919d11e6b221c9bf6f7c882028f9"
+          api_key: "IWdlZFJOakroBRRoBL5CzPI9jxeKuBCJ"
           phone_number: user.profile.phoneNumber
           country_code: 1
           verification_code: doc.token
