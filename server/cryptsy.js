@@ -1,7 +1,3 @@
-var cryptsy = Meteor.npmRequire('cryptsy-api');
-CryptsyApi = new cryptsy(Meteor.settings.cryptsy.publicKey, Meteor.settings.cryptsy.secretKey);
-var cryptsy2 = Meteor.npmRequire('cryptsyv2-api');
-CryptsyApi2 = new cryptsy2(Meteor.settings.cryptsy.publicKey, Meteor.settings.cryptsy.secretKey);
 
 Meteor.methods({
 

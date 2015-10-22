@@ -6,9 +6,9 @@ AutoForm.addHooks 'tierOne',
       modifier
   onSuccess: (type, result) ->
     Meteor.call "sendTokenPhone", (err, result) ->
-      unless err then toastr.success result.message else toastr.error err
+      unless err then toastr.success result.message else toastr.error err.message
   onError: (type, err) ->
-    toastr.error err
+    toastr.error err.message
     console.log err
 
 AutoForm.addHooks 'verifyPhone',
@@ -19,7 +19,7 @@ AutoForm.addHooks 'verifyPhone',
   onSuccess: (type, result) ->
     toastr.success result.message
   onError: (type, err) ->
-    toastr.error err
+    toastr.error err.message
     console.log err
 
 AutoForm.addHooks 'verifyBlockScore',
@@ -30,7 +30,7 @@ AutoForm.addHooks 'verifyBlockScore',
   onSuccess: (type, result) ->
     toastr.success 'Verification successful.', 'Verification'
   onError: (type, err) ->
-    toastr.error err
+    toastr.error err.message
     console.log err
 
 AutoForm.addHooks 'notificationsUpdates',
@@ -41,7 +41,7 @@ AutoForm.addHooks 'notificationsUpdates',
   onSuccess: (type, result) ->
     toastr.success 'Changes saved', 'Profile'
   onError: (type, err) ->
-    toastr.error err
+    toastr.error err.message
     console.log err
 
 AutoForm.addHooks 'redeemCoupon',
@@ -52,5 +52,5 @@ AutoForm.addHooks 'redeemCoupon',
   onSuccess: (type, result) ->
     toastr.success 'Coupon has redeemed successful', 'Coupon'
   onError: (type, err) ->
-    toastr.error err
+    toastr.error err.message
     console.log err

@@ -2,6 +2,7 @@
 
 export ROOT_URL="http://10.10.4.15:3000"
 export MONGO_URL="mongodb://127.0.0.1:27017/bnc"
+#export MONGO_URL="mongodb://mongohq:jabvfugw@c765.candidate.36.mongolayer.com:10765,c964.candidate.20.mongolayer.com:10964/bacwebappdb?replicaSet=set-55067bb2bddd46b93800044f"
 export MAIL_URL="smtp://donotreply%40buyanycoin.com:njiokmNJIOKM@smtp.gmail.com:587"
 meteor --settings=settings.json
 
