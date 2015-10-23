@@ -96,6 +96,14 @@ Schemas.LoginAttempt = new SimpleSchema
     type: Number
     optional: true
 
+Schemas.Balance = new SimpleSchema
+  currency:
+    type: String
+  amount:
+    type: Number
+    decimal: true
+    defaultValue: 0
+
 Schemas.User = new SimpleSchema [
 
   Schemas.Timestampable, Schemas.LoginAttempt,
@@ -159,6 +167,9 @@ Schemas.User = new SimpleSchema [
       type: [String]
       optional: true
       blackbox: true
+    balance:
+      type: [Schemas.Balance]
+      optional: true
 ]
 
 Meteor.users.attachSchema Schemas.User

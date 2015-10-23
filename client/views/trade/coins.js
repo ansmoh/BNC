@@ -10,9 +10,6 @@ Template.coins.helpers({
   selectedCoin: function () {
     return Coins.findOne(TemplateVar.get('coinId'));
   },
-  activeClass: function () {
-    return this.maintenance ? 'busy' : 'on';
-  },
 });
 
 Template.coins.events({

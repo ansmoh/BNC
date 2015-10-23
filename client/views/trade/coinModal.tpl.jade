@@ -6,11 +6,11 @@
           span(aria-hidden='true') &times;
           span.sr-only Close
         h4.modal-title.font-bold {{coin.code}} - {{coin.name}}
-      .modal-body
+      .modal-body.coin
         form(role='form')
           .row
             .col-md-2.col-xs-4
-              .thumb-md.avatar
+              .image-container.thumb-md
                 img.img-circle.w-xs(src='img/{{coin.code}}.png')
                 i.b-white.top.right(class='{{activeClass}}')
             .col-md-3.col-xs-6

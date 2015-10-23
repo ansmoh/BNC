@@ -94,3 +94,18 @@ Meteor.methods
       ###
     catch e
       throw new Meteor.Error 404, e.message
+
+  updateUserBalance: (currency, amount, serverKey) ->
+    throw new Meteor.Error 403, "Access denied" if Meteor.settings.serverKey isnt serverKey
+    user = Meteor.users.findOne @userId
+    throw new Meteor.Error 403, "Access denied" unless user
+    if _.findWhere(user.balance, currency: currency)
+      Meteor.users.update _id: userId, 'balance.currency': currency,
+        $inc:
+          'balance.$.amount': amount
+    else
+      Meteor.users.update _id: userId,
+        $push:
+          'balance':
+            currency: currency
+            amount: amount

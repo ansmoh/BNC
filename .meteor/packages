@@ -70,6 +70,8 @@ yogiben:autoform-file
 aldeed:autoform-bs-datepicker
 aldeed:autoform-bs-datetimepicker
 aldeed:autoform-select2
+# afQuickField name="plans" type="select-radio" template="buttonGroup" value=2 label=false
+aldeed:autoform-bs-button-group-input
 hausor:autoform-bs-minicolors
 elevatedevdesign:autoform-nouislider
 yogiben:autoform-modals

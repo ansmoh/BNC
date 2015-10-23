@@ -8,12 +8,12 @@
     .row
       each coins
         .col-lg-3.col-md-4.col-sm-6.col-xs-12
-          .panel.no-border
+          .panel.no-border.coin
             a.panel-heading.bg-default(data-toggle='modal' data-target='#coinModal')
               .text-center
-                .thumb-lg.avatar.m-b-lg
+                .image-container.thumb-lg.m-b-lg
                   img.img-circle(src='img/{{this.code}}.png')
-                  i.b-white.top.right(class="{{activeClass}}")
+                  i.b-white.top.right(class="{{#if maintenance}}busy{{else}}on{{/if}}")
                 br
                 span.h3.text-info {{this.name}}({{this.code}})
                 .m-sm

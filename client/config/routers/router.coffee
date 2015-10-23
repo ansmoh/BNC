@@ -37,7 +37,8 @@ Router.route '/deposit',
 
 Router.route '/coins',
   name: 'coins'
-  waitOn:
+  template: 'coins'
+  waitOn: ->
     [
       Meteor.subscribe 'coins'
     ]

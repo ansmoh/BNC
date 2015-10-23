@@ -218,6 +218,7 @@ Meteor.methods({
     Utility.addTransaction(currency, -amount, 'Withdraw -> ' + destination)
     return Utility.addWithdrawRequest(currency, amount, destination)
   },
+  /*
   buy: function (currency, count) {
     check(currency, String);
     check(count, Number);
@@ -282,7 +283,7 @@ Meteor.methods({
       credit: Utility.addTransaction(currency, -count, note),
       fee: Utility.depositFee('USD', totalFee, note + ' and fee is '+ totalFee)
     }
-  },
+  },*/
   depositViaKnox: function (currency, amount, txnid) {
     return Utility.addKnoxTransaction(currency, amount, 'ACH Deposit', txnid);
   },

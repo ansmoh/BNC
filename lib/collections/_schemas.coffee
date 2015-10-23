@@ -49,6 +49,16 @@ Schemas.Owner = new SimpleSchema
       if @isInsert and @userId then @userId else @unset()
 
 ###
+# Belong userId
+###
+Schemas.BelongsUser = new SimpleSchema
+  userId:
+    type: String
+    regEx: SimpleSchema.RegEx.Id
+    autoValue: ->
+      if @isInsert and @userId then @userId else @unset()
+
+###
 # Address
 ###
 Schemas.Address = new SimpleSchema
