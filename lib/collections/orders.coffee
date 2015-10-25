@@ -27,6 +27,14 @@ Schemas.Order = new SimpleSchema [
     'secondary.amount':
       type: Number
       decimal: true
+    fee:
+      type: Object
+      optional: true
+    'fee.currency':
+      type: String
+    'fee.amount':
+      type: Number
+      decimal: true
 
 ]
 

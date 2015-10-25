@@ -100,11 +100,11 @@ Meteor.methods
     user = Meteor.users.findOne @userId
     throw new Meteor.Error 403, "Access denied" unless user
     if _.findWhere(user.balance, currency: currency)
-      Meteor.users.update _id: userId, 'balance.currency': currency,
+      Meteor.users.update _id: @userId, 'balance.currency': currency,
         $inc:
           'balance.$.amount': amount
     else
-      Meteor.users.update _id: userId,
+      Meteor.users.update _id: @userId,
         $push:
           'balance':
             currency: currency

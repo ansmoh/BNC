@@ -205,9 +205,10 @@ Meteor.methods({
   deposit: function (amount) {
     return Utility.addTransaction('USD', amount, 'Deposit')
   },
+  /*
   withdraw: function (currency, amount, destination) {
     return Utility.addTransaction(currency, -amount, 'Withdraw -> ' + destination)
-  },
+  },*/
   withdrawCoin: function (currency, amount, destination) {
     if (Utility.getTotalBalance(currency) < amount) {
       throw new Meteor.Error("insufficient-balance", 'There is not enough '+currency+' for this transaction.')

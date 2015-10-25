@@ -35,9 +35,9 @@ Router.route '/deposit',
     # Here could be process knox deposit
     console.log @params.query
 
-Router.route '/coins',
-  name: 'coins'
-  template: 'coins'
+Router.route '/currencies',
+  name: 'currencies'
+  template: 'currencies'
   waitOn: ->
     [
       Meteor.subscribe 'coins'

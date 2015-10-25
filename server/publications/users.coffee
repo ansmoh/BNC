@@ -8,6 +8,7 @@ Meteor.publish 'currentUser', ->
         'phone.verified': 1
         account: 1
         coupons: 1
+        balance: 1
         createdAt: 1
   else
     @ready()

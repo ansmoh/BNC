@@ -1,0 +1,44 @@
+
++autoForm id="buyCurrency" schema=currency.buySchema type="method" meteormethod="buy" class="form-horizontal"
+  .modal-header
+    button.close(type='button' data-dismiss='modal')
+      span(aria-hidden='true') &times;
+      span.sr-only Close
+    h4.modal-title.font-bold
+      a.text-sm: i.fa.fa-arrow-left(data-state="view")
+      span.m-l-xs Buy {{currency.code}} with {{secondaryCurrency}}
+  .modal-body
+    +afQuickField name="type"
+    +afQuickField name="primary.currency"
+    +afQuickField name="secondary.currency" formgroup-class="m-n"
+    .form-group
+      .col-sm-12
+        .input-group
+          .input-group-addon Amount {{currency.code}}
+          +afFieldInput name="primary.amount"
+          .input-group-addon @{{currency.ask secondaryCurrency '0.00000000'}} {{secondaryCurrency}}
+    .form-group.no-mb
+      label.col-sm-3.control-label
+        b Sub Total
+      .col-sm-9
+        .form-control-static {{secondaryAmount}} {{secondaryCurrency}}
+    .form-group.no-mb
+      label.col-sm-3.control-label
+        b 1.00% Fee
+      .col-sm-9
+        .form-control-static {{fee}} {{secondaryCurrency}}
+    .form-group.no-mb
+      label.col-sm-3.control-label
+        b Total
+      .col-sm-9
+        .form-control-static {{total}} {{secondaryCurrency}}
+    .form-group.no-mb
+      label.col-sm-3.control-label
+        b {{secondaryCurrency}} Available
+      .col-sm-9
+        .form-control-static
+          a.text-info.buy-max {{currentUser.currencyBalance secondaryCurrency '0,0.00000000'}}
+          a.btn.btn-primary.btn-sm.m-l-sm.buy-max Buy Max
+  .modal-footer
+    button.btn.btn-default(type='button' data-dismiss='modal') Cancel
+    button.btn.btn-success(data-loading-text="Processing..." autocomplete="off") Buy

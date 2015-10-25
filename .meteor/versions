@@ -48,7 +48,7 @@ cfs:worker@0.1.4
 check@1.0.6
 chrismbeckett:toastr@2.1.2_1
 coffeescript@1.0.10
-dburles:collection-helpers@1.0.3
+dburles:collection-helpers@1.0.4
 ddp@1.2.2
 ddp-client@1.2.1
 ddp-common@1.2.1

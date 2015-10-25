@@ -1,6 +1,6 @@
-
+/*
 Meteor.startup(function () {
-  var currencies = ['USD', 'BTC', 'XRP', 'LTC', 'DASH', 'DOGE', 'NXT', 'PPC', /*'FTC', 'RDD', 'XPY', 'ZRC',*/ 'BTS'];
+  var currencies = ['USD', 'BTC', 'XRP', 'LTC', 'DASH', 'DOGE', 'NXT', 'PPC', 'BTS']; // 'FTC', 'RDD', 'XPY', 'ZRC',
 
   _.each(currencies, function (code, index) {
     var data = Meteor.call('cryptsy/currencyMarkets', code),
@@ -36,3 +36,4 @@ Meteor.startup(function () {
   })
 
 });
+*/

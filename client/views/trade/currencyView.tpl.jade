@@ -1,0 +1,35 @@
+.modal-header
+  button.close(type='button' data-dismiss='modal')
+    span(aria-hidden='true') &times;
+    span.sr-only Close
+  h4.modal-title.font-bold {{currency.code}} - {{currency.name}}
+.modal-body
+  with currency
+    .row
+      .col-md-2.col-xs-4
+        .image-container.thumb-md
+          img.img-circle.w-xs(src='img/{{code}}.png')
+          i.b-white.top.right(class="{{#if maintenance}}busy{{else}}on{{/if}}")
+      unless maintenance
+        .col-md-3.col-xs-6
+          .h3 Price
+          if $eq code 'USD'
+            strong {{number 1 '$0,0.00000000'}}
+          else
+            each markets
+              strong {{../ask secondaryCurrency '0,0.00000000'}} {{secondaryCurrency}}
+              br
+        .col-md-2.col-xs-2
+          if $eq code 'USD'
+            a.btn.btn-sm.btn-success.m-b(href="{{pathFor 'deposit'}}") Deposit
+          else
+            a.btn.btn-success.m-b(class="{{#if $eq (currentUser.currencyBalance 'USD' null) 0}}disabled{{/if}}" data-state="buy") Buy
+            a.btn.btn-danger.m-b(class="{{#if $eq (currentUser.currencyBalance code null) 0}}disabled{{/if}}" data-state="sell") Sell
+        .col-md-5.col-xs-12.text-center
+          .h4 Current Balance
+          strong.text-success {{currentUser.currencyBalance code '0,0[.]00000000'}} {{code}}
+          br
+          a.btn.btn-primary(class="{{#if $eq (currentUser.currencyBalance code null) 0}}disabled{{/if}}" data-state="withdraw") Withdraw
+      else
+        .col-md-10.col-xs-8
+          .text-danger Currency {{code}} is inactive. Please wait until it is activated again or contact support.

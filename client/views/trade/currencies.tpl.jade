@@ -1,20 +1,18 @@
 
-+coinModal coin=selectedCoin
-
 .app-content-body.fade-in-up
   .bg-light.lter.b-b.wrapper-md
     h1.m-n.font-thin.h3 Buy/Sell
   .wrapper-md
     .row
-      each coins
+      each currencies
         .col-lg-3.col-md-4.col-sm-6.col-xs-12
           .panel.no-border.coin
-            a.panel-heading.bg-default(data-toggle='modal' data-target='#coinModal')
+            a.panel-heading.bg-default(data-toggle="modal" data-target="#modal" data-template='currencyModal')
               .text-center
                 .image-container.thumb-lg.m-b-lg
-                  img.img-circle(src='img/{{this.code}}.png')
+                  img.img-circle(src='img/{{code}}.png')
                   i.b-white.top.right(class="{{#if maintenance}}busy{{else}}on{{/if}}")
                 br
-                span.h3.text-info {{this.name}}({{this.code}})
+                span.h3.text-info {{name}}({{code}})
                 .m-sm
-                  span.h4 {{this.price 'USD' '$0.00000000'}}
+                  span.h4 {{ask 'USD' '$0.00000000'}}

@@ -1,6 +1,6 @@
 Meteor.startup(function () {
   // code to run on server at startup
-  SyncedCron.start();
+  //SyncedCron.start();
 });
 
 // Cryptsy Ticker, every 30 secs

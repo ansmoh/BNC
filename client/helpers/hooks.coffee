@@ -54,3 +54,38 @@ AutoForm.addHooks 'redeemCoupon',
   onError: (type, err) ->
     toastr.error err.message
     console.log err
+
+AutoForm.addHooks 'buyCurrency',
+  before:
+    method: (doc) ->
+      currency = Coins.findOne code: doc.primary.currency
+      doc.secondary.amount = currency.secondaryAmount doc.type, doc.secondary.currency, doc.primary.amount
+      console.log doc
+      doc
+  onSuccess: (type, result) ->
+    toastr.success result.message, 'Buy Currency'
+  onError: (type, err) ->
+    toastr.error err.message
+    console.log err
+
+AutoForm.addHooks 'sellCurrency',
+  before:
+    method: (doc) ->
+      console.log doc
+      doc
+  onSuccess: (type, result) ->
+    toastr.success result.message, 'Sell Currency'
+  onError: (type, err) ->
+    toastr.error err.message
+    console.log err
+
+AutoForm.addHooks 'withdrawCurrency',
+  before:
+    method: (doc) ->
+      console.log doc
+      doc
+  onSuccess: (type, result) ->
+    toastr.success result.message, 'Withdraw'
+  onError: (type, err) ->
+    toastr.error err.message
+    console.log err

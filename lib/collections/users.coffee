@@ -189,6 +189,16 @@ Meteor.users.helpers
   emailAddress: ->
     @emails?[0].address
 
+  currencyBalance: (currency, format, options) ->
+    balance = 0
+    found = _.findWhere @balance or [], currency: currency
+    if found
+      balance = found.amount
+    if format
+      numeral(balance).format(format)
+    else
+      balance
+
   totalBalanceInUSD: ->
     total = 0
     if Meteor.user()
