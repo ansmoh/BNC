@@ -6,18 +6,22 @@ Meteor.methods
     throw new Meteor.Error 403, "Access denied" unless user
     currency = Coins.findOne code: doc?.primary?.currency
     throw new Meteor.Error 404, "Currency not found" unless currency
-    doc.secondary.amount = currency.secondaryAmount doc.type, doc.secondary.currency, doc.primary.amount if doc and doc.secondary and doc.primary
+    if doc and doc.secondary and doc.primary
+      doc.secondary.amount = currency.secondaryAmount 'buy', doc.secondary.currency, doc.primary.amount
     check doc, currency.buySchema()
-    doc.price = currency.price doc.type, doc.secondary.currency
-    doc.fee =
-      amount: currency.fee doc.type, doc.secondary.currency, doc.primary.amount
-      currency: doc.secondary.currency
-    ###
-    if currency.total(doc) > user.currencyBalance(doc.secondary.currency, false)
-      throw new Meteor.Error 400, "There is not enough #{doc.secondary.currency} balance for this transaction"
-    ###
-    console.log doc
-    throw new Meteor.Error 500, 'Not implemented'
+    market = currency.market doc.secondary.currency
+    #cryptsyOrder = Meteor.call 'cryptsy/createorder', market._id, 'buy', doc.primary.amount, currency.price('buy', doc.secondary.currency)
+    #if cryptsyOrder
+    orderId = Orders.insert
+      type: 'buy'
+      price: currency.price('buy', doc.secondary.currency)
+      #cryptsyOrderId: cryptsyOrder.orderid
+      primary: doc.primary
+      secondary: doc.secondary
+      fee:
+        currency: doc.secondary.currency
+        amount: currency.secondaryFee 'buy', doc.secondary.currency, doc.primary.amount
+    AppEmail.buyCurrency @userId, orderId
 
   sell: (doc) ->
     console.log doc

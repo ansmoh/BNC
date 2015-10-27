@@ -26,7 +26,11 @@ Router.route '/account',
 
 Router.route '/trade',
   name: 'trade'
-  template: 'Trade'
+  template: 'currencies'
+  waitOn: ->
+    [
+      Meteor.subscribe 'coins'
+    ]
 
 Router.route '/deposit',
   name: 'deposit'

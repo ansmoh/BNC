@@ -21,17 +21,17 @@
       label.col-sm-3.control-label
         b Sub Total
       .col-sm-9
-        .form-control-static {{secondaryAmount}} {{secondaryCurrency}}
+        .form-control-static {{currency.secondaryAmount 'buy' secondaryCurrency primaryAmount '0,0.00000000'}} {{secondaryCurrency}}
     .form-group.no-mb
       label.col-sm-3.control-label
-        b 1.00% Fee
+        b {{number currency.appFeePercent '0%'}} Fee
       .col-sm-9
-        .form-control-static {{fee}} {{secondaryCurrency}}
+        .form-control-static {{currency.secondaryFee 'buy' secondaryCurrency primaryAmount '0,0.00000000'}} {{secondaryCurrency}}
     .form-group.no-mb
       label.col-sm-3.control-label
         b Total
       .col-sm-9
-        .form-control-static {{total}} {{secondaryCurrency}}
+        .form-control-static {{currency.secondaryTotal 'buy' secondaryCurrency primaryAmount '0,0.00000000'}} {{secondaryCurrency}}
     .form-group.no-mb
       label.col-sm-3.control-label
         b {{secondaryCurrency}} Available

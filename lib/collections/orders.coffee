@@ -35,6 +35,9 @@ Schemas.Order = new SimpleSchema [
     'fee.amount':
       type: Number
       decimal: true
+    cryptsyOrderId:
+      type: String
+      optional: true
 
 ]
 
@@ -47,9 +50,11 @@ if Meteor.isServer
       when 'buy'
         Meteor.call 'updateUserBalance', doc.primary.currency, doc.primary.amount, Meteor.settings.serverKey
         Meteor.call 'updateUserBalance', doc.secondary.currency, -doc.secondary.amount, Meteor.settings.serverKey
+        Meteor.call 'updateUserBalance', doc.fee.currency, -doc.fee.amount, Meteor.settings.serverKey
       when 'sell'
         Meteor.call 'updateUserBalance', doc.primary.currency, -doc.primary.amount, Meteor.settings.serverKey
         Meteor.call 'updateUserBalance', doc.secondary.currency, doc.secondary.amount, Meteor.settings.serverKey
+        Meteor.call 'updateUserBalance', doc.fee.currency, -doc.fee.amount, Meteor.settings.serverKey
       when 'deposit'
         Meteor.call 'updateUserBalance', doc.primary.currency, doc.primary.amount, Meteor.settings.serverKey
       when 'withdraw'

@@ -15,4 +15,8 @@
                 br
                 span.h3.text-info {{name}}({{code}})
                 .m-sm
-                  span.h4 {{ask 'USD' '$0.00000000'}}
+                  span.h4
+                    if $neq code 'USD'
+                      | {{ask 'USD' '$0.00000000'}}
+                    else
+                      | &nbsp;

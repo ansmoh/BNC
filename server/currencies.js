@@ -1,4 +1,4 @@
-/*
+
 Meteor.startup(function () {
   var currencies = ['USD', 'BTC', 'XRP', 'LTC', 'DASH', 'DOGE', 'NXT', 'PPC', 'BTS']; // 'FTC', 'RDD', 'XPY', 'ZRC',
 
@@ -36,4 +36,3 @@ Meteor.startup(function () {
   })
 
 });
-*/

@@ -3,6 +3,12 @@
 
 Coins.helpers
 
+  appFeePercent: ->
+    if Meteor.settings.appFee then Meteor.settings.appFee else Meteor.settings.public.appFee
+
+  appStep: ->
+    if Meteor.settings.appStep then Meteor.settings.appStep else Meteor.settings.public.appStep
+
   market: (currency) ->
     marketCode = "#{@code.toLowerCase()}_#{(currency or '').toLowerCase()}"
     _.findWhere @markets or [], code: marketCode
@@ -28,24 +34,39 @@ Coins.helpers
     if format then numeral(price).format(format) else price
 
   primaryAmount: (type, currency, amount, format) ->
-    amountWithFee = if amount then amount * (1 - 0.01) else 0
-    total = (amountWithFee or 0) / @price type, currency
+    total = (amount or 0) / @price type, currency
+    if format then numeral(total).format(format) else total
+
+  primaryFee: (type, currency, amount, format) ->
+    fee = @appFeePercent() * amount
+    if format then numeral(fee).format(format) else fee
+
+  primaryTotal: (type, currency, amount, format) ->
+    total =
+      if type == 'buy'
+        amountWithFee = if amount then amount * (1 - @appFeePercent()) else 0
+        @primaryAmount type, currency, amount
+      else if type == 'sell'
+        amountWithFee = if amount then amount * (1 + @appFeePercent()) else 0
+        @primaryAmount type, currency, amount
+      else
+        0
     if format then numeral(total).format(format) else total
 
   secondaryAmount: (type, currency, amount, format) ->
     total = (amount or 0) * @price type, currency
     if format then numeral(total).format(format) else total
 
-  fee: (type, currency, amount, format) ->
-    fee = 0.01 * @secondaryAmount type, currency, amount
+  secondaryFee: (type, currency, amount, format) ->
+    fee = @appFeePercent() * @secondaryAmount type, currency, amount
     if format then numeral(fee).format(format) else fee
 
-  total: (type, currency, amount, format) ->
+  secondaryTotal: (type, currency, amount, format) ->
     total =
       if type == 'buy'
-        (1 + 0.01) * @secondaryAmount type, currency, amount
+        (1 + @appFeePercent()) * @secondaryAmount type, currency, amount
       else if type == 'sell'
-        (1 - 0.01) * @secondaryAmount type, currency, amount
+        (1 - @appFeePercent()) * @secondaryAmount type, currency, amount
       else
         0
     if format then numeral(total).format(format) else total
@@ -70,8 +91,13 @@ Coins.helpers
       'primary.amount':
         type: Number
         decimal: true
+        min: @appStep()
         autoform:
-          step: 1 / 100000000
+          step: @appStep()
+        custom: ->
+          total = self.secondaryTotal 'buy', @field('secondary.currency').value, @value
+          if total > Meteor.user().currencyBalance @field('secondary.currency').value, false
+            return "insufficientFundsBalance"
       secondary:
         type: Object
       'secondary.currency':
@@ -86,17 +112,9 @@ Coins.helpers
       'secondary.amount':
         type: Number
         decimal: true
-        custom: ->
-          if @value <= 0
-            return "amountZero"
-          total = self.total @field('type').value, @field('secondary.currency').value, @field('primary.amount').value
-          if total > Meteor.user().currencyBalance @field('secondary.currency').value, false
-            return "moreBalance"
-    ss = new SimpleSchema schema
-    ss.messages
-      amountZero: "You cannot buy negative or 0 coins"
-      moreBalance: "There is not enough balance for this transaction"
-    ss
+        label: "Total value of an order"
+        min: @appStep() * 50 # Total value of an order cannot be less than 0.00000050
+    new SimpleSchema schema
 
   sellSchema: ->
     schema =

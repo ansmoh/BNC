@@ -24,6 +24,22 @@ class EmailClass
     content = "Hello #{user.displayName()},\n\nYay! You voucher has been redeemed for #{coupon.amount_off} #{coupon.currency}"
     @send to, subject, content
 
+  buyCurrency: (userId, orderId) ->
+    user = Meteor.users.findOne userId
+    to = user.emailAddress()
+    order = Orders.findOne orderId
+    subject = "BuyAnyCoin: #{order.primary.currency} Purchased"
+    content = "Hello #{user.displayName()},\n\nYou have purchased #{order.primary.amount} #{order.primary.currency}"
+    @send to, subject, content
+
+  sellCurrency: (userId, orderId) ->
+    user = Meteor.users.findOne userId
+    to = user.emailAddress()
+    order = Orders.findOne orderId
+    subject = "BuyAnyCoin: #{order.primary.currency} Sold"
+    content = "Hello #{user.displayName()},\n\nYou have sold #{order.primary.amount} #{order.primary.currency}"
+    @send to, subject, content
+
   ###
   depositKnox: (userId, amount) ->
     user = Meteor.users.findOne userId
