@@ -69,6 +69,26 @@
           name: 'timestamp'
         }
       ]
+    Orders:
+      icon: 'exchange'
+      color: 'yellow'
     Vouchers:
       icon: 'credit-card'
       color: 'orange'
+    User:
+      icon: 'users'
+      color: 'blue'
+      extraFields: ['balance']
+      ###
+      routes:
+        view:
+          waitOn: ->
+            [
+              Meteor.subscribe 'currencies'
+            ]
+      ###
+      tableColumns: [
+        {label: 'ID', name: '_id'}
+        {label: 'Email', name: 'emails[0].address'}
+        {label: 'Total Balance', name: 'totalBalance()'}
+      ]

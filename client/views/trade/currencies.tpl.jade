@@ -1,7 +1,12 @@
 
 .app-content-body.fade-in-up
   .bg-light.lter.b-b.wrapper-md
-    h1.m-n.font-thin.h3 Buy/Sell
+    h1.m-n.font-thin.h3
+      .pull-right
+        each currencies
+          unless maintenance
+            span.m-r-md.text-base {{code}}: {{currentUser.currencyBalance code '0[.]00000000'}}
+      span Buy/Sell
   .wrapper-md
     .row
       each currencies

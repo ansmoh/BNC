@@ -6,7 +6,7 @@
     a.navbar-brand.text-lt(href='/'): img(src='/img/logotrans.png')
   .collapse.navbar-collapse.box-shadow.bg-primary
     if currentUser
-      .navbar-text Total Balance: {{number currentUser.totalBalanceInUSD '$0,0.00'}}
+      .navbar-text Total Balance: {{currentUser.totalBalance '$0,0.00'}}
     ul.nav.navbar-nav.navbar-right
       li: a(href='/') Home
       li: a(href='http://buyanycoin.freshdesk.com') Support

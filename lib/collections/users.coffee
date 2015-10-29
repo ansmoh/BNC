@@ -1,4 +1,6 @@
 
+@User = Meteor.users
+
 Schemas.UserProfile = new SimpleSchema
   name:
     type: String
@@ -198,6 +200,15 @@ Meteor.users.helpers
       numeral(balance).format(format)
     else
       balance
+
+  totalBalance: (format) ->
+    total = 0
+    _.each @balance or [], (item) =>
+      if item.currency == 'USD'
+        total += item.amount
+      else
+        total += item.amount * Currencies.findOne(code: item.currency)?.bid('USD')
+    if format then numeral(total).format(format) else total
 
   totalBalanceInUSD: ->
     total = 0
