@@ -2,6 +2,8 @@
 Meteor.startup(function () {
   var currencies = ['USD', 'BTC', 'XRP', 'LTC', 'DASH', 'DOGE', 'NXT', 'PPC', 'BTS']; // 'FTC', 'RDD', 'XPY', 'ZRC',
 
+  Currencies.remove({})
+
   _.each(currencies, function (code, index) {
     var data = Meteor.call('cryptsy/currencyMarkets', code),
         currency = {markets: []};
@@ -16,10 +18,14 @@ Meteor.startup(function () {
       currency.maintenance = false;
     }
     _.each(data.markets, function (market) {
+      /*
       if (market.label === 'BTC/CAD' || market.label === 'BTC/EUR') {
         return;
-      }
+      }*/
       var parties = market.label.split('/');
+      if (!_.contains(currencies, parties[1])) {
+        return;
+      }
       currency.markets.push({
         _id: market.id,
         label: market.label,
@@ -32,7 +38,7 @@ Meteor.startup(function () {
         verifiedonly: market.verifiedonly,
       });
     });
-    Coins.upsert({_id: currency._id}, {$set: currency});
+    Currencies.upsert({_id: currency._id}, {$set: currency});
   })
 
 });

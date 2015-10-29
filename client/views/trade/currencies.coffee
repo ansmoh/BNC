@@ -3,7 +3,7 @@ Template.currencies.onCreated ->
 
 Template.currencies.helpers
   currencies: ->
-    Coins.find {}, sort: order: 1
+    Currencies.find {}, sort: order: 1
 
 Template.currencies.events 'click a.panel-heading': (event, tmpl) ->
   TemplateVar.setTo '.modal-dialog.currency', 'state', 'view'

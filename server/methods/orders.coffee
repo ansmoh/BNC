@@ -4,7 +4,7 @@ Meteor.methods
   buy: (doc) ->
     user = Meteor.users.findOne @userId
     throw new Meteor.Error 403, "Access denied" unless user
-    currency = Coins.findOne code: doc?.primary?.currency
+    currency = Currencies.findOne code: doc?.primary?.currency
     throw new Meteor.Error 404, "Currency not found" unless currency
     if doc and doc.secondary and doc.primary
       doc.secondary.amount = currency.secondaryAmount 'buy', doc.secondary.currency, doc.primary.amount

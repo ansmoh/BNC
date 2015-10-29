@@ -6,6 +6,7 @@ Router.configure
   waitOn: ->
     [
       Meteor.subscribe 'currentUser'
+      Meteor.subscribe 'currencies'
     ]
 
 AccountsTemplates.configure
@@ -27,10 +28,6 @@ Router.route '/account',
 Router.route '/trade',
   name: 'trade'
   template: 'currencies'
-  waitOn: ->
-    [
-      Meteor.subscribe 'coins'
-    ]
 
 Router.route '/deposit',
   name: 'deposit'
@@ -39,10 +36,3 @@ Router.route '/deposit',
     # Here could be process knox deposit
     console.log @params.query
 
-Router.route '/currencies',
-  name: 'currencies'
-  template: 'currencies'
-  waitOn: ->
-    [
-      Meteor.subscribe 'coins'
-    ]

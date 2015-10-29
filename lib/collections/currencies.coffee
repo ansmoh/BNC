@@ -1,7 +1,7 @@
 
-@Coins = new Mongo.Collection 'coins'
+@Currencies = new Mongo.Collection 'currencies'
 
-Coins.helpers
+Currencies.helpers
 
   appFeePercent: ->
     if Meteor.settings.appFee then Meteor.settings.appFee else Meteor.settings.public.appFee

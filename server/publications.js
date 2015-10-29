@@ -1,12 +1,4 @@
 
-Meteor.publish('coins', function () {
-  return Coins.find();
-});
-
-Meteor.publish('currencies', function() {
-  return Currencies.find();
-});
-
 Meteor.publish('customerInfo', function() {
   return User.find({userId: this.userId});
 });

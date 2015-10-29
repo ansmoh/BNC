@@ -5,35 +5,11 @@
   nonAdminRedirectRoute: '/'
   adminEmails: ['buyanycoin@gmail.com','anshuman.ewest@gmail.com','thor@buyanycoin.com']
   collections:
-    Coins:
-      icon: 'usd'
     Coupons:
       icon: 'credit-card'
       color: 'orange'
     Currencies:
       icon: 'usd'
-      tableColumns: [
-        {
-          label: 'Currency Code'
-          name: 'code'
-        }
-        {
-          label: 'Name'
-          name: 'name'
-        }
-        {
-          label: 'Price(in USD)'
-          name: 'rate'
-        }
-        {
-          label: 'Price(in BTC)'
-          name: 'btcRate'
-        }
-        {
-          label: 'Status'
-          name: 'active'
-        }
-      ]
     WithdrawalRequest:
       icon: 'sign-out'
       color: 'purple'
@@ -93,28 +69,6 @@
           name: 'timestamp'
         }
       ]
-    Voucher:
+    Vouchers:
       icon: 'credit-card'
       color: 'orange'
-      tableColumns: [
-        {
-          label: 'Code'
-          name: 'code'
-        }
-        {
-          label: 'Amount'
-          name: 'amount'
-        }
-        {
-          label: 'Currency'
-          name: 'currency'
-        }
-        {
-          label: 'Activated'
-          name: 'activated'
-        }
-        {
-          label: 'Redeemed'
-          name: 'redeemed'
-        }
-      ]

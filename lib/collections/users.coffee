@@ -300,7 +300,9 @@ Meteor.users.helpers
 @BlockScore = new Mongo.Collection null
 BlockScore.attachSchema Schemas.BlockScore
 
-@UserCoupons = new Mongo.Collection null
-UserCoupons.attachSchema new SimpleSchema
-  coupon:
+@UserVouchers = new Mongo.Collection null
+UserVouchers.attachSchema new SimpleSchema
+  voucher:
     type: String
+    autoform:
+      label: "Voucher Code"

@@ -6,7 +6,7 @@ Template.currencyModal.helpers
   template: ->
     s.camelcase "currency-#{TemplateVar.get('state')}"
   data: ->
-    currency: Coins.findOne @currencyId
+    currency: Currencies.findOne @currencyId
 
 Template.currencyModal.events
   'click [data-state]': (event, tmpl) ->

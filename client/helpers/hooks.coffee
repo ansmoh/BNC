@@ -44,13 +44,13 @@ AutoForm.addHooks 'notificationsUpdates',
     toastr.error err.message
     console.log err
 
-AutoForm.addHooks 'redeemCoupon',
+AutoForm.addHooks 'redeemVoucher',
   before:
     update: (doc) ->
       console.log doc
       doc
   onSuccess: (type, result) ->
-    toastr.success 'Coupon has redeemed successful', 'Coupon'
+    toastr.success 'Voucher has redeemed successful', 'Voucher'
   onError: (type, err) ->
     toastr.error err.message
     console.log err
@@ -61,7 +61,7 @@ AutoForm.addHooks 'buyCurrency',
       btn = $(@event.currentTarget).find('.modal-footer').find('.btn.btn-success')
       btn.attr('disabled','disabled')
       btn.button('loading')
-      currency = Coins.findOne code: doc.primary.currency
+      currency = Currencies.findOne code: doc.primary.currency
       doc.secondary.amount = currency.secondaryAmount doc.type, doc.secondary.currency, doc.primary.amount
       console.log doc
       doc
@@ -81,7 +81,7 @@ AutoForm.addHooks 'buyCurrency',
 AutoForm.addHooks 'sellCurrency',
   before:
     method: (doc) ->
-      currency = Coins.findOne code: doc.primary.currency
+      currency = Currencies.findOne code: doc.primary.currency
       doc.secondary.amount = currency.secondaryAmount doc.type, doc.secondary.currency, doc.primary.amount
       console.log doc
       doc

@@ -63,22 +63,6 @@ Meteor.methods
     catch e
       throw new Meteor.Error 404, e.message
 
-  # Only one coupon
-  redeemCoupon: (doc) ->
-    check doc.coupon, String
-    coupon = Coupons.findOne doc.coupon
-    throw new Meteor.Error 404, 'Coupon not found' unless coupon
-
-
-
-    throw new Meteor.Error 500, 'Not implemented'
-
-  redeemCoupons: (doc) ->
-    _.each doc.coupons or [], (couponId) ->
-      false
-    throw new Meteor.Error 500, 'Not implemented'
-
-
   depositKnox: (trnId) ->
     user = Meteor.users.findOne @userId
     throw new Meteor.Error 403, "Access denied" unless user

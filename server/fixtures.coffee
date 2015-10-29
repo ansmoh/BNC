@@ -79,8 +79,10 @@
         name: s.humanize(value)
 
   ###
-  # Coupons
+  # Vouchers
   ###
-  if Coupons.find().count() == 0
-    Coupons.insert code: '12345', amount: 100, duration: 'forever'
-    Coupons.insert code: 'abc', amount: 1000, duration: 'forever'
+  Vouchers.remove({})
+  if Vouchers.find().count() == 0
+    Vouchers.insert code: '10', amount: 100, duration: 'forever'
+    Vouchers.insert code: '100', amount: 100, duration: 'forever'
+    Vouchers.insert code: '1000', amount: 1000, duration: 'forever'
