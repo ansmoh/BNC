@@ -81,14 +81,23 @@ AutoForm.addHooks 'buyCurrency',
 AutoForm.addHooks 'sellCurrency',
   before:
     method: (doc) ->
+      btn = $(@event.currentTarget).find('.modal-footer').find('.btn.btn-success')
+      btn.attr('disabled','disabled')
+      btn.button('loading')
       currency = Currencies.findOne code: doc.primary.currency
       doc.secondary.amount = currency.secondaryAmount doc.type, doc.secondary.currency, doc.primary.amount
       console.log doc
       doc
   onSuccess: (type, result) ->
+    btn = $(@event.currentTarget).find('.modal-footer').find('.btn.btn-success')
+    btn.closest('.modal-footer').find('button').removeAttr('disabled')
+    btn.button('reset')
     $('#modal').modal('hide')
     toastr.success 'Successful! Your coins will be available momentarily', 'Sell Currency'
   onError: (type, err) ->
+    btn = $(@event.currentTarget).find('.modal-footer').find('.btn.btn-success')
+    btn.closest('.modal-footer').find('button').removeAttr('disabled')
+    btn.button('reset')
     toastr.error err.message
     console.log err
 

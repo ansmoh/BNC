@@ -41,4 +41,8 @@
           a.btn.btn-primary.btn-sm.m-l-sm.buy-max Buy Max
   .modal-footer
     button.btn.btn-default(type='button' data-dismiss='modal') Cancel
-    button.btn.btn-success(data-loading-text="Processing..." autocomplete="off") Buy
+    button.btn.btn-success(
+      class="{{#if $gt (currency.secondaryTotal 'buy' secondaryCurrency primaryAmount null) (currentUser.currencyBalance secondaryCurrency null)}}disabled{{/if}}"
+      data-loading-text="Processing..."
+      autocomplete="off"
+    ) Buy

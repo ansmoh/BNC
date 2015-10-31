@@ -45,10 +45,10 @@ Currencies.helpers
     total =
       if type == 'buy'
         amountWithFee = if amount then amount * (1 - @appFeePercent()) else 0
-        @primaryAmount type, currency, amount
+        @primaryAmount type, currency, amountWithFee
       else if type == 'sell'
         amountWithFee = if amount then amount * (1 + @appFeePercent()) else 0
-        @primaryAmount type, currency, amount
+        @primaryAmount type, currency, amountWithFee
       else
         0
     if format then numeral(total).format(format) else total
@@ -117,24 +117,47 @@ Currencies.helpers
     new SimpleSchema schema
 
   sellSchema: ->
+    self = @
     schema =
       type:
         type: String
-        defaultValue: 'sell'
+        allowedValues: ['sell']
+        autoform:
+          type: 'hidden'
+          value: 'sell'
       primary:
         type: Object
       'primary.currency':
         type: String
+        allowedValues: [@code]
+        autoform:
+          type: 'hidden'
+          value: @code
       'primary.amount':
         type: Number
         decimal: true
+        min: @appStep()
+        autoform:
+          step: @appStep()
+        custom: ->
+          if @value > Meteor.user().currencyBalance @field('primary.currency').value, false
+            return "insufficientFundsBalance"
       secondary:
         type: Object
       'secondary.currency':
         type: String
+        allowedValues: _.pluck @markets, 'secondaryCurrency'
+        autoform:
+          type: 'select-radio'
+          options: "allowed"
+          template: "buttonGroup"
+          value: _.pluck(@markets, 'secondaryCurrency').shift()
+          label: false
       'secondary.amount':
         type: Number
         decimal: true
+        label: "Total value of an order"
+        min: @appStep() * 50 # Total value of an order cannot be less than 0.00000050
     new SimpleSchema schema
 
   withdrawSchema: ->

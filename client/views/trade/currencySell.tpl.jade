@@ -1,9 +1,44 @@
-.modal-header
-  button.close(type='button' data-dismiss='modal')
-    span(aria-hidden='true') &times;
-    span.sr-only Close
-  h4.modal-title.font-bold
-    a.text-sm: i.fa.fa-arrow-left(data-state="view")
-    span.m-l-xs Sell {{currency.name}}
-.modal-body
-  .h4 Sell
+
++autoForm id="sellCurrency" schema=currency.sellSchema type="method" meteormethod="sell" class="form-horizontal"
+  .modal-header
+    button.close(type='button' data-dismiss='modal')
+      span(aria-hidden='true') &times;
+      span.sr-only Close
+    h4.modal-title.font-bold
+      a.text-sm: i.fa.fa-arrow-left(data-state="view")
+      span.m-l-xs Sell {{currency.code}} for {{secondaryCurrency}}
+  .modal-body
+    +afQuickField name="type"
+    +afQuickField name="primary.currency"
+    +afQuickField name="secondary.currency" formgroup-class="m-n"
+    .form-group
+      .col-sm-12
+        .input-group
+          .input-group-addon Amount {{currency.code}}
+          +afFieldInput name="primary.amount"
+          .input-group-addon @{{currency.bid secondaryCurrency '0.00000000'}} {{secondaryCurrency}}
+    .form-group.no-mb
+      label.col-sm-3.control-label
+        b Sub Total
+      .col-sm-9
+        .form-control-static {{currency.secondaryAmount 'sell' secondaryCurrency primaryAmount '0,0.00000000'}} {{secondaryCurrency}}
+    .form-group.no-mb
+      label.col-sm-3.control-label
+        b {{number currency.appFeePercent '0%'}} Fee
+      .col-sm-9
+        .form-control-static {{currency.secondaryFee 'sell' secondaryCurrency primaryAmount '0,0.00000000'}} {{secondaryCurrency}}
+    .form-group.no-mb
+      label.col-sm-3.control-label
+        b Total
+      .col-sm-9
+        .form-control-static {{currency.secondaryTotal 'sell' secondaryCurrency primaryAmount '0,0.00000000'}} {{secondaryCurrency}}
+    .form-group.no-mb
+      label.col-sm-3.control-label
+        b {{currency.code}} Available
+      .col-sm-9
+        .form-control-static
+          a.text-info.sell-max {{currentUser.currencyBalance currency.code '0,0.00000000'}}
+          a.btn.btn-primary.btn-sm.m-l-sm.sell-max sell Max
+  .modal-footer
+    button.btn.btn-default(type='button' data-dismiss='modal') Cancel
+    button.btn.btn-danger(class="{{#if $gt primaryAmount (currentUser.currencyBalance currency.code null)}}disabled{{/if}}" data-loading-text="Processing..." autocomplete="off") Sell
