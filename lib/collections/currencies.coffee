@@ -162,9 +162,32 @@ Currencies.helpers
 
   withdrawSchema: ->
     schema =
-      amount:
+      primary:
+        type: Object
+      'primary.currency':
+        type: String
+        allowedValues: [@code]
+        autoform:
+          type: 'hidden'
+          value: @code
+      'primary.amount':
         type: Number
         decimal: true
+        min: @appStep()
+        autoform:
+          step: @appStep()
+          label: "Amount"
+        custom: ->
+          if @value > Meteor.user().currencyBalance @field('primary.currency').value, false
+            return "insufficientFundsBalance"
       address:
         type: String
+        min: 4
+        autoform:
+          label: "Address"
+        custom: ->
+          if Meteor.isServer
+            result = HTTP.get "https://shapeshift.io/validateAddress/#{@value}/#{@field('primary.currency').value}"
+            if !result.data.isvalid or result.data.error
+              return "invalidAddressWithdraw"
     new SimpleSchema schema

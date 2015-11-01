@@ -1,9 +1,24 @@
-.modal-header
-  button.close(type='button' data-dismiss='modal')
-    span(aria-hidden='true') &times;
-    span.sr-only Close
-  h4.modal-title.font-bold
-    a.text-sm: i.fa.fa-arrow-left(data-state="view")
-    span.m-l-xs Withdraw {{currency.name}}
-.modal-body
-  .h4 Withdraw
+
++autoForm id="withdrawCurrency" schema=currency.withdrawSchema type="method" meteormethod="withdraw"
+  .modal-header
+    button.close(type='button' data-dismiss='modal')
+      span(aria-hidden='true') &times;
+      span.sr-only Close
+    h4.modal-title.font-bold
+      a.text-sm: i.fa.fa-arrow-left(data-state="view")
+      span.m-l-xs Withdraw {{currency.name}}
+  .modal-body
+    +afQuickField name="type"
+    +afQuickField name="primary.currency"
+    +afQuickField name="primary.amount"
+    +afQuickField name="address"
+    .form-group.no-mb
+      label.col-sm-3.control-label
+        b {{currency.code}} Available
+      .col-sm-9
+        .form-control-static
+          a.text-info.withdraw-max {{currentUser.currencyBalance currency.code '0,0.00000000'}}
+          a.btn.btn-primary.btn-sm.m-l-sm.withdraw-max Max
+  .modal-footer
+    button.btn.btn-default(type='button' data-dismiss='modal') Cancel
+    button.btn.btn-success(class="{{#if $gt primaryAmount (currentUser.currencyBalance currency.code null)}}disabled{{/if}}" data-loading-text="Processing..." autocomplete="off") Withdraw

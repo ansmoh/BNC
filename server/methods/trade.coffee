@@ -45,5 +45,16 @@ Meteor.methods
     AppEmail.sellCurrency @userId, orderId
 
   withdraw: (doc) ->
+    user = Meteor.users.findOne @userId
+    throw new Meteor.Error 403, "Access denied" unless user
+    currency = Currencies.findOne code: doc?.primary?.currency
+    throw new Meteor.Error 404, "Currency not found" unless currency
+
     console.log doc
+    ###
+    type: 'deposit'
+    primary:
+      currency: 'USD'
+      amount: voucher.amount
+    ###
     throw new Meteor.Error 500, 'Not implemented'

@@ -5,7 +5,7 @@ Meteor.methods
     user = Meteor.users.findOne @userId
     throw new Meteor.Error 403, "Access denied" unless user
     try
-      result = HTTP.call "POST", "https://sandbox-api.authy.com/protected/json/phones/verification/start",
+      result = HTTP.call "POST", "https://api.authy.com/protected/json/phones/verification/start",
         data:
           #api_key: '2a7cc1467513fd1c366de7620bb9361c'
           api_key: "IWdlZFJOakroBRRoBL5CzPI9jxeKuBCJ"
@@ -20,7 +20,7 @@ Meteor.methods
     user = Meteor.users.findOne @userId
     throw new Meteor.Error 403, "Access denied" unless user
     try
-      result = HTTP.call "GET", "https://sandbox-api.authy.com/protected/json/phones/verification/check",
+      result = HTTP.call "GET", "https://api.authy.com/protected/json/phones/verification/check",
         params:
           #api_key: '2a7cc1467513fd1c366de7620bb9361c'
           api_key: "IWdlZFJOakroBRRoBL5CzPI9jxeKuBCJ"

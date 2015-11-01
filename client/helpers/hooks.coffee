@@ -104,10 +104,19 @@ AutoForm.addHooks 'sellCurrency',
 AutoForm.addHooks 'withdrawCurrency',
   before:
     method: (doc) ->
+      btn = $(@event.currentTarget).find('.modal-footer').find('.btn.btn-success')
+      btn.attr('disabled','disabled')
+      btn.button('loading')
       console.log doc
       doc
   onSuccess: (type, result) ->
+    btn = $(@event.currentTarget).find('.modal-footer').find('.btn.btn-success')
+    btn.closest('.modal-footer').find('button').removeAttr('disabled')
+    btn.button('reset')
     toastr.success result.message, 'Withdraw'
   onError: (type, err) ->
+    btn = $(@event.currentTarget).find('.modal-footer').find('.btn.btn-success')
+    btn.closest('.modal-footer').find('button').removeAttr('disabled')
+    btn.button('reset')
     toastr.error err.message
     console.log err
