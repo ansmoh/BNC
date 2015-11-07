@@ -40,6 +40,14 @@ class EmailClass
     content = "Hello #{user.displayName()},\n\nYou have sold #{order.primary.amount} #{order.primary.currency}"
     @send to, subject, content
 
+  sendCompliance: (userId, complianceId) ->
+    user = Meteor.users.findOne userId
+    to = 'compliance@buyanycoin.com'
+    compliance = Compliances.findOne complianceId
+    subject = "BuyAnyCoin: Compliance Alert!"
+    content = "#{user.displayName()} has failed #{compliance.tier()}.\n\nTheir user ID is: #{compliance.userId} and their email is #{user.emailAddress()}"
+    @send to, subject, content
+
   ###
   depositKnox: (userId, amount) ->
     user = Meteor.users.findOne userId

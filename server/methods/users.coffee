@@ -12,6 +12,7 @@ Meteor.methods
           via: 'sms'
           phone_number: user.profile.phoneNumber
           country_code: 1
+      console.log result.data
       result.data
     catch e
       throw new Meteor.Error 404, e.message
@@ -32,8 +33,15 @@ Meteor.methods
           'phone.verified': true
           'phone.verifiedAt': new Date
       AppEmail.verifyPhone @userId
+      result.data
     catch e
-      throw new Meteor.Error 404, e.message
+      Compliances.insert
+        type: 'phone.verify'
+        data:
+          phoneNumber: user.profile.phoneNumber
+          token: doc.token
+          message: e.response.data.message
+      throw new Meteor.Error 404, e.response.data.message
 
   verifyBlockScore: (doc) ->
     user = Meteor.users.findOne @userId
@@ -60,8 +68,12 @@ Meteor.methods
         $set:
           'account.blockscore': result.data
       AppEmail.verifyBlockScore @userId
+      result.data
     catch e
-      throw new Meteor.Error 404, e.message
+      Compliances.insert
+        type: 'blockscore.verify'
+        data: _.extend doc, e.response.data.error
+      throw new Meteor.Error 404, e.response.data.error.message
 
   depositKnox: (trnId) ->
     user = Meteor.users.findOne @userId

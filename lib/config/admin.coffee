@@ -5,6 +5,7 @@
   nonAdminRedirectRoute: '/'
   adminEmails: ['buyanycoin@gmail.com','anshuman.ewest@gmail.com','thor@buyanycoin.com']
   collections:
+    Compliances: {}
     Coupons:
       icon: 'credit-card'
       color: 'orange'
