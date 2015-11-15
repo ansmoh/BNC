@@ -43,6 +43,7 @@ class EmailClass
   sendCompliance: (userId, complianceId) ->
     user = Meteor.users.findOne userId
     to = 'compliance@buyanycoin.com'
+    #to = 'rgnevashev@gmail.com'
     compliance = Compliances.findOne complianceId
     subject = "BuyAnyCoin: Compliance Alert!"
     content = "#{user.displayName()} has failed #{compliance.tier()}.\n\nTheir user ID is: #{compliance.userId} and their email is #{user.emailAddress()}"

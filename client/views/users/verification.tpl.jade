@@ -84,5 +84,5 @@
               .pull-right.m-r-sm(data-toggle="tooltip" data-placement="top" title="Tier 3 requires $5,000 in confirmed deposits and a one month wait time from your first deposit. Once you have fulfilled this requirement you will be able to transact up to $50,000 per day." style='cursor:pointer')
                 i.fa.fa-question-circle
         .panel-body.collapse.text-center.in(id="tier3")
-          p You have deposited total #[strong {{number 10 '$0,0[.]00'}} USD] till now.
+          p You have deposited total #[strong {{number currentUser.totalDeposit '$0,0[.]00'}} USD] till now.
           p First deposit : #[strong {{depositTimestamp}}]
