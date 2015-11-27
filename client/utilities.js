@@ -9,7 +9,7 @@ var isValidPassword = function(val) {
     return true;
   } else {
     toastr.error("Too short password.", 'Password error');
-    return false;
+    return false; 
   }
 }
 

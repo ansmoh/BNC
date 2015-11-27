@@ -5,27 +5,15 @@
     .row
       .col-md-4
         .panel.panel-primary
-          .panel-heading Deposit funds (Synapse)
-          .panel-body.text-center
-            +afModal(
-              formId="synapseDeposit"
-              collection="UserSynapseDeposit"
-              operation="method"
-              meteormethod="synapseDeposit"
-              title="Online Bank Credentials<br><small>Please enter ACH-US login</small>"
-              buttonContent="Deposit Funds"
-              class="btn btn-primary"
-            )
-              | Deposit Funds
-      .col-md-4
-        .panel.panel-primary
           .panel-heading Deposit funds
           .panel-body.text-center
             if postPayment
               p {{status}}
               a.btn.btn-success(href='/') Return
             else
-              .knox-payments-div(data-amount='custom')
+              if $neq currentUser.statusTierTwo 'complete'
+                .alert.alert-warning.space-10 Tier 2 verification required.
+              button.btn.btn-primary(class="{{disabledUnlessTier2}}" disabled="{{disabledUnlessTier2}}") Deposit with Bank Account
               br
       .col-md-4
         .panel.panel-primary

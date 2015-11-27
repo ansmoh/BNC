@@ -43,12 +43,10 @@ Router.onBeforeAction checkUserLoggedIn, except: [
   'home'
 ]
 
-###
 Router.onBeforeAction checkUserVerification, except: [
   'home'
   'verification'
 ]
-###
 
 Router.onBeforeAction userAuthenticated, only: [
   'home'

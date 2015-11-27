@@ -66,6 +66,15 @@ Schemas.BlockScore = new SimpleSchema
         ssn: "SSN"
   documentValue:
     type: String
+  attachment:
+    type: String
+    autoform:
+      afFieldInput:
+        type: 'fileUpload'
+        collection: 'Attachments'
+        accept: 'image/*'
+        previewTemplate: 'attachmentPreview'
+        label: 'ID scan or webcam portrait'
   address:
     type: Object
   'address.line':
@@ -317,22 +326,3 @@ UserVouchers.attachSchema new SimpleSchema
     type: String
     autoform:
       label: "Voucher Code"
-
-@UserSynapseDeposit = new Mongo.Collection null
-UserSynapseDeposit.attachSchema new SimpleSchema
-  bank_name:
-    type: String
-    autoform:
-      label: "Bank's name"
-  bank_id:
-    type: String
-    autoform:
-      label: "Online banking username"
-  bank_pw:
-    type: String
-    autoform:
-      label: "Online banking password"
-  amount:
-    type: Number
-    autoform:
-      label: "Amount (USD)"

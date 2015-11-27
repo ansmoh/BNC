@@ -65,7 +65,7 @@ reywood:publish-composite
 
 # Templates
 aldeed:autoform
-cfs:autoform
+#cfs:autoform
 yogiben:autoform-file
 aldeed:autoform-bs-datepicker
 aldeed:autoform-bs-datetimepicker
@@ -95,3 +95,4 @@ meteorhacks:npm
 
 npm-container
 rgnevashev:cryptsy
+parlay:synapsepay

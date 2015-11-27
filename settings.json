@@ -5,13 +5,13 @@
   },
   "appFee": 0.01,
   "appStep": 0.00000001,
+  "synapsepay": {
+    "id": "id-67757f05-f9ad-43a8-8edf-8a53743d05c1",
+    "secret": "secret-6dbb6313-bb22-44da-a43d-811e6977e35f"
+  },
   "cryptsy": {
     "publicKey": "1eecef9b8712fe88841c657e1f9c112417c8a336",
     "secretKey": "83255ce819e142cd46e2d3b53bcea447fa07ace75247ab51d6269d6c8d32dbd5da113d206a814947"
   },
-  "serverKey": "$2a$10$I1JWoNi4e2bF3YuhkyM5Su1mT7vcPvoov2RYESCVOGrcRLW/nqVPe",
-  "synapse": {
-    "id": "id-6df611d6-8685-46dc-84bf-88c1ab0ce10e",
-    "secret": "secret-c67a8df5-856e-4767-a76f-1c9a442e7c08"
-  }
+  "serverKey": "$2a$10$I1JWoNi4e2bF3YuhkyM5Su1mT7vcPvoov2RYESCVOGrcRLW/nqVPe"
 }

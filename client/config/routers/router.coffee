@@ -20,6 +20,10 @@ Router.route '/',
 Router.route '/verify',
   name: 'verification'
   template: 'verification'
+  waitOn: ->
+    [
+      Meteor.subscribe 'attachments'
+    ]
 
 Router.route '/account',
   name: 'account'
@@ -35,4 +39,7 @@ Router.route '/deposit',
   onAfterAction: ->
     # Here could be process knox deposit
     console.log @params.query
-
+  waitOn: ->
+    [
+      Meteor.subscribe 'attachments'
+    ]

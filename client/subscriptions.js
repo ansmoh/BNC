@@ -7,5 +7,3 @@ Meteor.subscribe('withdrawRequest');
 Meteor.subscribe('voucher');
 Meteor.subscribe('accountStatus');
 */
-
-Meteor.subscribe('transactions')

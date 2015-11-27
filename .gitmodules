@@ -1,0 +1,6 @@
+[submodule "packages/cfs:standard-packages"]
+	path = packages/cfs:standard-packages
+	url = git@github.com:CollectionFS/Meteor-CollectionFS.git
+[submodule "packages/http-extras"]
+	path = packages/http-extras
+	url = git@github.com:chafey/meteor-http-extras.git

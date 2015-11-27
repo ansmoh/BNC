@@ -14,4 +14,5 @@ Template.verification.events
 
 Template.verification.onRendered ->
   # For performance reasons, the Tooltip and Popover data-apis are opt-in, meaning you must initialize them yourself.
+  FS.debug = true
   $('[data-toggle="tooltip"]').tooltip()
