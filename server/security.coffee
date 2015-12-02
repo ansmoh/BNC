@@ -4,8 +4,8 @@ Meteor.users.allow
 
 Attachments.allow
   update: (userId, doc) ->
-    true
+    !doc.metadata?.owner || doc.metadata.owner == userId
   insert: (userId, doc) ->
     true
-  download: (userId)->
-    true
+  download: (userId, doc)->
+    doc.metadata.owner == userId

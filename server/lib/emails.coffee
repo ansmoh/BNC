@@ -10,7 +10,7 @@ class EmailClass
     content = "Hello #{user.displayName()},\n\nYour Tier 1 details have been verified succesfully.\n\nGood Job!"
     @send to, subject, content
 
-  verifyBlockScore: (userId) ->
+  verifySynapsePay: (userId) ->
     user = Meteor.users.findOne userId
     to = user.emailAddress()
     subject = 'BuyAnyCoin: Tier 2 Verified'

@@ -20,7 +20,7 @@ Compliances.helpers
     switch @type
       when 'phone.verify'
         return 'tier one'
-      when 'blockscore.verify'
+      when 'synapsepay.verify'
         return 'tier two'
 
 if Meteor.isServer

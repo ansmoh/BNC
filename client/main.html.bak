@@ -34,5 +34,5 @@
   {{> WithdrawModal}}
   {{> SellModal}}
   {{> VoucherModal}}
-  {{> BlockscoreModal}}
+  {{> SynapsepayModal}}
 </template>

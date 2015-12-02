@@ -10,8 +10,6 @@ Meteor.startup(function () {
 var knoxKey = '8aa796419a91eb780d954179aa21d696b204787a'
 var knoxPass = '9b527490bb2bfe73097fd8314ef8ae9a0fd35301'
 var authyKey = '2a7cc1467513fd1c366de7620bb9361c'
-var blockScoreKey = 'sk_live_fbba96096568198ffa995843f0bc51ca'
-// var blockScoreKey = 'sk_test_b98fde330db2149ab12e09475ef20d3a'
 // Utility Functions
 Utility = {
   addTransaction: function (currency, amount, note, txnid) {
@@ -160,10 +158,10 @@ Utility = {
         else{
           User.update({userId: this.userId}, {$push: {redeem_info: d}});
         }
-        
+
       }
       else{
-        
+
         User.update({userId: this.userId}, {$push: {redeem_info: d}});
       }
     }
@@ -193,7 +191,7 @@ Utility = {
     if (! Meteor.userId()) {
       throw new Meteor.Error("not-logged-in", "Must be logged in to verify information.");
     }
-    var info_obj = {firstName: user.name_first, middleName: user.name_middle, lastName: user.name_last, blockscore: bsData};
+    var info_obj = {firstName: user.name_first, middleName: user.name_middle, lastName: user.name_last, synapsepay: bsData};
     return User.update({userId: Meteor.userId()}, {$set: info_obj  });
   }
 }
@@ -250,8 +248,8 @@ Meteor.methods({
   sendVerificationEmail: function () {
     return Accounts.sendVerificationEmail(Meteor.userId());
   },
-  saveUserInfo: function(userData, blockScoreData){
-    return Utility.saveUserInfo(userData, blockScoreData);  
+  saveUserInfo: function(userData, synapsePayData){
+    return Utility.saveUserInfo(userData, synapsePayData);
   },
   resendVerificationEmail: function(){
     return Accounts.sendVerificationEmail(Meteor.userId());

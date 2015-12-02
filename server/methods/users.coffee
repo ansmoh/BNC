@@ -1,6 +1,4 @@
-
 Meteor.methods
-
   sendTokenPhone: () ->
     user = Meteor.users.findOne @userId
     throw new Meteor.Error 403, "Access denied" unless user
@@ -43,53 +41,59 @@ Meteor.methods
           message: e.response.data.message
       throw new Meteor.Error 404, e.response.data.message
 
-  verifyBlockScore: (doc) ->
-    user = Meteor.users.findOne @userId
-    throw new Meteor.Error 403, "Access denied" unless user
-    try
-      result = HTTP.call "POST", "https://api.blockscore.com/people",
-        data:
-          name_first: doc.firstName
-          name_last: doc.lastName
-          birth_year: moment(doc.dob).format('YYYY')
-          birth_month: moment(doc.dob).format('MM')
-          birth_day: moment(doc.dob).format('DD')
-          document_type: doc.documentType
-          document_value: doc.documentValue
-          address_street1: doc.address.line
-          address_city: doc.address.city
-          address_subdivision: doc.address.state
-          address_postal_code: doc.address.zip
-          address_country_code: doc.address.country
-        auth: "sk_test_b98fde330db2149ab12e09475ef20d3a:"
-        headers:
-          Accept: 'application/vnd.blockscore+json;version=4'
-      Meteor.users.update @userId,
-        $set:
-          'account.blockscore': result.data
-      AppEmail.verifyBlockScore @userId
-      result.data
-    catch e
-      Compliances.insert
-        type: 'blockscore.verify'
-        data: _.extend doc, e.response.data.error
-      throw new Meteor.Error 404, e.response.data.error.message
+  createDeposit: (doc)->
+    check(doc, Schemas.SynapseDeposit);
+    client = initSynapsePay(doc.browserId)
+    node = client.nodes.create
 
-  depositKnox: (trnId) ->
+  createAchNode: (doc)->
+    check(doc, Schemas.SynapseNode);
+    client = initSynapsePay(doc.browserId)
+    node = client.nodes.create
+      type: doc.type,
+      info:
+        bank_id: doc.info.bankId
+        bank_pw: doc.info.bankPw
+        bank_name: doc.info.bankName
+
+  verifySynapsePay: (doc, loginToken) ->
+    check(doc, Schemas.SynapseUser);
+
     user = Meteor.users.findOne @userId
     throw new Meteor.Error 403, "Access denied" unless user
+
+    sp = new InitSynapsePay(@connection.clientAddress, doc.authTokens.browserId)
+    token = FS.Utility.btoa(JSON.stringify({authToken: doc.authTokens.loginToken}))
+    attachment_url = Attachments.findOne(doc.attachment).url(auth: token)
+
     try
-      result = HTTP.call "GET", "https://knoxpayments.com/admin/api/get_payment_details.php",
-        params:
-          API_key: '8aa796419a91eb780d954179aa21d696b204787a'
-          API_pass: '9b527490bb2bfe73097fd8314ef8ae9a0fd35301'
-          trans_id: trnId
-      console.log result.data
-      ###
-      AppEmail.depositKnox @userId
-      ###
+      spUser = sp.createUser(user, doc)
     catch e
-      throw new Meteor.Error 404, e.message
+      Compliances.insert { type: 'synapsepay.addUser', data: _.extend(doc, e) }
+      throw new Meteor.Error 404, e.error?.en
+
+    sp.refreshUser spUser.refresh_token
+
+    try
+      spUser = sp.addVirtualDocument(doc)
+    catch e
+      Compliances.insert { type: 'synapsepay.addVirtualDoc', data: _.extend(doc, e) }
+      console.log(e)
+      throw new Meteor.Error 404, e.error?.en
+
+    try
+      spUser = sp.addAttachment(attachment_url)
+    catch e
+      Compliances.insert { type: 'synapsepay.addAttachment', data: _.extend(doc, e) }
+      throw new Meteor.Error 404, e.error?.en
+
+    doc.permission = spUser.permission
+    doc.status = "valid"
+
+    Meteor.users.update @userId, $set: { 'account.synapsepay': doc }
+    AppEmail.verifySynapsePay @userId
+    #console.log(doc)
+    doc
 
   updateUserBalance: (currency, amount, serverKey) ->
     throw new Meteor.Error 403, "Access denied" if Meteor.settings.serverKey isnt serverKey

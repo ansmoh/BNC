@@ -1,2 +1,3 @@
 Meteor.publish 'attachments', ->
-  Attachments.find()
+  Attachments.find
+    $query: { 'metadata.owner': @userId }

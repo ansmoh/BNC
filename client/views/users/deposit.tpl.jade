@@ -13,8 +13,29 @@
             else
               if $neq currentUser.statusTierTwo 'complete'
                 .alert.alert-warning.space-10 Tier 2 verification required.
-              button.btn.btn-primary(class="{{disabledUnlessTier2}}" disabled="{{disabledUnlessTier2}}") Deposit with Bank Account
-              br
+              if $neq currentUser.hasAchNode
+                +afModal(
+                  formId="createNode"
+                  collection="SynapsepayNodes"
+                  operation="method"
+                  meteormethod="createAchNode"
+                  title="Adding ACH Account<br><small>Please add your ACH bank account to deposit!</small>"
+                  buttonContent="Add"
+                  class="btn btn-primary {{disabledUnlessTier2}}"
+                )
+                  | Add ACH Account
+              else
+                +afModal(
+                  formId="createDeposit"
+                  collection="SynapsepayDeposits"
+                  operation="method"
+                  meteormethod="createDeposit"
+                  title="Deposit funds from ACH Account"
+                  buttonContent="Add"
+                  class="btn btn-primary {{disabledUnlessTier2}}"
+                )
+                  | Deposit funds
+
       .col-md-4
         .panel.panel-primary
           .panel-heading Voucher Redemption

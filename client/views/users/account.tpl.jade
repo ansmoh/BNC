@@ -27,24 +27,18 @@
               h3.m-n Address
             .panel-body
               if $eq currentUser.statusTierTwo 'complete'
-                with currentUser.account.blockscore
+                with currentUser.account.synapsepay
                   table.table.table-striped
                     tbody
                       tr
                         td Street
-                        td {{address_street1}}
-                      tr
-                        td City
-                        td {{address_city}}
-                      tr
-                        td State
-                        td {{address_subdivision}}
+                        td {{address.line}}
                       tr
                         td Country
-                        td {{address_country_code}}
+                        td {{address.country}}
                       tr
                         td Zip/Postal code
-                        td {{address_postal_code}}
+                        td {{address.zip}}
               else
                 .text-center No Address
         .col-sm-6

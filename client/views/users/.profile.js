@@ -11,7 +11,7 @@ Template.Profile.helpers({
     }
   },
   showCustomerInfoForm:function () {
-    var customerData = User.find({userId: Meteor.userId(), "blockscore.object": "person"}).fetch();
+    var customerData = User.find({userId: Meteor.userId(), "synapsepay.object": "person"}).fetch();
     return customerData.length ? false: true;
   },
   getImage:function (id) {
@@ -40,7 +40,7 @@ Template.Profile.helpers({
           }
         }
       })
-      
+
     };
     return this.status
   },
@@ -67,7 +67,7 @@ Template.Profile.helpers({
   },
   bsPanelClass: function () {
     console.log(this);
-    if (this.blockscore && this.blockscore.status && this.blockscore.status == 'valid') {
+    if (this.synapsepay && this.synapsepay.status && this.synapsepay.status == 'valid') {
       return "success"
     };
     return 'danger'
@@ -84,7 +84,7 @@ Template.Profile.helpers({
   depositTimestamp: function () {
     var dt = Session.get('lastTimeStamp') || new Date();
     var timeDiff = Math.abs(new Date().getTime() - dt.getTime());
-    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
     return  diffDays + ' days ago ('+ dt.toDateString()+')';
   },
   depositPanelClass: function () {
@@ -200,43 +200,43 @@ Template.Profile.events({
   }
 });
 
-Template.BlockscoreModal.helpers({
+Template.SynapsepayModal.helpers({
   yearValues: function(){
     var values = [];
     for(var year=1950; year<=new Date().getFullYear(); year++)
     {
-      values.push({name:year, value:year}); 
+      values.push({name:year, value:year});
     }
     return values;
-  },  
+  },
   monthValues: function(){
     var values = [];
     var names = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
     for(var month=1; month<=12; month++)
     {
-      values.push({name:names[month], value:month}); 
+      values.push({name:names[month], value:month});
     }
     return values;
-  },  
+  },
   dayValues: function(){
     var values = [];
     for(var day=1; day<=31; day++)
     {
-      values.push({name:day, value:day}); 
+      values.push({name:day, value:day});
     }
     return values;
   },
 })
 
-Template.BlockscoreModal.events({
-  'click .blockscore-verify' : function(e, t){
+Template.SynapsepayModal.events({
+  'click .synapsepay-verify' : function(e, t){
     $(".tier2CusColor").css('background-color', "orange");
     userData={};
-    $.each($('#blockscore-verify-form').serializeArray(), function() {
+    $.each($('#synapsepay-verify-form').serializeArray(), function() {
         userData[this.name] = this.value;
     });
     console.log(userData);
-    Meteor.call('verifyBlockScoreUser', userData, function (err, res) {
+    Meteor.call('verifySynapsepayUser', userData, function (err, res) {
       if (err) {
         toastr.error(err.reason, 'Please check the form to ensure it is complete and try again.', 'Submission Error');
         return console.log(err);
@@ -252,7 +252,7 @@ Template.BlockscoreModal.events({
         $(".tier2CusColor").css('background-color', "");
         toastr.success('Verification successful.', 'Verification');
         $('#tier2').removeClass('in');
-        $('#blockscore-form').modal('hide')
+        $('#synapsepay-form').modal('hide')
         if (res.data.status && res.data.status == 'valid') {
           var content = 'Hello '+Meteor.user().emails[0].address+',\n\n Your Tier 2 details have been verified succesfully. \n\n Even Better!'
           Meteor.call('sendEmail', 'BuyAnyCoin: Tier 2 Verified', content, function(err, res){
@@ -272,7 +272,7 @@ Template.BlockscoreModal.events({
     // Allow: backspace, delete, tab, escape, enter and no need of . so not allowing 110, 190
     if ($.inArray(e.keyCode, [46, 8, 9, 27, 13]) !== -1 ||
        // Allow: Ctrl+A
-       (e.keyCode == 65 && e.ctrlKey === true) || 
+       (e.keyCode == 65 && e.ctrlKey === true) ||
        // Allow: home, end, left, right, down, up
        (e.keyCode >= 35 && e.keyCode <= 40)) {
         // let it happen, don't do anything

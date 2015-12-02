@@ -49,7 +49,56 @@ Schemas.UserProfile = new SimpleSchema
         gbp: '£ (GBP)'
         jpy: '¥ (Yen)'
 
-Schemas.BlockScore = new SimpleSchema
+Schemas.SynapseDeposit = new SimpleSchema
+  to:
+    type: String
+    autoform:
+      type: "hidden"
+      label: false
+  amount:
+    type: Number
+    decimal: true
+    defaultValue: 0
+  fee:
+    type: Number
+    decimal: true
+    defaultValue: 0
+    autoform:
+      type: "hidden"
+      label: false
+  authTokens:
+    type: Object
+    optional: true
+    blackbox: true
+    autoform:
+      type: "hidden"
+      label: false
+      
+Schemas.SynapseNode = new SimpleSchema
+  type:
+    type: String
+    defaultValue: 'ACH-US'
+  info:
+    type: Object
+  'info.bankId':
+    type: String
+  'info.bankPw':
+    type: String
+  'info.bankName':
+    type: String
+    autoform:
+      options: ->
+        SynapsePay.banks.map (bank) ->
+          label: bank.name, value: bank.code
+  authTokens:
+    type: Object
+    optional: true
+    blackbox: true
+    autoform:
+      type: "hidden"
+      label: false
+
+Schemas.SynapseUser = new SimpleSchema
   firstName:
     type: String
   lastName:
@@ -73,20 +122,11 @@ Schemas.BlockScore = new SimpleSchema
         type: 'fileUpload'
         collection: 'Attachments'
         accept: 'image/*'
-        previewTemplate: 'attachmentPreview'
         label: 'ID scan or webcam portrait'
   address:
     type: Object
   'address.line':
     type: String
-  'address.city':
-    type: String
-  'address.state':
-    type: String
-    autoform:
-      options: ->
-        States.find({}, sort: name: 1).map (state) ->
-          label: state.name, value: state._id
   'address.zip':
     type: String
   'address.country':
@@ -95,6 +135,13 @@ Schemas.BlockScore = new SimpleSchema
       options: ->
         Countries.find({}, sort: name: 1).map (country) ->
           label: country.name, value: country._id
+  authTokens:
+    type: Object
+    optional: true
+    blackbox: true
+    autoform:
+      type: "hidden"
+      label: false
 
 Schemas.LoginAttempt = new SimpleSchema
   loginAttempt:
@@ -153,11 +200,14 @@ Schemas.User = new SimpleSchema [
     profile:
       type: Schemas.UserProfile
       optional: true
+    achNode:
+      type: Schemas.SynapseNode
+      optional: true
     account:
       type: Object
       optional: true
-    'account.blockscore':
-      type: Object
+    'account.synapsepay':
+      type: Schemas.SynapsePay
       optional: true
       blackbox: true
     'account.lastDepositAt':
@@ -186,6 +236,8 @@ Schemas.User = new SimpleSchema [
 Meteor.users.attachSchema Schemas.User
 
 Meteor.users.helpers
+  hasAchNode: ->
+    return !!@achNode
 
   displayName: ->
     if @profile?.name
@@ -253,7 +305,7 @@ Meteor.users.helpers
       'pending'
 
   statusTierTwo: ->
-    if @account?.blockscore?.status == 'valid' then 'complete' else 'pending'
+    if @account?.synapsepay?.status == 'valid' then 'complete' else 'pending'
 
   statusTierThree: ->
     if @lastDepositAt() > moment().subtract(30, 'days') and @totalDeposit >= 5000
@@ -317,8 +369,8 @@ Meteor.users.helpers
 ###
 # Fallback afModal doesnt support schema key
 ###
-@BlockScore = new Mongo.Collection null
-BlockScore.attachSchema Schemas.BlockScore
+@SynapseUser = new Mongo.Collection null
+SynapseUser.attachSchema Schemas.SynapseUser
 
 @UserVouchers = new Mongo.Collection null
 UserVouchers.attachSchema new SimpleSchema

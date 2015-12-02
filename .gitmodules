@@ -4,3 +4,6 @@
 [submodule "packages/http-extras"]
 	path = packages/http-extras
 	url = git@github.com:chafey/meteor-http-extras.git
+[submodule "packages/meteor-autoform-file"]
+	path = packages/meteor-autoform-file
+	url = git@github.com:liquidautumn/meteor-autoform-file.git

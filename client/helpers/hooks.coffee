@@ -1,3 +1,5 @@
+extendDoc = (doc)->
+  _.extend(doc, { authTokens: { browserId: localStorage.getItem('browserId'), loginToken: Accounts._storedLoginToken() } })
 
 AutoForm.addHooks 'tierOne',
   before:
@@ -22,15 +24,27 @@ AutoForm.addHooks 'verifyPhone',
     toastr.error err.message
     console.log err
 
-AutoForm.addHooks 'verifyBlockScore',
+AutoForm.addHooks 'createAchNode',
   before:
     method: (doc) ->
-      console.log doc
+      doc.authTokens ?= {}
+      doc.authTokens.browserId = localStorage.getItem('browserId')
+      doc.authTokens.loginToken = Accounts._storedLoginToken()
       doc
+  onSuccess: (type, result) ->
+    toastr.success 'ACH account added.', 'Account creation'
+  onError: (type, err) ->
+    toastr.error err.message.en
+    console.log err
+
+AutoForm.addHooks 'verifySynapsePay',
+  before:
+    method: (doc) ->
+      extendDoc(doc)
   onSuccess: (type, result) ->
     toastr.success 'Verification successful.', 'Verification'
   onError: (type, err) ->
-    toastr.error err.message
+    toastr.error err.message.en
     console.log err
 
 AutoForm.addHooks 'notificationsUpdates',

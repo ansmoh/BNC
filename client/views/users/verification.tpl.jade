@@ -47,13 +47,13 @@
                 i.fa.fa-question-circle
         .panel-body.collapse.text-center.in(id="tier2")
           if $eq currentUser.statusTierTwo 'complete'
-            with currentUser.account.blockscore
+            with currentUser.account.synapsepay
               address
-                strong {{name_first}} {{name_last}}
+                strong {{firstName}} {{lastName}}
                 br
-                | {{address_street1}}
+                | {{address.line}}
                 br
-                | {{address_city}}, {{address_subdivision}} {{address_postal_code}} {{address_country_code}}
+                | {{address.zip}} {{address.country}}
                 br
               .status.space-20
                 span.label.label-success Verified
@@ -63,10 +63,10 @@
               .alert.alert-warning.space-10 Please complete previous tier first.
             else
               +afModal(
-                formId="verifyBlockScore"
-                collection="BlockScore"
-                operation="insert"
-                meteormethod="verifyBlockScore"
+                formId="verifySynapsePay"
+                collection="SynapseUser"
+                operation="method"
+                meteormethod="verifySynapsePay"
                 title="You're human? We will find out!"
                 buttonContent="Verify"
                 class="btn btn-primary"

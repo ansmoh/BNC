@@ -4,6 +4,10 @@ Template.verification.onCreated ->
 Template.verification.helpers
 
 Template.verification.events
+  'click .testSynpay': (event, tmpl) ->
+    Meteor.call "testSynpay", localStorage.getItem('browserId'), (user) ->
+      console.log user
+
   'click .resend-token': (event, tmpl) ->
     Meteor.call "sendTokenPhone", (err, result) ->
       console.log err, result

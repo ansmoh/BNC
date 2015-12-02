@@ -16,7 +16,7 @@ Template.Account.helpers({
     return 'danger'
   },
   tier2Class: function () {
-    if (this.blockscore && this.blockscore.status && this.blockscore.status == 'valid') {
+    if (this.synapsepay && this.synapsepay.status && this.synapsepay.status == 'valid') {
       return "success"
     };
     return 'danger'
@@ -54,9 +54,9 @@ Template.Account.helpers({
       var deposit = totalDepositFn(),
           diffDays = moment().diff(Session.get('lastTimeStamp') || new Date,'days');
 
-      if (user && _.has(user, 'blockscore') && deposit >= 5000 && diffDays > 0) {
+      if (user && _.has(user, 'synapsepay') && deposit >= 5000 && diffDays > 0) {
         precent = 100;
-      } else if (user && _.has(user, 'blockscore')) {
+      } else if (user && _.has(user, 'synapsepay')) {
         percent = 80;
       } else if (user) {
         percent = 30;
@@ -69,11 +69,11 @@ Template.Account.helpers({
     var deposit = totalDepositFn();
     var dt = Session.get('lastTimeStamp') || new Date();
     var timeDiff = Math.abs(new Date().getTime() - dt.getTime());
-    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
-    if( res && _.has(res, "blockscore")&& deposit >= 5000 && diffDays > 30){
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    if( res && _.has(res, "synapsepay")&& deposit >= 5000 && diffDays > 30){
       return 100;
     }
-    else if( res && _.has(res, "blockscore")){
+    else if( res && _.has(res, "synapsepay")){
       return 80;
     }
     else if(res){
