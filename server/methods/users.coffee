@@ -47,29 +47,46 @@ Meteor.methods
     node = client.nodes.create
 
   createAchNode: (doc)->
-    check(doc, Schemas.SynapseNode);
-    client = initSynapsePay(doc.browserId)
-    node = client.nodes.create
-      type: doc.type,
-      info:
-        bank_id: doc.info.bankId
-        bank_pw: doc.info.bankPw
-        bank_name: doc.info.bankName
+    check(doc, Schemas.SynapseAchNode);
+
+    user = Meteor.users.findOne @userId
+    throw new Meteor.Error 403, "Access denied" unless user
+
+    sp = new InitSynapsePay(@connection.clientAddress, doc.authTokens.browserId, user.account.synapsepay.remote_id)
+
+    try
+      ach = sp.createUserAchNode(doc)
+      console.log(ach)
+    catch e
+      Compliances.insert { type: 'synapsepay.addUserAch', data: _.extend(doc, e) }
+      console.log(e)
+      throw new Meteor.Error 404, "Unable to add ACH account"
+
+    try
+      syn = sp.createUserSynapseNode(user._id)
+      console.log(syn)
+    catch e
+      Compliances.insert { type: 'synapsepay.addUserAch', data: _.extend(doc, e) }
+      console.log(e)
+      throw new Meteor.Error 404, e.error?.en
+
+    Meteor.users.update @userId, $set: { 'achNode': ach.nodes[0], 'synNode': syn.nodes[0] }
+
 
   verifySynapsePay: (doc, loginToken) ->
-    check(doc, Schemas.SynapseUser);
+    check(doc, Schemas.SynapseUser)
 
     user = Meteor.users.findOne @userId
     throw new Meteor.Error 403, "Access denied" unless user
 
     sp = new InitSynapsePay(@connection.clientAddress, doc.authTokens.browserId)
     token = FS.Utility.btoa(JSON.stringify({authToken: doc.authTokens.loginToken}))
-    attachment_url = Attachments.findOne(doc.attachment).url(auth: token)
-
+    attachment_url = "http://" + this.connection.httpHeaders.host + Attachments.findOne(doc.attachment).url(auth: token)
     try
       spUser = sp.createUser(user, doc)
     catch e
       Compliances.insert { type: 'synapsepay.addUser', data: _.extend(doc, e) }
+      console.log(e)
       throw new Meteor.Error 404, e.error?.en
 
     sp.refreshUser spUser.refresh_token
@@ -82,17 +99,21 @@ Meteor.methods
       throw new Meteor.Error 404, e.error?.en
 
     try
-      spUser = sp.addAttachment(attachment_url)
+      spAttach = sp.addAttachment(attachment_url)
     catch e
       Compliances.insert { type: 'synapsepay.addAttachment', data: _.extend(doc, e) }
+      console.log(e)
       throw new Meteor.Error 404, e.error?.en
 
+    if spAttach.success || spAttach._id
+      spUser = spAttach
+
+    doc.remote_id = spUser._id
     doc.permission = spUser.permission
     doc.status = "valid"
 
     Meteor.users.update @userId, $set: { 'account.synapsepay': doc }
     AppEmail.verifySynapsePay @userId
-    #console.log(doc)
     doc
 
   updateUserBalance: (currency, amount, serverKey) ->

@@ -7,6 +7,8 @@ Meteor.publish 'currentUser', ->
         hashEmail: 1
         'phone.verified': 1
         account: 1
+        achNode: 1
+        synNode: 1
         coupons: 1
         balance: 1
         createdAt: 1

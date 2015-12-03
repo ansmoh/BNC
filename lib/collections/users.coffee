@@ -51,7 +51,8 @@ Schemas.UserProfile = new SimpleSchema
 
 Schemas.SynapseDeposit = new SimpleSchema
   to:
-    type: String
+    type: Object
+    blackbox: true
     autoform:
       type: "hidden"
       label: false
@@ -59,13 +60,6 @@ Schemas.SynapseDeposit = new SimpleSchema
     type: Number
     decimal: true
     defaultValue: 0
-  fee:
-    type: Number
-    decimal: true
-    defaultValue: 0
-    autoform:
-      type: "hidden"
-      label: false
   authTokens:
     type: Object
     optional: true
@@ -73,17 +67,22 @@ Schemas.SynapseDeposit = new SimpleSchema
     autoform:
       type: "hidden"
       label: false
-      
-Schemas.SynapseNode = new SimpleSchema
+
+Schemas.SynapseAchNode = new SimpleSchema
   type:
     type: String
     defaultValue: 'ACH-US'
+    autoform:
+      type: "hidden"
+      label: false
   info:
     type: Object
   'info.bankId':
     type: String
+    label: "Login"
   'info.bankPw':
     type: String
+    label: "Password"
   'info.bankName':
     type: String
     autoform:
@@ -99,6 +98,12 @@ Schemas.SynapseNode = new SimpleSchema
       label: false
 
 Schemas.SynapseUser = new SimpleSchema
+  remote_id:
+    type: String
+    optional: true
+    autoform:
+      type: "hidden"
+      label: false
   firstName:
     type: String
   lastName:
@@ -201,8 +206,13 @@ Schemas.User = new SimpleSchema [
       type: Schemas.UserProfile
       optional: true
     achNode:
-      type: Schemas.SynapseNode
+      type: Object
       optional: true
+      blackbox: true
+    synNode:
+      type: Object
+      optional: true
+      blackbox: true
     account:
       type: Object
       optional: true
@@ -369,8 +379,14 @@ Meteor.users.helpers
 ###
 # Fallback afModal doesnt support schema key
 ###
-@SynapseUser = new Mongo.Collection null
-SynapseUser.attachSchema Schemas.SynapseUser
+@SynapseUsers = new Mongo.Collection null
+SynapseUsers.attachSchema Schemas.SynapseUser
+
+@SynapseAchNodes = new Mongo.Collection null
+SynapseAchNodes.attachSchema Schemas.SynapseAchNode
+
+@SynapseDeposits = new Mongo.Collection null
+SynapseDeposits.attachSchema Schemas.SynapseDeposit
 
 @UserVouchers = new Mongo.Collection null
 UserVouchers.attachSchema new SimpleSchema

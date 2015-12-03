@@ -1,10 +1,9 @@
 class @InitSynapsePay
 
-  constructor: (ip, fingerprint)->
-    @sp = new SynapsePay
-      development_mode: (process.env.NODE_ENV != 'production')
-      ip_address: ip
-      fingerprint: fingerprint
+  constructor: (ip, fingerprint, user_id = null)->
+    #development_mode: (process.env.NODE_ENV != 'production')
+    console.log(user_id)
+    @sp = new SynapsePay( { development_mode: true, ip_address: ip, fingerprint: fingerprint }, user_id)
 
   createUser: (user, doc)->
     @sp.users.create
@@ -12,6 +11,10 @@ class @InitSynapsePay
       phone_numbers: [ user.profile.phoneNumber ],
       legal_names: [ "#{doc.firstName} #{doc.lastName}" ],
       extra: { supp_id: user._id }
+
+  getUser: (user_id)->
+    @sp.users.get
+      user_id: user_id
 
   refreshUser: (token)->
     @sp.users.refresh refresh_token: token
@@ -30,12 +33,34 @@ class @InitSynapsePay
         document_type: doc.documentType.toUpperCase()
         document_value: doc.documentValue
 
-  createAttachment: (attachment)->
-    @sp.users.attachFile attachment
+  addAttachment: (attachment)->
+    return @sp.users.attachFile(attachment)
 
-  createUserNode: (user, doc)->
+  createUserAchNode: (doc)->
+    @sp.nodes.add
+      type: doc.type,
+      info:
+        bank_id: doc.info.bankId
+        bank_pw: doc.info.bankPw
+        bank_name: doc.info.bankName
 
-  createBacNode: (user, doc)->
+  createUserSynapseNode: (user_id)->
+    @sp.nodes.add
+      type: 'SYNAPSE-US',
+      info:
+        nickname: 'user-' + user_id
+
+  createBacPoolNode: ()->
+    @sp.nodes.add
+      type: 'SYNAPSE-US',
+      info:
+        nickname: 'bac-pool'
+
+  createBacFeeNode: (user, doc)->
+    @sp.nodes.add
+      type: 'SYNAPSE-US',
+      info:
+        nickname: 'bac-fee'
 
   createUserDeposit: (user, doc)->
 

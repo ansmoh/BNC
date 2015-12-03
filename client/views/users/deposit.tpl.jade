@@ -13,29 +13,29 @@
             else
               if $neq currentUser.statusTierTwo 'complete'
                 .alert.alert-warning.space-10 Tier 2 verification required.
-              if $neq currentUser.hasAchNode
-                +afModal(
-                  formId="createNode"
-                  collection="SynapsepayNodes"
-                  operation="method"
-                  meteormethod="createAchNode"
-                  title="Adding ACH Account<br><small>Please add your ACH bank account to deposit!</small>"
-                  buttonContent="Add"
-                  class="btn btn-primary {{disabledUnlessTier2}}"
-                )
-                  | Add ACH Account
               else
-                +afModal(
-                  formId="createDeposit"
-                  collection="SynapsepayDeposits"
-                  operation="method"
-                  meteormethod="createDeposit"
-                  title="Deposit funds from ACH Account"
-                  buttonContent="Add"
-                  class="btn btn-primary {{disabledUnlessTier2}}"
-                )
-                  | Deposit funds
-
+                if $eq currentUser.hasAchNode true
+                  +afModal(
+                    formId="createDeposit"
+                    collection="SynapsepayDeposits"
+                    operation="method"
+                    meteormethod="createDeposit"
+                    title="Deposit funds from ACH Account"
+                    buttonContent="Add"
+                    class="btn btn-primary"
+                  )
+                    | Deposit funds
+                else
+                  +afModal(
+                    formId="createAchNode"
+                    collection="SynapseAchNodes"
+                    operation="method"
+                    meteormethod="createAchNode"
+                    title="Adding ACH Account<br><small>Please add your ACH bank account to deposit</small>"
+                    buttonContent="Add"
+                    class="btn btn-primary"
+                  )
+                    | Add ACH Account
       .col-md-4
         .panel.panel-primary
           .panel-heading Voucher Redemption
