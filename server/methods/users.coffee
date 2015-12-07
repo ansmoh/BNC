@@ -43,8 +43,21 @@ Meteor.methods
 
   createDeposit: (doc)->
     check(doc, Schemas.SynapseDeposit);
-    client = initSynapsePay(doc.browserId)
-    node = client.nodes.create
+
+    user = Meteor.users.findOne @userId
+    throw new Meteor.Error 403, "Access denied" unless user
+
+    sp = new InitSynapsePay(@connection.clientAddress, doc.authTokens.browserId, user.account.synapsepay.remote_id)
+
+    try
+      console.log(doc)
+      deposit = sp.createUserDeposit(user, doc, @connection.clientAddress)
+    catch e
+      Compliances.insert { type: 'synapsepay.createDeposit', data: _.extend(doc, e) }
+      console.log(e)
+      throw new Meteor.Error 404, "Unable to deposit funds"
+
+    Meteor.users.update @userId, $inc: { 'synBalance': deposit }
 
   createAchNode: (doc)->
     check(doc, Schemas.SynapseAchNode);
@@ -56,7 +69,6 @@ Meteor.methods
 
     try
       ach = sp.createUserAchNode(doc)
-      console.log(ach)
     catch e
       Compliances.insert { type: 'synapsepay.addUserAch', data: _.extend(doc, e) }
       console.log(e)
@@ -64,7 +76,6 @@ Meteor.methods
 
     try
       syn = sp.createUserSynapseNode(user._id)
-      console.log(syn)
     catch e
       Compliances.insert { type: 'synapsepay.addUserAch', data: _.extend(doc, e) }
       console.log(e)

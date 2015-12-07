@@ -24,13 +24,20 @@ AutoForm.addHooks 'verifyPhone',
     toastr.error err.message
     console.log err
 
+AutoForm.addHooks 'createDeposit',
+  before:
+    method: (doc) ->
+      extendDoc(doc)
+  onSuccess: (type, result) ->
+    toastr.success 'Funds deposited.', 'Deposit'
+  onError: (type, err) ->
+    toastr.error err.message.en
+    console.log err
+
 AutoForm.addHooks 'createAchNode',
   before:
     method: (doc) ->
-      doc.authTokens ?= {}
-      doc.authTokens.browserId = localStorage.getItem('browserId')
-      doc.authTokens.loginToken = Accounts._storedLoginToken()
-      doc
+      extendDoc(doc)
   onSuccess: (type, result) ->
     toastr.success 'ACH account added.', 'Account creation'
   onError: (type, err) ->

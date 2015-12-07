@@ -50,19 +50,32 @@ class @InitSynapsePay
       info:
         nickname: 'user-' + user_id
 
-  createBacPoolNode: ()->
+  createBacPoolNode: ->
     @sp.nodes.add
       type: 'SYNAPSE-US',
       info:
         nickname: 'bac-pool'
 
-  createBacFeeNode: (user, doc)->
+  createBacFeeNode: ->
     @sp.nodes.add
       type: 'SYNAPSE-US',
       info:
         nickname: 'bac-fee'
 
-  createUserDeposit: (user, doc)->
+  createUserDeposit: (user, doc, clientIp)->
+    txnData =
+      to:
+        type: 'SYNAPSE-US'
+        id: user.synNode._id
+      amount:
+        amount: doc.amount
+        currency: 'USD'
+      extra:
+        webhook: 'http://requestb.in/ou83bnou'
+        ip: clientIp
+    console.log(txnData)
+
+    @sp.trans.create user.achNode._id, txnData
 
   createUserWithdrawal: (user, doc)->
 

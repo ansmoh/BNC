@@ -1,0 +1,43 @@
+{
+  "from": {
+    "type": "ACH-US",
+    "id": {"$oid": "565e075486c27324c85741fc"}
+  },
+  "extra": {
+    "ip": "127.0.0.1",
+    "supp_id": "",
+    "webhook": "http://requestb.in/ou83bnou",
+    "process_on": {"$date": 1449015014553},
+    "note": "",
+    "created_on": {"$date": 1449015014553},
+    "other": {}
+  },
+  "timeline": [
+    {"date": {"$date": 1449015014552}, "status": "CREATED", "note": "Transaction created", "status_id": "1"},
+    {"date": {"$date": 1449015015661}, "status": "PROCESSING-DEBIT", "note": "Transaction debit being processed.", "status_id": "2"},
+    {"date": {"$date": 1449015016696}, "status": "PROCESSING-CREDIT", "note": "Transaction credit being processed.", "status_id": "3"},
+    {"date": {"$date": 1449015019380}, "status": "SETTLED", "note": "Transaction credit has been made.", "status_id": "4"}
+  ],
+  "to": {
+    "type": "SYNAPSE-US",
+    "id": {"$oid": "565e14ef86c2732a91a6c82f"}
+  },
+  "amount": {
+    "currency": "USD",
+    "amount": 10.0
+  },
+  "client": {
+    "id": 1400,
+    "name": "BuyAnyCo"
+  },
+  "fees": [
+    {"note": "Synapse Facilitator Fee", "to": {"id": {"$oid": "559339aa86c273605ccd35df"}}, "fee": 0.2}
+  ],
+  "_id": {"$oid": "565e36e686c273368e785836"},
+  "recent_status": {
+    "date": {"$date": 1449015019380},
+    "status": "SETTLED",
+    "note": "Transaction credit has been made.",
+    "status_id": "4"
+  }
+}

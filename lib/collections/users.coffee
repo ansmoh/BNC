@@ -53,6 +53,7 @@ Schemas.SynapseDeposit = new SimpleSchema
   to:
     type: Object
     blackbox: true
+    optional: true
     autoform:
       type: "hidden"
       label: false
@@ -210,6 +211,14 @@ Schemas.User = new SimpleSchema [
       optional: true
       blackbox: true
     synNode:
+      type: Object
+      optional: true
+      blackbox: true
+    feeNode:
+      type: Object
+      optional: true
+      blackbox: true
+    poolNode:
       type: Object
       optional: true
       blackbox: true
