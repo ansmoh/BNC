@@ -4,52 +4,70 @@
   .wrapper-md.deposit
     .row
       .col-md-4
-        .panel.panel-primary
-          .panel-heading Deposit funds
-          .panel-body.text-center
-            if postPayment
-              p {{status}}
-              a.btn.btn-success(href='/') Return
-            else
-              if $neq currentUser.statusTierTwo 'complete'
-                .alert.alert-warning.space-10 Tier 2 verification required.
-              else
-                if $eq currentUser.hasAchNode true
-                  +afModal(
-                    formId="createDeposit"
-                    collection="SynapseDeposits"
-                    operation="method"
-                    meteormethod="createDeposit"
-                    title="Deposit funds from ACH Account"
-                    buttonContent="Deposit"
-                    class="btn btn-primary"
-                  )
-                    | Deposit funds
-                else
-                  +afModal(
-                    formId="createAchNode"
-                    collection="SynapseAchNodes"
-                    operation="method"
-                    meteormethod="createAchNode"
-                    title="Adding ACH Account<br><small>Please add your ACH bank account to deposit</small>"
-                    buttonContent="Add"
-                    class="btn btn-primary"
-                  )
-                    | Add ACH Account
-      .col-md-4
-        .panel.panel-primary
-          .panel-heading Voucher Redemption
-          .panel-body.text-center
-            p Want to redeem a voucher?
+        if $neq currentUser.statusTierTwo 'complete'
+          .alert.alert-warning.space-10 Tier 2 verification required.
+        else
+          if $eq currentUser.hasAchNode true
             +afModal(
-              formId="redeemVoucher"
-              collection="UserVouchers"
+              formId="createDeposit"
+              collection="SynapseDeposits"
               operation="method"
-              meteormethod="redeemVoucher"
-              title="Voucher Redemption<br><small>Please enter your voucher code to redeem!</small>"
-              buttonContent="Redeem"
+              meteormethod="createDeposit"
+              title="Deposit funds from ACH Account"
+              buttonContent="Deposit"
               class="btn btn-primary"
-              doc=currentUser
             )
-              | Redeem Voucher
-            //button.btn.btn-success(data-toggle='modal' data-target='#voucherModal') Redeem Voucher
+              | Deposit funds
+            +afModal(
+              formId="createWithdrawal"
+              collection="SynapseWithdrawals"
+              operation="method"
+              meteormethod="createWithdrawal"
+              title="Withdraw funds to ACH Account"
+              buttonContent="Withdraw"
+              class="btn btn-primary"
+            )
+              | Withdraw funds
+          else
+            +afModal(
+              formId="createAchNode"
+              collection="SynapseAchNodes"
+              operation="method"
+              meteormethod="createAchNode"
+              title="Adding ACH Account<br><small>Please add your ACH bank account to deposit</small>"
+              buttonContent="Add"
+              class="btn btn-primary"
+            )
+              | Add ACH Account
+      .col-md-4
+        +afModal(
+          formId="redeemVoucher"
+          collection="UserVouchers"
+          operation="method"
+          meteormethod="redeemVoucher"
+          title="Voucher Redemption<br><small>Please enter your voucher code to redeem!</small>"
+          buttonContent="Redeem"
+          class="btn btn-primary"
+          doc=currentUser
+        )
+          | Redeem Voucher
+
+  .bg-light.lter.b-b.wrapper-md
+    h1.m-n.font-thin.h3 ACH Transactions
+  .wrapper-md.transactions
+    .row
+      .col-md-12
+        .table.table.table-striped(style="width:100%")
+          thead
+            tr
+              th Amount
+              th Type
+              th Status
+              th Created
+              th Due
+          tbody
+            each synapseTransactions
+              +synapseTransactionRow
+            else
+              tr
+                td.alert.alert-info(colspan="5") No transactions to display

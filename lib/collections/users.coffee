@@ -69,6 +69,26 @@ Schemas.SynapseDeposit = new SimpleSchema
       type: "hidden"
       label: false
 
+Schemas.SynapseWithdrawal = new SimpleSchema
+  to:
+    type: Object
+    blackbox: true
+    optional: true
+    autoform:
+      type: "hidden"
+      label: false
+  amount:
+    type: Number
+    decimal: true
+    defaultValue: 0
+  authTokens:
+    type: Object
+    optional: true
+    blackbox: true
+    autoform:
+      type: "hidden"
+      label: false
+
 Schemas.SynapseAchNode = new SimpleSchema
   type:
     type: String
@@ -247,6 +267,10 @@ Schemas.User = new SimpleSchema [
       type: [String]
       optional: true
       blackbox: true
+    synapseBalance:
+      type: Number
+      decimal: true
+      defaultValue: 0
     balance:
       type: [Schemas.Balance]
       optional: true
@@ -396,6 +420,9 @@ SynapseAchNodes.attachSchema Schemas.SynapseAchNode
 
 @SynapseDeposits = new Mongo.Collection null
 SynapseDeposits.attachSchema Schemas.SynapseDeposit
+
+@SynapseWithdrawals = new Mongo.Collection null
+SynapseWithdrawals.attachSchema Schemas.SynapseWithdrawal
 
 @UserVouchers = new Mongo.Collection null
 UserVouchers.attachSchema new SimpleSchema

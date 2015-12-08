@@ -31,7 +31,17 @@ AutoForm.addHooks 'createDeposit',
   onSuccess: (type, result) ->
     toastr.success 'Funds deposited.', 'Deposit'
   onError: (type, err) ->
-    toastr.error err.message.en
+    toastr.error err.message
+    console.log err
+
+AutoForm.addHooks 'createWithdrawal',
+  before:
+    method: (doc) ->
+      extendDoc(doc)
+  onSuccess: (type, result) ->
+    toastr.success 'Funds withdrawn.', 'Withdraw'
+  onError: (type, err) ->
+    toastr.error err.message
     console.log err
 
 AutoForm.addHooks 'createAchNode',
@@ -41,7 +51,7 @@ AutoForm.addHooks 'createAchNode',
   onSuccess: (type, result) ->
     toastr.success 'ACH account added.', 'Account creation'
   onError: (type, err) ->
-    toastr.error err.message.en
+    toastr.error err.message
     console.log err
 
 AutoForm.addHooks 'verifySynapsePay',
@@ -51,7 +61,7 @@ AutoForm.addHooks 'verifySynapsePay',
   onSuccess: (type, result) ->
     toastr.success 'Verification successful.', 'Verification'
   onError: (type, err) ->
-    toastr.error err.message.en
+    toastr.error err.message
     console.log err
 
 AutoForm.addHooks 'notificationsUpdates',

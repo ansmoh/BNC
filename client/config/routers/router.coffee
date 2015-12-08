@@ -42,4 +42,5 @@ Router.route '/deposit',
   waitOn: ->
     [
       Meteor.subscribe 'attachments'
+      Meteor.subscribe 'synapseTransactions'
     ]

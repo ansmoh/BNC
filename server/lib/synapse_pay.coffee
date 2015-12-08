@@ -73,7 +73,6 @@ class @InitSynapsePay
       extra:
         webhook: 'http://requestb.in/ou83bnou'
         ip: clientIp
-    console.log(txnData)
 
     @sp.trans.create user.achNode._id, txnData
 

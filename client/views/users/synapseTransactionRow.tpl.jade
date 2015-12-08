@@ -1,0 +1,11 @@
+tr
+  th(scope="row") {{amount}}&nbsp;{{currency}}
+  td
+    span.label.label-default {{type}}
+  td
+    if $eq status 'SETTLED'
+      span.label.label-success {{status}}
+    else
+      span.label.label-default {{status}}
+  td {{createdAt}}
+  td {{processAt}}

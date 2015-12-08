@@ -50,14 +50,26 @@ Meteor.methods
     sp = new InitSynapsePay(@connection.clientAddress, doc.authTokens.browserId, user.account.synapsepay.remote_id)
 
     try
-      console.log(doc)
       deposit = sp.createUserDeposit(user, doc, @connection.clientAddress)
     catch e
       Compliances.insert { type: 'synapsepay.createDeposit', data: _.extend(doc, e) }
       console.log(e)
       throw new Meteor.Error 404, "Unable to deposit funds"
 
-    Meteor.users.update @userId, $inc: { 'synBalance': deposit }
+    console.log deposit
+    SynapseTransactions.insert
+      amount: deposit.amount.amount
+      currency: deposit.amount.currency
+      type: 'DEPOSIT'
+      status: deposit.recent_status.status
+      createdAt: moment(deposit.created_on).toISOString()
+      processAt: moment(deposit.process_on).toISOString()
+      synapseId: deposit._id
+      fromNodeId: deposit.from.id
+      toNodeId: deposit.to.id
+
+    deposit.amount.amount
+    Meteor.users.update @userId, $inc: { 'synapseBalance': deposit.amount.amount }
 
   createAchNode: (doc)->
     check(doc, Schemas.SynapseAchNode);
@@ -79,7 +91,7 @@ Meteor.methods
     catch e
       Compliances.insert { type: 'synapsepay.addUserAch', data: _.extend(doc, e) }
       console.log(e)
-      throw new Meteor.Error 404, e.error?.en
+      throw new Meteor.Error 404, "Unable to add Synapse account"
 
     Meteor.users.update @userId, $set: { 'achNode': ach.nodes[0], 'synNode': syn.nodes[0] }
 
@@ -98,7 +110,7 @@ Meteor.methods
     catch e
       Compliances.insert { type: 'synapsepay.addUser', data: _.extend(doc, e) }
       console.log(e)
-      throw new Meteor.Error 404, e.error?.en
+      throw new Meteor.Error 404, "Unable to add Synapse user"
 
     sp.refreshUser spUser.refresh_token
 
@@ -107,14 +119,14 @@ Meteor.methods
     catch e
       Compliances.insert { type: 'synapsepay.addVirtualDoc', data: _.extend(doc, e) }
       console.log(e)
-      throw new Meteor.Error 404, e.error?.en
+      throw new Meteor.Error 404, "Unable to add virtual document"
 
     try
       spAttach = sp.addAttachment(attachment_url)
     catch e
       Compliances.insert { type: 'synapsepay.addAttachment', data: _.extend(doc, e) }
       console.log(e)
-      throw new Meteor.Error 404, e.error?.en
+      throw new Meteor.Error 404, "Unable to add attachment"
 
     if spAttach.success || spAttach._id
       spUser = spAttach
