@@ -56,7 +56,6 @@ Meteor.methods
       console.log(e)
       throw new Meteor.Error 404, "Unable to deposit funds"
 
-    console.log deposit
     SynapseTransactions.insert
       amount: deposit.amount.amount
       currency: deposit.amount.currency
@@ -68,8 +67,38 @@ Meteor.methods
       fromNodeId: deposit.from.id
       toNodeId: deposit.to.id
 
-    deposit.amount.amount
-    Meteor.users.update @userId, $inc: { 'synapseBalance': deposit.amount.amount }
+    #deposit.amount.amount
+    #Meteor.users.update @userId, $inc: { 'synapseBalance': deposit.amount.amount }
+
+  createWithdrawal: (doc)->
+    check(doc, Schemas.SynapseWithdrawal);
+
+    user = Meteor.users.findOne @userId
+    throw new Meteor.Error 403, "Access denied" unless user
+
+    sp = new InitSynapsePay(@connection.clientAddress, doc.authTokens.browserId, user.account.synapsepay.remote_id)
+
+    try
+      withdrawal = sp.createUserWithdrawal(user, doc, @connection.clientAddress)
+    catch e
+      Compliances.insert { type: 'synapsepay.createWithdrawal', data: _.extend(doc, e) }
+      console.log(e)
+      throw new Meteor.Error 404, "Unable to withdraw funds"
+
+    console.log withdrawal
+    SynapseTransactions.insert
+      amount: withdrawal.amount.amount
+      currency: withdrawal.amount.currency
+      type: 'WITHDRAWAL'
+      status: withdrawal.recent_status.status
+      createdAt: moment(withdrawal.created_on).toISOString()
+      processAt: moment(withdrawal.process_on).toISOString()
+      synapseId: withdrawal._id
+      fromNodeId: withdrawal.from.id
+      toNodeId: withdrawal.to.id
+
+    #Meteor.users.update @userId, $inc: { 'synapseBalance': deposit.amount.amount }
+
 
   createAchNode: (doc)->
     check(doc, Schemas.SynapseAchNode);

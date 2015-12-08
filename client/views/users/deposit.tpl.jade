@@ -16,8 +16,10 @@
               title="Deposit funds from ACH Account"
               buttonContent="Deposit"
               class="btn btn-primary"
+              doc="1"
             )
               | Deposit funds
+            span &nbsp;
             +afModal(
               formId="createWithdrawal"
               collection="SynapseWithdrawals"
@@ -26,6 +28,7 @@
               title="Withdraw funds to ACH Account"
               buttonContent="Withdraw"
               class="btn btn-primary"
+              doc="1"
             )
               | Withdraw funds
           else
@@ -37,6 +40,7 @@
               title="Adding ACH Account<br><small>Please add your ACH bank account to deposit</small>"
               buttonContent="Add"
               class="btn btn-primary"
+              doc="1"
             )
               | Add ACH Account
       .col-md-4

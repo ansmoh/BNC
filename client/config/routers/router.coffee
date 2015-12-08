@@ -37,10 +37,19 @@ Router.route '/deposit',
   name: 'deposit'
   template: 'deposit'
   onAfterAction: ->
-    # Here could be process knox deposit
     console.log @params.query
   waitOn: ->
     [
       Meteor.subscribe 'attachments'
+      Meteor.subscribe 'synapseTransactions'
+    ]
+
+Router.route '/synapsepay/hook',
+  name: 'synapseHook'
+  onAfterAction: ->
+    #Synapse
+    console.log @params.query
+  waitOn: ->
+    [
       Meteor.subscribe 'synapseTransactions'
     ]

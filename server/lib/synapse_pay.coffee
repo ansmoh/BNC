@@ -62,6 +62,11 @@ class @InitSynapsePay
       info:
         nickname: 'bac-fee'
 
+  getWebhook: ->
+    if process.env.NODE_ENV == 'development'
+      return 'http://requestb.in/ou83bnou'
+    "https://" + this.connection.httpHeaders.host + "/synapse/hook"
+
   createUserDeposit: (user, doc, clientIp)->
     txnData =
       to:
@@ -71,11 +76,23 @@ class @InitSynapsePay
         amount: doc.amount
         currency: 'USD'
       extra:
-        webhook: 'http://requestb.in/ou83bnou'
+        webhook: @getWebhook()
         ip: clientIp
 
     @sp.trans.create user.achNode._id, txnData
 
-  createUserWithdrawal: (user, doc)->
+  createUserWithdrawal: (user, doc, clientIp)->
+    txnData =
+      to:
+        type: 'ACH-US'
+        id: user.achNode._id
+      amount:
+        amount: doc.amount
+        currency: 'USD'
+      extra:
+        webhook: @getWebhook()
+        ip: clientIp
+
+    @sp.trans.create user.synNode._id, txnData
 
   createBacWithdrawal: (user, doc)->
