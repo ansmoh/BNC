@@ -3,10 +3,6 @@ Meteor.publish('customerInfo', function() {
   return User.find({userId: this.userId});
 });
 
-Meteor.publish('images', function() {
-  return Images.find();
-});
-
 Meteor.publish('transactions', function() {
   return Transactions.find({user: this.userId});
 });

@@ -1,15 +1,8 @@
 Meteor.startup(function () {
-  // code to run on server at startup.
-  // to send mails
   process.env.MAIL_URL = "smtp://donotreply%40buyanycoin.com:njiokmNJIOKM@smtp.gmail.com:587/";
   // process.env.SIKKA_BLOCK_IP_FOR_MILLIS = 1140000;
 });
 
-
-
-var knoxKey = '8aa796419a91eb780d954179aa21d696b204787a'
-var knoxPass = '9b527490bb2bfe73097fd8314ef8ae9a0fd35301'
-var authyKey = '2a7cc1467513fd1c366de7620bb9361c'
 // Utility Functions
 Utility = {
   addTransaction: function (currency, amount, note, txnid) {

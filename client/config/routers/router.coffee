@@ -47,7 +47,6 @@ Router.route '/deposit',
 Router.route '/synapsepay/hook',
   name: 'synapseHook'
   onAfterAction: ->
-    #Synapse
     console.log @params.query
   waitOn: ->
     [
