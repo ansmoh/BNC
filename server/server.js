@@ -30,27 +30,6 @@ Utility = {
     }
     return Transactions.insert( t_data );
   },
-  addKnoxTransaction: function (currency, amount, note, txnid) {
-    check(currency, String);
-    check(amount, Number);
-    check(note, String);
-
-    if (! Meteor.userId()) {
-      throw new Meteor.Error("not-logged-in", "Must be logged in to initiate a transaction.");
-    }
-    var t_data = {
-        user: Meteor.userId(),
-        currency: currency,
-        amount: amount,
-        note: note,
-        status: 'complete',
-        timestamp: Date()
-      };
-    if( txnid !== undefined ){
-      t_data.txnid = txnid;
-    }
-    return Transactions.insert( t_data );
-  },
   getAvailableBalance: function (currency) {
     check(currency, String)
     var availableBalance = 0;
@@ -196,10 +175,6 @@ Meteor.methods({
   deposit: function (amount) {
     return Utility.addTransaction('USD', amount, 'Deposit')
   },
-  /*
-  withdraw: function (currency, amount, destination) {
-    return Utility.addTransaction(currency, -amount, 'Withdraw -> ' + destination)
-  },*/
   withdrawCoin: function (currency, amount, destination) {
     if (Utility.getTotalBalance(currency) < amount) {
       throw new Meteor.Error("insufficient-balance", 'There is not enough '+currency+' for this transaction.')
@@ -209,14 +184,6 @@ Meteor.methods({
     }
     Utility.addTransaction(currency, -amount, 'Withdraw -> ' + destination)
     return Utility.addWithdrawRequest(currency, amount, destination)
-  },
-  depositViaKnox: function (currency, amount, txnid) {
-    return Utility.addKnoxTransaction(currency, amount, 'ACH Deposit', txnid);
-  },
-  transactionDetails: function (txnID) {
-    // HTTP call to knoxpayments to get the transaction_details according to the txnID
-    knoxURL = 'https://knoxpayments.com/admin/api/get_payment_details.php'
-    return HTTP.call("GET", knoxURL+"?trans_id="+txnID+"&API_key="+knoxKey+"&API_pass="+knoxPass);
   },
   updateCurrencyRate: function (mktID) {
     // HTTP call to cryptsy’s api to get the rate of currency
@@ -234,10 +201,6 @@ Meteor.methods({
     var rate = Utility.getRate('USD', currency);
     return rate + (rate * 0.01); //added 10 precent fee
   },
-  /*
-  redeemVoucher: function (voucherid, currency, amount, code) {
-    return Utility.redeemVoucher(voucherid, currency, amount, code);
-  },*/
   sendVerificationEmail: function () {
     return Accounts.sendVerificationEmail(Meteor.userId());
   },
@@ -266,6 +229,7 @@ Meteor.methods({
     var data = {"firstName": fname, "lastName": lname, "contactNo": cont};
     return User.update({ userId: this.userId }, { $set:  data } );
   },
+  //TODO move cryptsy credentials out of source!
   getApiData: function(){
     var cryptsy = Meteor.npmRequire('cryptsy-api');
     var cryptsy_client = new cryptsy('1eecef9b8712fe88841c657e1f9c112417c8a336', '83255ce819e142cd46e2d3b53bcea447fa07ace75247ab51d6269d6c8d32dbd5da113d206a814947');

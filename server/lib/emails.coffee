@@ -49,15 +49,6 @@ class EmailClass
     content = "#{user.displayName()} has failed #{compliance.tier()}.\n\nTheir user ID is: #{compliance.userId} and their email is #{user.emailAddress()}"
     @send to, subject, content
 
-  ###
-  depositKnox: (userId, amount) ->
-    user = Meteor.users.findOne userId
-    to = user.emailAddress()
-    subject = 'BuyAnyCoin: Deposit'
-    content = "Hello #{user.displayName()},\n\n#{numeral(amount).format('$0,0[.]00')} has been successfully deposited to your account!"
-    @send to, subject, content
-  ###
-
   send: (to, subject, content) ->
     Email.send
       from: @from
