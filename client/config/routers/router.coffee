@@ -1,4 +1,3 @@
-
 Router.configure
   layoutTemplate: 'defaultLayout'
   loadingTemplate: 'loading'
@@ -41,14 +40,5 @@ Router.route '/deposit',
   waitOn: ->
     [
       Meteor.subscribe 'attachments'
-      Meteor.subscribe 'synapseTransactions'
-    ]
-
-Router.route '/synapsepay/hook',
-  name: 'synapseHook'
-  onAfterAction: ->
-    console.log @params.query
-  waitOn: ->
-    [
       Meteor.subscribe 'synapseTransactions'
     ]
