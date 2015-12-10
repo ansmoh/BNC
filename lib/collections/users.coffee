@@ -49,6 +49,10 @@ Schemas.UserProfile = new SimpleSchema
         gbp: '£ (GBP)'
         jpy: '¥ (Yen)'
 
+Schemas.AnswerMfaQuestion = new SimpleSchema
+  answer:
+    type: String
+
 Schemas.SynapseDeposit = new SimpleSchema
   to:
     type: Object
@@ -364,17 +368,6 @@ Meteor.users.helpers
       percent += 20
     percent
 
-  ###
-  isCompleteTier: (name) ->
-    switch name
-      when 'one'
-        @profile?.firstName and @profile?.lastName and @profile?.phoneNumber
-      when 'two'
-        false
-      when 'three'
-        false
-  ###
-
   oneTierSchema: ->
     new SimpleSchema
       profile:
@@ -412,6 +405,9 @@ Meteor.users.helpers
 ###
 # Fallback afModal doesnt support schema key
 ###
+@AnswerMfaQuestions = new Mongo.Collection null
+AnswerMfaQuestions.attachSchema Schemas.AnswerMfaQuestion
+
 @SynapseUsers = new Mongo.Collection null
 SynapseUsers.attachSchema Schemas.SynapseUser
 

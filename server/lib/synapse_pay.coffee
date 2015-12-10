@@ -36,6 +36,12 @@ class @InitSynapsePay
   addAttachment: (attachment)->
     return @sp.users.attachFile(attachment)
 
+  answerMfaQuestion: (doc)->
+    mfa = Session.get('mfaQuestion')
+    @sp.nodes.add
+      access_token: mfa.access_token
+      mfa_answer: doc.answer
+
   createUserAchNode: (doc)->
     @sp.nodes.add
       type: doc.type,
@@ -64,7 +70,7 @@ class @InitSynapsePay
 
   getWebhook: ->
     if process.env.NODE_ENV == 'development'
-      return 'http://requestb.in/ou83bnou'
+      return 'http://requestb.in/xvzprjxw'
     "https://" + this.connection.httpHeaders.host + "/synapse/hook"
 
   createUserDeposit: (user, doc, clientIp)->

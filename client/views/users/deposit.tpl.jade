@@ -72,3 +72,5 @@
             else
               tr
                 td.alert.alert-info(colspan="5") No transactions to display
+  if hasPendingMfaQuestion
+    +mfaModel

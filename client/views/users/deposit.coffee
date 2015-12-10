@@ -2,6 +2,9 @@
 Template.deposit.onCreated ->
 
 Template.deposit.helpers
+  hasPendingMfaQuestion: ->
+    !!Session.get('mfaQuestion')
+
   disabledUnlessTier2: ->
     if Meteor.user().statusTierTwo() == 'complete' then '' else 'disabled'
 

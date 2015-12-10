@@ -44,6 +44,17 @@ AutoForm.addHooks 'createWithdrawal',
     if err.errorType && err.errorType == 'Meteor.Error'
       toastr.error err.reason
 
+AutoForm.addHooks 'answerMfaQuestion',
+  before:
+    method: (doc) ->
+      extendDoc(doc)
+  onSuccess: (type, result) ->
+    toastr.success 'ACH account confirmed.', 'Account creation'
+  onError: (type, err) ->
+    if err.errorType && err.errorType == 'Meteor.Error'
+      toastr.error err.reason
+
+
 AutoForm.addHooks 'createAchNode',
   before:
     method: (doc) ->

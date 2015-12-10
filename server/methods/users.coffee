@@ -1,3 +1,16 @@
+addNodesToUser = (ach, sp)->
+    try
+      syn = sp.createUserSynapseNode(@userId)
+    catch e
+      Compliances.insert { type: 'synapsepay.addUserSyn', data: _.extend(doc, e) }
+      console.log(e)
+      throw new Meteor.Error 404, "Unable to add Synapse account"
+
+    if syn.error
+      throw new Meteor.Error(400, syn.error.en);
+
+  Meteor.users.update @userId, $set: { 'achNode': ach.nodes[0], 'synNode': syn.nodes[0] }
+
 Meteor.methods
   sendTokenPhone: () ->
     user = Meteor.users.findOne @userId
@@ -26,6 +39,7 @@ Meteor.methods
           phone_number: user.profile.phoneNumber
           country_code: 1
           verification_code: doc.token
+      # result = { data: {} }
       Meteor.users.update @userId,
         $set:
           'phone.verified': true
@@ -67,9 +81,6 @@ Meteor.methods
       fromNodeId: deposit.from.id
       toNodeId: deposit.to.id
 
-    #deposit.amount.amount
-    #Meteor.users.update @userId, $inc: { 'synapseBalance': deposit.amount.amount }
-
   createWithdrawal: (doc)->
     check(doc, Schemas.SynapseWithdrawal);
 
@@ -98,6 +109,27 @@ Meteor.methods
       toNodeId: withdrawal.to.id
 
     #Meteor.users.update @userId, $inc: { 'synapseBalance': deposit.amount.amount }
+  answerMfa: (doc)->
+    check(doc, Schemas.AnswerMfaQuestion);
+
+    user = Meteor.users.findOne @userId
+    throw new Meteor.Error 403, "Access denied" unless user
+
+    sp = new InitSynapsePay(@connection.clientAddress, doc.authTokens.browserId, user.account.synapsepay.remote_id)
+
+    try
+      ach = sp.answerMfaQuestion(doc)
+    catch e
+      Compliances.insert { type: 'synapsepay.answerMfa', data: _.extend(doc, e) }
+      console.log(e)
+      throw new Meteor.Error 404, "Unable to add ACH account"
+
+    if ach.error
+      throw new Meteor.Error(400, ach.error.en)
+
+    addNodesToUser(ach, sp)
+
+    Session.set('mfaQuestion', null)
 
   createAchNode: (doc)->
     check(doc, Schemas.SynapseAchNode);
@@ -109,12 +141,6 @@ Meteor.methods
 
     try
       ach = sp.createUserAchNode(doc)
-      try
-        syn = sp.createUserSynapseNode(user._id)
-      catch e
-        Compliances.insert { type: 'synapsepay.addUserAch', data: _.extend(doc, e) }
-        console.log(e)
-        throw new Meteor.Error 404, "Unable to add Synapse account"
     catch e
       Compliances.insert { type: 'synapsepay.addUserAch', data: _.extend(doc, e) }
       console.log(e)
@@ -123,10 +149,10 @@ Meteor.methods
     if ach.error
       throw new Meteor.Error(400, ach.error.en)
 
-    if syn.error
-      throw new Meteor.Error(400, syn.error.en);
-
-    Meteor.users.update @userId, $set: { 'achNode': ach.nodes[0], 'synNode': syn.nodes[0] }
+    if ach.mfa
+      Session.set('mfaQuestion', ach.mfa)
+    else
+      addNodesToUser(ach, sp)
 
   verifySynapsePay: (doc, loginToken) ->
     check(doc, Schemas.SynapseUser)
@@ -144,6 +170,9 @@ Meteor.methods
       console.log(e)
       throw new Meteor.Error 404, "Unable to add Synapse user"
 
+    if spUser.error
+      throw new Meteor.Error(400, spUser.error.en)
+
     sp.refreshUser spUser.refresh_token
 
     try
@@ -153,12 +182,18 @@ Meteor.methods
       console.log(e)
       throw new Meteor.Error 404, "Unable to add virtual document"
 
+    if spUser.error
+      throw new Meteor.Error(400, spUser.error.en)
+
     try
       spAttach = sp.addAttachment(attachment_url)
     catch e
       Compliances.insert { type: 'synapsepay.addAttachment', data: _.extend(doc, e) }
       console.log(e)
       throw new Meteor.Error 404, "Unable to add attachment"
+
+    if spAttach.error
+      throw new Meteor.Error(400, spAttach.error.en)
 
     if spAttach.success || spAttach._id
       spUser = spAttach

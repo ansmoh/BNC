@@ -1,0 +1,13 @@
++autoForm id="answerMfaQuestion" schema=Schemas.AnswerMfaQuestion type="method" meteormethod="answerMfaQuestion" class="form-vertical"
+  .modal-header
+    h4.modal-title.font-bold
+      a.text-sm: i.fa.fa-arrow-left(data-state="view")
+      span.m-l-xs Answer MFA Question
+  .modal-body
+    h5 =mfaQuestion
+    +afQuickField name="answer"
+  .modal-footer
+    button.btn.btn-success(
+      data-loading-text="Processing..."
+      autocomplete="off"
+    ) Answer
