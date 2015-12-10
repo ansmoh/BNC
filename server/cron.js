@@ -1,3 +1,8 @@
+SyncedCron.config({
+  log: false,
+  logger: null
+});
+
 Meteor.startup(function () {
   SyncedCron.start();
 });
@@ -12,7 +17,7 @@ SyncedCron.add({
     Currencies.find().forEach(function (currency) {
       _.each(_.pluck(currency.markets, '_id'), function (marketId) {
         var ticker = Meteor.call('cryptsy/ticker', marketId);
-        console.log(ticker)
+        //console.log(ticker)
         Currencies.update(
           {_id: currency._id, 'markets._id': marketId},
           {$set: {'markets.$.ask': ticker.ask,'markets.$.bid': ticker.bid}}

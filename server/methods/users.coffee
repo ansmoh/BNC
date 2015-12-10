@@ -99,7 +99,6 @@ Meteor.methods
 
     #Meteor.users.update @userId, $inc: { 'synapseBalance': deposit.amount.amount }
 
-
   createAchNode: (doc)->
     check(doc, Schemas.SynapseAchNode);
 
@@ -110,20 +109,24 @@ Meteor.methods
 
     try
       ach = sp.createUserAchNode(doc)
+      try
+        syn = sp.createUserSynapseNode(user._id)
+      catch e
+        Compliances.insert { type: 'synapsepay.addUserAch', data: _.extend(doc, e) }
+        console.log(e)
+        throw new Meteor.Error 404, "Unable to add Synapse account"
     catch e
       Compliances.insert { type: 'synapsepay.addUserAch', data: _.extend(doc, e) }
       console.log(e)
       throw new Meteor.Error 404, "Unable to add ACH account"
 
-    try
-      syn = sp.createUserSynapseNode(user._id)
-    catch e
-      Compliances.insert { type: 'synapsepay.addUserAch', data: _.extend(doc, e) }
-      console.log(e)
-      throw new Meteor.Error 404, "Unable to add Synapse account"
+    if ach.error
+      throw new Meteor.Error(400, ach.error.en)
+
+    if syn.error
+      throw new Meteor.Error(400, syn.error.en);
 
     Meteor.users.update @userId, $set: { 'achNode': ach.nodes[0], 'synNode': syn.nodes[0] }
-
 
   verifySynapsePay: (doc, loginToken) ->
     check(doc, Schemas.SynapseUser)

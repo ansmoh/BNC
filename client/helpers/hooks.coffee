@@ -10,8 +10,8 @@ AutoForm.addHooks 'tierOne',
     Meteor.call "sendTokenPhone", (err, result) ->
       unless err then toastr.success result.message else toastr.error err.message
   onError: (type, err) ->
-    toastr.error err.message
-    console.log err
+    if err.errorType && err.errorType == 'Meteor.Error'
+      toastr.error err.reason
 
 AutoForm.addHooks 'verifyPhone',
   before:
@@ -21,8 +21,8 @@ AutoForm.addHooks 'verifyPhone',
   onSuccess: (type, result) ->
     toastr.success result.message
   onError: (type, err) ->
-    toastr.error err.message
-    console.log err
+    if err.errorType && err.errorType == 'Meteor.Error'
+      toastr.error err.reason
 
 AutoForm.addHooks 'createDeposit',
   before:
@@ -31,8 +31,8 @@ AutoForm.addHooks 'createDeposit',
   onSuccess: (type, result) ->
     toastr.success 'Funds deposited.', 'Deposit'
   onError: (type, err) ->
-    toastr.error err.message
-    console.log err
+    if err.errorType && err.errorType == 'Meteor.Error'
+      toastr.error err.reason
 
 AutoForm.addHooks 'createWithdrawal',
   before:
@@ -41,8 +41,8 @@ AutoForm.addHooks 'createWithdrawal',
   onSuccess: (type, result) ->
     toastr.success 'Funds withdrawn.', 'Withdraw'
   onError: (type, err) ->
-    toastr.error err.message
-    console.log err
+    if err.errorType && err.errorType == 'Meteor.Error'
+      toastr.error err.reason
 
 AutoForm.addHooks 'createAchNode',
   before:
@@ -51,8 +51,8 @@ AutoForm.addHooks 'createAchNode',
   onSuccess: (type, result) ->
     toastr.success 'ACH account added.', 'Account creation'
   onError: (type, err) ->
-    toastr.error err.message
-    console.log err
+    if err.errorType && err.errorType == 'Meteor.Error'
+      toastr.error err.reason
 
 AutoForm.addHooks 'verifySynapsePay',
   before:
@@ -61,8 +61,8 @@ AutoForm.addHooks 'verifySynapsePay',
   onSuccess: (type, result) ->
     toastr.success 'Verification successful.', 'Verification'
   onError: (type, err) ->
-    toastr.error err.message
-    console.log err
+    if err.errorType && err.errorType == 'Meteor.Error'
+      toastr.error err.reason
 
 AutoForm.addHooks 'notificationsUpdates',
   before:
